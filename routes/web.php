@@ -11,6 +11,12 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Auth::routes();
+
+Route::prefix('admin')->namespace('Admin')->group(function () {
+    Route::get('/', 'DashboardController@index');
+  
+    // Get Service By Categories
+    Route::get('category/{category}/services', 'ServiceCategoryController@getCategoryServices');
+    
 });
