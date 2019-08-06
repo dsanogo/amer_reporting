@@ -16,7 +16,7 @@ class ServiceCategoryController extends Controller
     */
     public function getCategories()
     {
-        $categories = ServiceCategory::select('Id', 'Name')->all();
+        $categories = ServiceCategory::select('Id', 'Name')->get();
 
         return response()->json(['status' => 'success', 'data' => $categories], 200);
     }

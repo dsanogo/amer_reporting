@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="32px" viewBox="0 0 24 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 56.3 (81716) - https://sketch.com -->
+    <title>pin</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Icon-/-Location-Pin-/-Inactive" fill="#000000" fill-rule="nonzero">
+            <path d="M12,0 C5.36571429,0 0,5.1443246 0,11.5048793 C0,18.3585003 7.57714286,27.8089368 10.6971429,31.4083205 C11.3828571,32.1972265 12.6342857,32.1972265 13.32,31.4083205 C16.4228571,27.8089368 24,18.3585003 24,11.5048793 C24,5.1443246 18.6342857,0 12,0 Z" id="pin"></path>
+        </g>
+    </g>
+</svg>
