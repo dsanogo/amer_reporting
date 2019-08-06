@@ -9,6 +9,22 @@ use App\Models\Service;
 
 class ServiceCategoryController extends Controller
 {
+
+    /**
+    * Get all the categories.
+    *
+    */
+    public function getCategories()
+    {
+        $categories = ServiceCategory::select('Id', 'Name')->all();
+
+        return response()->json(['status' => 'success', 'data' => $categories], 200);
+    }
+
+    /**
+    * Get all the services for the Category.
+    *
+    */
     public function getCategoryServices(ServiceCategory $category)
     {        
         $services = Service::where('ServicesCategoryId', $category->Id)->get();

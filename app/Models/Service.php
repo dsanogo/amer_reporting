@@ -20,4 +20,13 @@ class Service extends Model
     {
         return $this->belongsTo('App\Models\ServiceCategory', 'ServicesCategoryId', 'Id');
     }
+
+    /**
+    * Get the invoice Details for the service
+    *
+    */
+    public function invoiceDetails()
+    {
+        return $this->hasMany('App\Models\InvoiceDetail', 'ServiceId', 'Id');
+    }
 }

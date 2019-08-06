@@ -15,8 +15,17 @@ Auth::routes();
 
 Route::prefix('admin')->namespace('Admin')->group(function () {
     Route::get('/', 'DashboardController@index');
-  
-    // Get Service By Categories
-    Route::get('category/{category}/services', 'ServiceCategoryController@getCategoryServices');
+
+    // Get all service Categories
+    Route::get('categories', 'ServiceCategoryController@getCategories');
+
+    // Get Invoices for Each services by Category
+    Route::get('category/{category}/invoices', 'InvoiceController@getInvoicesByServiceCategory');
+
+    // Get Invoices for Each services by Category
+    Route::get('offices-invoices', 'InvoiceController@getInvoicesByOffice');
+
+    // Get Invoices for per Requests done from Mobile and those done from Office
+    Route::get('mobile-and-offices-invoices', 'InvoiceController@getInvoicesByMobileRequestByOffice');
     
 });
