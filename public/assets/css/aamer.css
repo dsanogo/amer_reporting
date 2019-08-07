@@ -849,3 +849,108 @@ color: white;
         color: #302e65;
     }
 }
+.badge-secondary {
+    border-radius: 50%;
+    font-family: "Bahij";
+}
+.container-map {
+    text-align: right;
+    font-family: "Bahij";
+}
+.container-map .p-title-1 {
+    font-size: 20px;
+    margin: 0;font-family: "Bahij";
+    color: rgba(57, 55, 119, 1)
+
+}
+.container-map .p-title-2 {
+    font-size: 20px;
+    color: rgba(57, 55, 119, 1);
+    margin: 0;
+    font-family: "Bahij";
+
+}
+.gm-style-iw {
+    padding: 15px 20px !important; 
+    width: 450px;
+    font-family: "Bahij";
+}
+.container-map .title-Abou-El-Ghaly {
+    font-size: 20px;
+  
+    color: rgba(37, 30, 84, 1);
+    line-height: 27px;
+    font-family: "Bahij";
+}
+.gm-style-iw-d {
+    overflow: initial !important;
+    font-family: "Bahij";
+}
+.Waste {
+    margin-top: 25px;
+    font-family: "Bahij";
+}
+.Waste span {
+    position: relative;
+    top: -5px;
+    font-size: 14px;
+    background-color: rgba(57, 55, 119, 1)
+}
+.list-Waste {
+    font-size: 16px;
+    font-size: 19px;
+    font-family: "Bahij";
+}
+.list-2 {
+    padding: 0;
+    font-family: "Bahij";
+}
+.list-1 {
+    padding-left: 0 !important;
+    color: rgba(109, 114, 120, 1);
+    font-family: "Bahij";
+}
+.Show-more-mark-map {
+    margin-top: 10px
+}
+.Show-more-mark-map,
+.Show-more-mark-map:hover,
+.Show-more-mark-map:active {
+    background-color: rgba(37, 30, 84, 1);
+    color: white;
+    font-family: "Bahij";
+}
+.Show-more-mark-map {
+    font-size: 22px;
+    padding: 8px 20px;
+    font-family: "Bahij";
+}
+.btn-wa{
+    background: #251e54;
+    color: white;
+}
+.gm-ui-hover-effect{
+    top: 0px !important;
+    right: 0px!important;
+    font-size: 31px;
+}
+.sc{
+    padding-left: 10px;
+}
+.sx{
+    padding-left: 8px;
+    /* margin-top: 7px; */
+    position: relative;
+    top: 5px;
+}
+.sf{
+    padding-left: 8px;
+    /* margin-top: 7px; */
+    position: relative;
+    top: 5px;
+}
+.titea{
+    text-decoration: underline;
+    font-size: 17px;
+    margin: 10px;
+}

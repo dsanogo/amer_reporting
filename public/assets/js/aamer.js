@@ -67,14 +67,55 @@ var chart = new Chart(ctx, {
     options: {
         scales: {
             yAxes: [{
+                stacked: true,
+                position: 'right',
+                gridLines: {
+                  drawBorder: false
+                },
                 ticks: {
-                    suggestedMin: 50,
-                    suggestedMax: 200
+                    beginAtZero: true,
+                    steps: 10,
+                    stepValue: 10,
+                    max: 500,
+                     stepSize: 100,
+                     fontColor: "#2e5bff",
+                     callback: function(label, index, labels) {
+                        return label/1000+'k';
+                    }
+                },
                     
-                }
+            },
+            {
+                stacked: true,
+                position: 'left',
+                gridLines: {
+                  drawBorder: false
+                },
+                ticks: {
+                    beginAtZero: true,
+                    steps: 10,
+                    stepValue: 10,
+                    max: 500,
+                     stepSize: 50,
+                     fontColor: "#2e9658",
+                     callback: function(label, index, labels) {
+                        return label/1000+'k';
+                    }
+                    
+                },
+                    
             }],
         
         xAxes: [{
+            ticks: {
+                fontFamily: "Bahij",
+                fontColor: "#bbc3d0",
+                fontSize: 14,
+                stepSize: 1,
+                beginAtZero: true,
+                maxRotation: 45,
+                minRotation: 45
+            },
             barPercentage: 0.8,
             
             maxBarThickness: 30,
@@ -84,6 +125,7 @@ var chart = new Chart(ctx, {
 
         },
         legend: {
+            
             labels: {
                 // This more specific font property overrides the global property
                 fontColor: 'rgb(46, 148, 94)',
@@ -104,3 +146,8 @@ var chart = new Chart(ctx, {
 //       console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
 //     });
 //   });
+
+
+
+
+
