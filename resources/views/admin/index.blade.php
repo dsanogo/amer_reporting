@@ -17,19 +17,19 @@
                         <div class="section-f3s">
                             <i class="fas fa-user-friends user"></i>
                             <p class="user-f1s">اجمالي عدد العاملين</p>
-                            <p class="user-f2s"><span>1400</span>موظف </p>
+                            <p class="user-f2s"><span>{{ $data['employees']}}</span>موظف </p>
                         </div>
 
                         <div class="section-f3s">
                             <i class="material-icons  receipt "> receipt </i>
                             <p class="user-f1">اجمالي المعاملات</p>
-                            <p class="user-f2"><span class="color2">21,235,366</span>معاملة </p>
+                            <p class="user-f2"><span class="color2">{{ $data['numberOfInvoices']}}</span>معاملة </p>
                         </div>
 
                         <div class="section-f3s">
                             <i class="material-icons wallet">account_balance_wallet</i>
                             <p class="user-f1">اجمالي المبالغ المحصلة</p>
-                            <p class="user-f2"><span class="color3">1,698,826,880.00</span>درهم </p>
+                            <p class="user-f2"><span class="color3">{{ $data['totalFees']}}</span>درهم </p>
                         </div>
                     </div>
                 </div>
