@@ -1,5 +1,5 @@
 <div class="nav-aamer">
-    <div class="logo-amer col-md-2 col-sm-6 col-xs-6 pull-right"><img class="logo-f" src="{{asset('assets/img/logo-fafic.svg')}}" alt=""></div>
+    <div class="logo-amer col-md-2 col-sm-6 col-xs-6 pull-right"><img class="logo-f" src="{{asset('public/assets/img/logo-fafic.svg')}}" alt=""></div>
     <div class="col-md-2 col-sm-6 col-xs-6 pull-right">
         <p class="amaerf2">اللوحه الرئيسية</p>
     </div>
