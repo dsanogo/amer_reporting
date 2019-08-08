@@ -16,8 +16,12 @@ class InvoiceController extends Controller
     * Get all the invoices for the Category Services.
     *
     */
-    public function getInvoicesByServiceCategory(ServiceCategory $category, Request $request)
+    public function getInvoicesByServiceCategory(Request $request)
     {
+        $category = ServiceCategory::findOrFail($request->category_id);
+        $categories = ServiceCategory::select('Id', 'Name')->get();
+        $sumOfTotalFees = 0;
+        $sumOfInvoices = 0;
         try {
             $invoiceDetailed = [];
         
@@ -33,17 +37,22 @@ class InvoiceController extends Controller
                 foreach ($serviceInvoiceDetails as $serviceDetail) {
                     $serviceInvoice = Invoice::select('TotalFees')->findOrFail($serviceDetail->InvoiceId);
                     $serviceTotalFees += $serviceInvoice->TotalFees;
-
+                    $sumOfTotalFees += $serviceInvoice->TotalFees;
                     $serviceName = 'service' . $service->Id;
+                    $sumOfInvoices += 1;
                     
                     $invoiceDetailed['services'][$serviceName] = $service;
-                    $invoiceDetailed['services'][$serviceName]['invoice' . $service->Id . 'Count'] = count($serviceInvoiceDetails);
-                    $invoiceDetailed['services'][$serviceName]['invoice' . $service->Id . 'totalFees'] = $serviceTotalFees;
+                    $invoiceDetailed['services'][$serviceName]['invoiceCount'] = count($serviceInvoiceDetails);
+                    $invoiceDetailed['services'][$serviceName]['invoicetotalFees'] = $serviceTotalFees;
                 }
             }
             $invoiceDetailed['services'] = $category->services;
+            $total = (object)[
+                'totalFees' => $sumOfTotalFees,
+                'totalInvoices' => $sumOfInvoices
+            ];
             
-            return response()->json(['status' => 'success', 'data' => $invoiceDetailed], 200);
+            return view('admin.invoicesReport.categoryServices')->withInvoices($invoiceDetailed)->withCategories($categories)->withTotal($total);
         } catch (\Exception $ex) {
             return response()->json(['status' => 'error', 'data' => $ex->getMessage()], 200);
         }
@@ -53,32 +62,55 @@ class InvoiceController extends Controller
     * Get all the invoices for the Category Services.
     *
     */
-    public function getInvoicesByOffice(Request $request)
+    public function getInvoicesForOffices()
     {
         try {
+            $invoiceDetailed = [];
             $offices = $offices = Office::select('Id', 'Name')->get();
             $invoices = Invoice::select('TotalFees', 'MobileRequestId')->get();
-
+            $sumOfTotalFees = 0;
+            $sumOfInvoices = 0;
+            
+            
             foreach ($offices as $office) {
-                $mobileTotalFees = 0;
+                $officeTotalFees = 0;
                 $invoiceCount = 0;
+
                 foreach ($invoices as $invoice) {
                     
                     // Get the office Id of the Invoice
                     $officeId = MobileRequest::select('OfficeId')->where('Id', $invoice->MobileRequestId)->first();
-                    $officeName = 'office' . $office->Id;
 
+                    if($officeId){
+                        $officeName = 'office' . $office->Id;
+
+                        if($office->Id == $officeId->OfficeId){
+                            $officeTotalFees += $invoice->TotalFees;
+                            $invoiceCount += 1;
+                            $sumOfTotalFees += $invoice->TotalFees;
+                            $sumOfInvoices += 1;
+                        }                
+                        
+                        $invoiceDetailed[$officeName] = (object)[
+                            'office' => $office->Name,
+                            'totalFees' => $officeTotalFees,
+                            'count' => $invoiceCount
+                        ];
+                    }
                     
-                    if($office->Id == $officeId->OfficeId){
-                        $mobileTotalFees += $invoice->TotalFees;
-                        $invoiceCount += 1;
-                    }                
-                    $invoiceDetailed[$officeName]['invoice' . $office->Id . 'totalFees'] = $mobileTotalFees;
-                    $invoiceDetailed[$officeName]['invoice' . $office->Id . 'count'] = $invoiceCount;
                 }
+
             }
+
+            $total = (object)[
+                'totalFees' => $sumOfTotalFees,
+                'totalInvoices' => $sumOfInvoices
+            ];
             
-            return response()->json(['status' => 'success', 'data' => $invoiceDetailed], 200);
+
+            
+            return view('admin.invoicesReport.offices')->withInvoices($invoiceDetailed)->withOffices($offices)->withTotal($total);
+            // return response()->json(['status' => 'success', 'data' => $invoiceDetailed], 200);
         } catch (\Exception $ex) {
             return response()->json(['status' => 'error', 'data' => $ex->getMessage()], 200);
         }
@@ -107,15 +139,18 @@ class InvoiceController extends Controller
                     
                     // Get the office Id of the Invoice
                     $officeId = MobileRequest::select('OfficeId')->where('Id', $mobileInvoice->MobileRequestId)->first();
-                    $officeName = 'office' . $office->Id;
+                    if($officeId) {
+                        $officeName = 'office' . $office->Id;
 
                     
-                    if($office->Id == $officeId->OfficeId){
-                        $mobileTotalFees += $mobileInvoice->TotalFees;
-                        $invoiceCount += 1;
-                    }                
-                    $invoiceDetailed['mobile'][$officeName]['invoice' . $office->Id . 'totalFees'] = $mobileTotalFees;
-                    $invoiceDetailed['mobile'][$officeName]['invoice' . $office->Id . 'count'] = $invoiceCount;
+                        if($office->Id == $officeId->OfficeId){
+                            $mobileTotalFees += $mobileInvoice->TotalFees;
+                            $invoiceCount += 1;
+                        }                
+                        $invoiceDetailed['mobile'][$officeName]['totalFees'] = $mobileTotalFees;
+                        $invoiceDetailed['mobile'][$officeName]['count'] = $invoiceCount;
+                    }
+                    
                 }
             }
 
@@ -133,16 +168,19 @@ class InvoiceController extends Controller
                     $officeId = MobileRequest::select('OfficeId')->where('Id', $officeInvoice->MobileRequestId)->first();
                     $officeName = 'office' . $office->Id;
 
-                    
-                    if($office->Id == $officeId->OfficeId){
-                        $mobileTotalFees += $officeInvoice->TotalFees;
-                        $invoiceCount += 1;
-                    }                
-                    $invoiceDetailed['office'][$officeName]['invoice' . $office->Id . 'totalFees'] = $mobileTotalFees;
-                    $invoiceDetailed['office'][$officeName]['invoice' . $office->Id . 'count'] = $invoiceCount;
+                    if($officeId) {
+                        if($office->Id == $officeId->OfficeId){
+                            $mobileTotalFees += $officeInvoice->TotalFees;
+                            $invoiceCount += 1;
+                        }                
+                        $invoiceDetailed['offices'][$officeName]['totalFees'] = $mobileTotalFees;
+                        $invoiceDetailed['offices'][$officeName]['count'] = $invoiceCount;
+                    }
                 }
             }        
-            return response()->json(['status' => 'success', 'data' => $invoiceDetailed], 200);
+
+            return view('admin.invoicesReport.mobileAndOffice')->withInvoices($invoiceDetailed);
+            // return response()->json(['status' => 'success', 'data' => $invoiceDetailed], 200);
         } catch (\Exception $ex) {
             return response()->json(['status' => 'error', 'data' => $ex->getMessage()], 200);
         }
