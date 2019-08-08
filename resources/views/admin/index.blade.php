@@ -1,5 +1,10 @@
 @extends('admin.inc.main')
 @section('content')
+<style>
+.gm-style-iw{
+    max-width: 300px !important;
+    max-height: 308px;
+}</style>
 <body>
     <div class="container col-md-12 p-d-0 col-sm-12 col-xs-12">
         <!-- section one-->
@@ -10,7 +15,7 @@
                     <p class="section-2ts">احصائيات عامه</p>
                 </div>
                 <div class="border">
-                    <div class="col-md-8 p-d-0" style="margin-top: 20px;">
+                    <div class="col-md-8 p-d-0" style="margin-top: 20px;padding-left: 25px;">
                         <canvas id="myChart" height="40" width="100%"></canvas>
                     </div>
                     <div class="col-md-4 section-f2 p-d-0">
@@ -354,9 +359,7 @@
                             <input class="aamer-input col-md-2" type="text" placeholder="بحث">
                         </div>
                         <div class="col-md-10 col-sm-12 col-sm-12 map-amaer-s1">
-                            <iframe width="100%" height="100%"
-                                src="https://maps.google.com/maps?q=cairo&t=&z=13&ie=UTF8&iwloc=&output=embed"
-                                frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>
+                         <div id="map-wa" class="map" style="height: 500px;"></div>
 
                         </div>
                         <div class="col-md-2 loclitons col-sm-12 col-sm-12">
@@ -397,4 +400,35 @@
 
                 </div>
                 <!-- section there-->
+                  <script>
+        function initMap() {
+                var contentString = 
+                '<div class="container-map">' + 
+                '<h2 class="title-Abou-El-Ghaly titea">  الدايره</h2>' + 
+                    '<h2 class="title-Abou-El-Ghaly">  11<i class="fas fa-user-friends sc"></i></h2>' + 
+                    '<p class="p-title-1">160.125    <i class="material-icons sx"> receipt </i></p>' +
+                    '<p class="p-title-2"> 12,810,000,000 <i class="material-icons sf">account_balance_wallet</i></p>' +
+                    '<h3 class="Waste"> <button class="btn btn-wa col-md-12">المزيد</button></h3>' +
+   
+                '</div>';
+                var infowindow = new google.maps.InfoWindow({
+                    content: contentString
+                });
+                var myLatLng = {lat: 29.9833135, lng: 31.3168272};
+                var map = new google.maps.Map(document.getElementById('map-wa'), {
+                    zoom: 13.79,
+                    center: myLatLng
+                });
+                var marker = new google.maps.Marker({
+                    position: myLatLng,
+                    map: map,
+                    title: 'Unicom group'
+                });
+                marker.addListener("click", function () {
+                    infowindow.open(map, marker);
+                })
+            }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=&callback=initMap"
+    async defer></script> 
 @endsection
