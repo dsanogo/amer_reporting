@@ -38,6 +38,9 @@ Route::prefix('admin')->namespace('Admin')->group(function () {
     // Get Invoices for per Requests done from Mobile and those done from Office
     Route::get('mobile-and-offices-invoices', 'InvoiceController@getInvoicesByMobileRequestByOffice')->name('admin.getMobileAndOfficeInvoices');
 
+    // Get all the TotalFeesPerMonth and their corresponding  ratings
+    Route::get('get-invoices-per-month', 'InvoiceController@getInvoicesPerMonth')->name('admin.getInvoicesPerMonth');
+
     // Get all the serveySubjects and their corresponding  ratings
     Route::get('surveys', 'SurveyController@getSurveysReport')->name('admin.getSurveysReport');
     

@@ -9,6 +9,7 @@ use App\Models\InvoiceDetail;
 use App\Models\Invoice;
 use App\Models\Office;
 use App\Models\MobileRequest;
+use Illuminate\Support\Facades\DB;
 
 class InvoiceController extends Controller
 {
@@ -184,5 +185,18 @@ class InvoiceController extends Controller
         } catch (\Exception $ex) {
             return response()->json(['status' => 'error', 'data' => $ex->getMessage()], 200);
         }
+    }
+
+
+    public function getInvoicesPerMonth()
+    {
+        $data['totalFeesPerMonth'] = DB::table('Invoices')->select(DB::raw('SUM(TotalFees) as total_fees'), DB::raw('MONTH(Time) as month'))
+                                    ->groupBy(DB::raw('MONTH(TIME)'))->get();
+        $data['totalInvoicesPerMonth'] = DB::table('Invoices')->select(DB::raw('COUNT(Id) as total_invoices'), DB::raw('MONTH(Time) as month'))
+                                    ->groupBy(DB::raw('MONTH(TIME)'))->get();
+        $data['maxInvoices'] = DB::table('Invoices')->select(DB::raw('COUNT(Id) as max_invoices'))->first();
+        $data['maxFees'] = DB::table('Invoices')->select(DB::raw('MAX(TotalFees) as max_fees'))->first();
+
+        return response()->json($data);
     }
 }
