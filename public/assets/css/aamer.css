@@ -9,6 +9,10 @@
     
   
     }
+   
+    .text-right{
+        text-align: right !important;
+    }
     .table-responsive {
         min-height: .01%;
         overflow-x: inherit;
@@ -384,6 +388,8 @@ color: white;
     border-bottom: 1px solid #b5b3bf;
     font-size: 18px;
     padding-top: 15px;
+    cursor: pointer !important;
+  
 }
 .C-3{
     font-size: 14px;

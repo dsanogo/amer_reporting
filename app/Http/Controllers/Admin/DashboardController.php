@@ -27,7 +27,7 @@ class DashboardController extends Controller
         $data['offices'] = Office::with('employees')->paginate(12);
 
         $invoiceDetailed = [];
-            $offices = $offices = Office::select('Id', 'Name')->get();
+            $offices = Office::select('Id', 'Name')->get();
             $invoices = Invoice::select('TotalFees', 'MobileRequestId')->get();
             $sumOfTotalFees = 0;
             $sumOfInvoices = 0;

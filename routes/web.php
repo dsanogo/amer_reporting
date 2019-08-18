@@ -43,5 +43,10 @@ Route::prefix('admin')->namespace('Admin')->group(function () {
 
     // Get all the serveySubjects and their corresponding  ratings
     Route::get('surveys', 'SurveyController@getSurveysReport')->name('admin.getSurveysReport');
-    
+
+    //Get Offices Details
+    Route::get('offices-details', 'OfficeController@getOfficesDetails')->name('admin.offices.details');
+
+    //Get Invoices Per Month
+    Route::get('monthly-invoices', 'InvoiceController@getInvoiceMonthly')->name('admin.monthlyInvoices');
 });
