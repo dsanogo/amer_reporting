@@ -24,7 +24,7 @@ class DashboardController extends Controller
         $data['employees'] = Employee::count();
         $data['numberOfInvoices'] = Invoice::count();
         $data['totalFees'] = DB::table('Invoices')->sum('TotalFees');
-        $data['offices'] = Office::with('employees')->get();
+        $data['offices'] = Office::with('employees')->paginate(12);
 
         $invoiceDetailed = [];
             $offices = $offices = Office::select('Id', 'Name')->get();
@@ -43,7 +43,6 @@ class DashboardController extends Controller
                     $officeId = MobileRequest::select('OfficeId')->where('Id', $invoice->MobileRequestId)->first();
 
                     if($officeId){
-                        $officeName = 'office' . $office->Id;
 
                         if($office->Id == $officeId->OfficeId){
                             $officeTotalFees += $invoice->TotalFees;

@@ -83,7 +83,11 @@
                                     </tr>
                                 @endforeach
                             </tbody>
+                            
                         </table>
+                        <div style="text-align: center">
+                            {{$data['offices']->links()}}
+                        </div>
                     </div>
                     <div id="Allthumbnail" class="col-md-12 " style="display:none; ">
                         @foreach ($data['offices'] as $key => $office)
@@ -108,9 +112,17 @@
                          <div id="map-wa" class="map" style="height: 500px;"></div>
 
                         </div>
-                        <div class="col-md-2 loclitons col-sm-12 col-sm-12 " style="overflow-y: scroll;">
+                        <div class="col-md-2 loclitons col-sm-12 col-sm-12 " style="overflow-y: scroll; height: 500px;">
                                 @foreach ($data['offices'] as $key => $office)
-                            <div class="locliton col-md-12" >
+
+                        <div class="locliton col-md-12 offices" 
+                            data-location='{"lat": {{intVal($office->Latitude)}}, "lng": {{intVal($office->Longitude)}}}' 
+                            data-nb-emp="{{count($office->employees)}}"
+                            data-total-fees="{{$invoices[$key]->totalFees}}"
+                            data-nb-invoices="{{$invoices[$key]->count}}"
+                            data-office-name="{{ $office->Name }}"
+                            id="{{$key==0 ? 'office1': ''}}"
+                            >
                                 <i class="material-icons col-md-2 pull-right p-d-0 location_on">location_on </i>
                                 <div class="col-md-10 pull-right p-d-0 loc-s">
                                     <p class="C-1"> {{ $office->Name }}</p>
@@ -124,37 +136,57 @@
 
                 </div>
                 <!-- section there-->
-                  <script>
-        function initMap() {
-                var contentString = 
-                '<div class="container-map">' + 
-                '<h2 class="title-Abou-El-Ghaly titea">  الدايره</h2>' + 
-                    '<h2 class="title-Abou-El-Ghaly">  11<i class="fas fa-user-friends sc"></i></h2>' + 
-                    '<p class="p-title-1">160.125    <i class="material-icons sx"> receipt </i></p>' +
-                    '<p class="p-title-2"> 12,810,000,000 <i class="material-icons sf">account_balance_wallet</i></p>' +
-                    '<h3 class="Waste"> <button class="btn btn-wa col-md-12">المزيد</button></h3>' +
-   
-                '</div>';
-                var infowindow = new google.maps.InfoWindow({
-                    content: contentString
+                
+            <script>
+                var oName = $('#office1').attr("data-office-name");
+                var oEmp = $('#office1').attr("data-nb-emp");
+                var oFees = $('#office1').attr("data-total-fees");
+                var oInvoices = $('#office1').attr("data-nb-invoices");
+                var oLocation = $('#office1').attr("data-location");
+
+                function initMap(officeLocation=oLocation, officeName=oName, nbEmp=oEmp, nbInvoices=oInvoices, totalFees=oFees ) {
+                    
+                    officeLocation  = JSON.parse(officeLocation.toString());
+                    
+                    var contentString = 
+                    '<div class="container-map">' + 
+                    '<h2 class="title-Abou-El-Ghaly titea">'+ officeName + '</h2>' + 
+                        '<h2 class="title-Abou-El-Ghaly"> '+ nbEmp +'<i class="fas fa-user-friends sc"></i></h2>' + 
+                        '<p class="p-title-1">' + nbInvoices +' <i class="material-icons sx"> receipt </i></p>' +
+                        '<p class="p-title-2"> '+ totalFees +' <i class="material-icons sf">account_balance_wallet</i></p>' +
+                        '<h3 class="Waste"> <button class="btn btn-wa col-md-12">المزيد</button></h3>' +
+    
+                    '</div>';
+                    var infowindow = new google.maps.InfoWindow({
+                        content: contentString
+                    });
+                    var myLatLng = officeLocation;
+                    var map = new google.maps.Map(document.getElementById('map-wa'), {
+                        zoom: 13.79,
+                        center: myLatLng
+                    });
+                    var marker = new google.maps.Marker({
+                        position: myLatLng,
+                        map: map,
+                        title: 'Unicom group'
+                    });
+                    marker.addListener("click", function () {
+                        infowindow.open(map, marker);
+                    })
+                }
+
+
+                $('.offices').click(function() {
+                    var officeName = $(this).attr("data-office-name");
+                    var nb_emp = $(this).attr("data-nb-emp");
+                    var total_fees = $(this).attr("data-total-fees");
+                    var nb_invoices = $(this).attr("data-nb-invoices");
+                    var location = $(this).attr("data-location");
+                    initMap(location, officeName,  nb_emp, nb_invoices, total_fees);
                 });
-                var myLatLng = {lat: 29.9833135, lng: 31.3168272};
-                var map = new google.maps.Map(document.getElementById('map-wa'), {
-                    zoom: 13.79,
-                    center: myLatLng
-                });
-                var marker = new google.maps.Marker({
-                    position: myLatLng,
-                    map: map,
-                    title: 'Unicom group'
-                });
-                marker.addListener("click", function () {
-                    infowindow.open(map, marker);
-                })
-            }
+                
     </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=&callback=initMap"
-    async defer></script> 
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCzr3YDrX_cRaBd887pXKu3wBRta57959g&callback=initMap" async defer></script>
 @endsection
 @section('script')
 <script>
@@ -169,8 +201,7 @@
         var allMonths = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
     
         $.get(url, function(response) {
-            
-            maxFees = parseInt(response.maxFees.max_fees);
+            maxFees = parseInt(response.maxFees);
             maxInvoices = parseInt(response.maxInvoices.max_invoices);
 
             response.totalFeesPerMonth.forEach(function(data) {
@@ -255,7 +286,7 @@
                           beginAtZero: true,
                           steps: 10,
                           stepValue: 10,
-                          max:  maxFees + 1000,
+                          max:  maxFees + 10000,
                            stepSize: 10000,
                            fontColor: "#2e5bff",
                            callback: function(label, index, labels) {

@@ -195,7 +195,14 @@ class InvoiceController extends Controller
         $data['totalInvoicesPerMonth'] = DB::table('Invoices')->select(DB::raw('COUNT(Id) as total_invoices'), DB::raw('MONTH(Time) as month'))
                                     ->groupBy(DB::raw('MONTH(TIME)'))->get();
         $data['maxInvoices'] = DB::table('Invoices')->select(DB::raw('COUNT(Id) as max_invoices'))->first();
-        $data['maxFees'] = DB::table('Invoices')->select(DB::raw('MAX(TotalFees) as max_fees'))->first();
+        // $data['maxFees'] = DB::table('Invoices')->select(DB::raw('MAX(TotalFees) as max_fees'))->first();
+
+        $data['maxFees'] = DB::table('Invoices')->fromSub(
+                                DB::table('Invoices')->select(DB::raw('SUM(TotalFees) as total_fees'), DB::raw('MONTH(Time) as month'))
+                                    ->groupBy(DB::raw('MONTH(TIME)')), 'TotalFees', function($query) {
+                                        $query->select(DB::raw('MAX(TotalFees) as max_fees'));
+                                    })->max('total_fees');
+        
 
         return response()->json($data);
     }
