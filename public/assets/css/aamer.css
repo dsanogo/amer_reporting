@@ -3,6 +3,12 @@
     width: 100%;
     background-color: #251e54;
 }
+tr>th{
+ text-align: center !important  ; 
+}
+tr>td{
+    text-align: center ;  
+}
 @font-face {
     font-family: "Bahij";
     src: url("Bahij_TheSansArabic-Bold.ttf");

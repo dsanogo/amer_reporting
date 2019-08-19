@@ -53,8 +53,8 @@
                     <ul class="dropdown-menu  fixaa text-right">
                       <li><a href="{{route('admin.offices.details')}}">احصائيات مقارنة انتاجية المكاتب</a></li>
                       <li><a href="{{route('admin.monthlyInvoices')}}">التطور الزمني لانتاجية المكاتب</a></li>
-                      <li><a href="{{route('admin.getMobileAndOfficeInvoices')}}">قياس اداء المكاتب</a></li>
-                      <li><a href="{{route('admin.getSurveysReport')}}">التطور الزمني لاداء الكاتب</a></li>
+                      <li><a href="{{route('admin.offices.ProcessTimeDetails')}}">قياس اداء المكاتب</a></li>
+                      <li><a href="{{route('admin.monthlyInvoicesProcessTime')}}">التطور الزمني لاداء الكاتب</a></li>
                      
                     </ul>
                   </li>

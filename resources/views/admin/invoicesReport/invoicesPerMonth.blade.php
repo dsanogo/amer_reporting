@@ -19,7 +19,7 @@
         <!-- section one-->
         <div class="seciton-tabel">
             <form action="{{route('admin.monthlyInvoices')}}" method="get">
-                <div class="row">
+                <div class="col-md-12">
                     <div class="col-md-8 col-sm-12 col-xs-12 tabel-input rtl pull-right">
                         <div class="col-md-6">
                             <div class="form-group">

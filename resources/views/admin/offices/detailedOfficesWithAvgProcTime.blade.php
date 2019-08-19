@@ -18,15 +18,18 @@
     <body>
         <!-- section one-->
         <div class="seciton-tabel">
-            <form action="{{route('admin.getInvoicesByCategory')}}" method="get">
+            <form action="{{route('admin.offices.details')}}" method="get">
                 <div class="col-md-12">
                     <div class="col-md-8 col-sm-12 col-xs-12 tabel-input rtl pull-right">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="inputPassword" class="col-md-5 col-sm-4 control-label label-tabel">الجنسية</label>
+                                <label for="inputPassword" class="col-md-5 col-sm-4 control-label label-tabel">المنطقة</label>
                                 {{-- <input type="password" class="form-control" id="inputPassword" placeholder="مصر">\ --}}
-                                <select name="category_id" id="" class="form-control" disabled>
-                                    <option value=""></option>
+                                <select name="office_id" id="" class="form-control" disabled>
+                                    <option value="">Offices</option>
+                                    @foreach ($data['offices'] as $office)
+                                        <option value="{{$office->Id}}" {{isset($_GET['office_id']) && $_GET['office_id']==$office->Id ? 'selected' : ''}}>{{ $office->Name}}</option>    
+                                    @endforeach
                                 </select>                            
                             </div>
                         </div>
@@ -44,41 +47,26 @@
                 </div>
             </form>
 
-            
-            @if (isset($surveys))
-                <div class="col-md-12 rtl tabel" >
+            @if (isset($invoices))
+                <div class="col-md-6 pull-right rtl tabel" >
                     <table class="table table-striped">
                         <thead class="waleed">
                             <tr>
-                                <th>Survey Subject</th>
-                                <th>Number of surveys</th>
-                                <th>Excellent</th>
-                                <th>Very Good</th>
-                                <th>Medium</th>
-                                <th>Bad</th>
-                                <th>Very Bad</th>
+                                <th>المكتب</th>
+                                <th>عدد العاملين</th>
+                                <th>متوسط زمن المعاملة بالدقيقة</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($surveys['surveys'] as $key => $survey)
-                                <tr>
-                                    <td>{{ $survey['description'] }}</td>
-                                    <td>{{ $survey['numberOfSurveys'] }}</td>
-                                    <td>{{ $survey['excellents'] }}%</td>
-                                    <td>{{ $survey['veryGoods'] }}%</td>
-                                    <td>{{ $survey['mediums'] }}%</td>
-                                    <td>{{ $survey['bads'] }}%</td>
-                                    <td>{{ $survey['veryBads'] }}%</td>
-                                </tr>
+                            @foreach ($data['offices'] as $key => $office)
+                            <tr>
+                                <td>{{ $office->Name }}</td>
+                                <td>{{ count($office->employees)}}</td>
+                                <td>{{ $invoices[$key]->processTime }}</td>   
+                            </tr>
                             @endforeach
                             
                         </tbody>
-                    
-                        {{-- <tr id="trfoo">
-                            <th class="end">Total</th>
-                            <th class="end">{{ $total->totalInvoices }}</th>
-                            <th class="end">{{ $total->totalFees }}</th>
-                        </tr> --}}
                     </table>
                 </div>
             @endif

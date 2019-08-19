@@ -23,15 +23,17 @@ class OfficeController extends Controller
 
     public function getOfficesDetails()
     {
-        $data['offices'] = Office::with('employees')->get();
+        try {
+            $data['offices'] = Office::with('employees')->get();
 
-        $invoiceDetailed = [];
+            $invoiceDetailed = [];
             $offices = $offices = Office::select('Id', 'Name')->get();
             $invoices = Invoice::select('TotalFees', 'MobileRequestId')->get();
             $sumOfInvoices = 0;
             
             foreach ($offices as $key => $office) {
                 $invoiceCount = 0;
+                $processTime = 0;
 
                 foreach ($invoices as $invoice) {
                     
@@ -43,16 +45,16 @@ class OfficeController extends Controller
                         if($office->Id == $officeId->OfficeId){
                             $invoiceCount += 1;
                             $sumOfInvoices += 1;
+                            $processTime += $invoice->ProcessingTime;
                         }                
                         
                         $invoiceDetailed[$key] = (object)[
                             'office' => $office->Name,
-                            'count' => $invoiceCount
+                            'count' => $invoiceCount,
                         ];
                     }
                     
                 }
-
             }
             
             $total = (object)[
@@ -61,6 +63,51 @@ class OfficeController extends Controller
             ];
 
             return view('admin.offices.detailedOffices')->withData($data)->withInvoices($invoiceDetailed)->withTotal($total);
+        } catch (\Exception $ex) {
+            return response()->json(['error' => $ex->getMessage()], 200);
+        }
+    }
 
+    public function getOfficesDetailsWithAverage()
+    {
+        try {
+            $data['offices'] = Office::with('employees')->get();
+
+            $invoiceDetailed = [];
+            $offices = $offices = Office::select('Id', 'Name')->get();
+            $invoices = Invoice::select('TotalFees', 'MobileRequestId', 'ProcessingTime')->get();
+            $sumOfInvoices = 0;
+            
+            foreach ($offices as $key => $office) {
+                $invoiceCount = 0;
+                $processTime = 0;
+
+                foreach ($invoices as $invoice) {
+                    
+                    // Get the office Id of the Invoice
+                    $officeId = MobileRequest::select('OfficeId')->where('Id', $invoice->MobileRequestId)->first();
+
+                    if($officeId){
+
+                        if($office->Id == $officeId->OfficeId){
+                            $invoiceCount += 1;
+                            $sumOfInvoices += 1;
+                            $processTime += intval($invoice->ProcessingTime);
+                        }                
+                        
+                        $invoiceDetailed[$key] = (object)[
+                            'office' => $office->Name,
+                            'countInvoice' => $invoiceCount,
+                            'totalTime' => $processTime,
+                            'processTime' => $invoiceCount == 0 ? 0 : ceil($processTime/$invoiceCount)
+                        ];
+                    }
+                }
+            }
+        
+            return view('admin.offices.detailedOfficesWithAvgProcTime')->withData($data)->withInvoices($invoiceDetailed);
+        } catch (\Exception $ex) {
+            return response()->json(['error' => $ex->getMessage()], 200);
+        }
     }
 }
