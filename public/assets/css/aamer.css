@@ -9,6 +9,14 @@
     
   
     }
+   
+    .text-right{
+        text-align: right !important;
+    }
+    .table-responsive {
+        min-height: .01%;
+        overflow-x: inherit;
+    }
     #myChart{
         height: auto;
     }
@@ -380,6 +388,8 @@ color: white;
     border-bottom: 1px solid #b5b3bf;
     font-size: 18px;
     padding-top: 15px;
+    cursor: pointer !important;
+  
 }
 .C-3{
     font-size: 14px;
@@ -657,7 +667,7 @@ color: white;
         border-bottom: 1px solid #b5b3bf;
         font-size: 18px;
         padding-top: 8px;
-        
+        cursor: pointer;
         height: 84px;
     }
 }
@@ -744,6 +754,7 @@ color: white;
         font-size: 18px;
         padding-top: 15px;
         height: 114px;
+        cursor: pointer;
     }
     .footer-aamer {
         height: 79px;

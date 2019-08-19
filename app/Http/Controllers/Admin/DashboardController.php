@@ -8,6 +8,8 @@ use App\Models\ServiceCategory;
 use App\Models\Employee;
 use App\Models\Invoice;
 use Illuminate\Support\Facades\DB;
+use App\Models\Office;
+use App\Models\MobileRequest;
 
 class DashboardController extends Controller
 {
@@ -22,10 +24,48 @@ class DashboardController extends Controller
         $data['employees'] = Employee::count();
         $data['numberOfInvoices'] = Invoice::count();
         $data['totalFees'] = DB::table('Invoices')->sum('TotalFees');
-        $data['totalFeesPerMonth'] = DB::table('Invoices')->select(DB::raw('SUM(TotalFees) as total_fees'), DB::raw('MONTH(Time) as month'))
-                                    ->groupBy(DB::raw('MONTH(TIME)'))->get();
+        $data['offices'] = Office::with('employees')->paginate(12);
 
-        return view('admin.index')->withData($data);
+        $invoiceDetailed = [];
+            $offices = Office::select('Id', 'Name')->get();
+            $invoices = Invoice::select('TotalFees', 'MobileRequestId')->get();
+            $sumOfTotalFees = 0;
+            $sumOfInvoices = 0;
+            
+            
+            foreach ($offices as $key => $office) {
+                $officeTotalFees = 0;
+                $invoiceCount = 0;
+
+                foreach ($invoices as $invoice) {
+                    
+                    // Get the office Id of the Invoice
+                    $officeId = MobileRequest::select('OfficeId')->where('Id', $invoice->MobileRequestId)->first();
+
+                    if($officeId){
+
+                        if($office->Id == $officeId->OfficeId){
+                            $officeTotalFees += $invoice->TotalFees;
+                            $invoiceCount += 1;
+                            $sumOfTotalFees += $invoice->TotalFees;
+                            $sumOfInvoices += 1;
+                        }                
+                        
+                        $invoiceDetailed[$key] = (object)[
+                            'office' => $office->Name,
+                            'totalFees' => $officeTotalFees,
+                            'count' => $invoiceCount
+                        ];
+                    }
+                    
+                }
+
+            }
+
+            
+            
+
+        return view('admin.index')->withData($data)->withInvoices($invoiceDetailed);
     }
 
     public function showInvoicesByCategory()

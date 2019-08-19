@@ -9,6 +9,7 @@ use App\Models\InvoiceDetail;
 use App\Models\Invoice;
 use App\Models\Office;
 use App\Models\MobileRequest;
+use Illuminate\Support\Facades\DB;
 
 class InvoiceController extends Controller
 {
@@ -184,5 +185,37 @@ class InvoiceController extends Controller
         } catch (\Exception $ex) {
             return response()->json(['status' => 'error', 'data' => $ex->getMessage()], 200);
         }
+    }
+
+    public function getInvoicesPerMonth()
+    {
+        $data['totalFeesPerMonth'] = DB::table('Invoices')->select(DB::raw('SUM(TotalFees) as total_fees'), DB::raw('MONTH(Time) as month'))
+                                    ->groupBy(DB::raw('MONTH(TIME)'))->get();
+        $data['totalInvoicesPerMonth'] = DB::table('Invoices')->select(DB::raw('COUNT(Id) as total_invoices'), DB::raw('MONTH(Time) as month'))
+                                    ->groupBy(DB::raw('MONTH(TIME)'))->get();
+        $data['maxInvoices'] = DB::table('Invoices')->select(DB::raw('COUNT(Id) as max_invoices'))->first();
+
+        $data['maxFees'] = DB::table('Invoices')->fromSub(
+                                DB::table('Invoices')->select(DB::raw('SUM(TotalFees) as total_fees'), DB::raw('MONTH(Time) as month'))
+                                    ->groupBy(DB::raw('MONTH(TIME)')), 'TotalFees', function($query) {
+                                        $query->select(DB::raw('MAX(TotalFees) as max_fees'));
+                                    })->max('total_fees');
+        
+        return response()->json($data);
+    }
+
+
+    public function getInvoiceMonthly()
+    {
+        try {
+            $monthlyInvoices = DB::table('Invoices')->select(DB::raw('COUNT(Id) as total_invoices'),DB::raw("MONTH(Time) as m"), DB::raw("DATENAME(mm, Time) as month"), DB::raw('YEAR(Time) as year'))
+                                    ->groupBy(DB::raw('MONTH(Time)'), DB::raw("DATENAME(mm, Time)"),DB::raw('YEAR(Time)'))->get();
+            $totalInvoices = Invoice::count();
+
+        return view('admin.invoicesReport.invoicesPerMonth')->withInvoices($monthlyInvoices)->withTotalInvoices($totalInvoices);
+        } catch (\Exception $ex) {
+            return response()->json(['error' => $ex->getMessage()], 200);
+        }
+        
     }
 }
