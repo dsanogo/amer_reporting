@@ -47,6 +47,12 @@ Route::prefix('admin')->namespace('Admin')->group(function () {
     //Get Offices Details
     Route::get('offices-details', 'OfficeController@getOfficesDetails')->name('admin.offices.details');
 
+    //Get Offices Details with Average time
+    Route::get('offices-details-with-process-time', 'OfficeController@getOfficesDetailsWithAverage')->name('admin.offices.ProcessTimeDetails');
+
     //Get Invoices Per Month
     Route::get('monthly-invoices', 'InvoiceController@getInvoiceMonthly')->name('admin.monthlyInvoices');
+
+    //Get Invoices Per Month And their Process Time
+    Route::get('monthly-invoices-per-process-time', 'InvoiceController@getInvoiceMonthlyProcessTime')->name('admin.monthlyInvoicesProcessTime');
 });

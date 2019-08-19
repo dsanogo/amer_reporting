@@ -19,7 +19,7 @@
         <!-- section one-->
         <div class="seciton-tabel">
             <form action="{{route('admin.getInvoicesByCategory')}}" method="get">
-                <div class="row">
+                <div class="col-md-12">
                     <div class="col-md-8 col-sm-12 col-xs-12 tabel-input rtl pull-right">
                         <div class="col-md-6">
                             <div class="form-group">
@@ -45,22 +45,22 @@
             </form>
 
             @if (isset($invoices))
+
                 <div class="col-md-12 rtl tabel" >
                     <table class="table table-striped">
                         <thead class="waleed">
                             <tr>
                                 <th>Office Name</th>
-                                <th>Number of invoices</th>
-                                <th>Total Fees</th>
+                                <th>Number of invoices From Mobile</th>
+                                <th>Number of invoices From Office</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($invoices['mobile'] as $key => $invoice)
-
-                            {{dd($invoices)}}
+                            @foreach ($invoices as $key => $invoice)
                             <tr>
-                                <td>{{ $invoice}}</td>
-                               
+                                <td>{{ $invoice->office}}</td>
+                                <td>{{ $invoice->mobileInvoices}}</td>
+                                <td>{{ $invoice->officeInvoices}}</td>
                             </tr>
                             @endforeach
                             
@@ -68,8 +68,8 @@
                     
                         <tr id="trfoo">
                             <th class="end">Total</th>
-                            <th class="end">{{ $total->totalInvoices }}</th>
-                            <th class="end">{{ $total->totalFees }}</th>
+                            <th class="end">{{ $total->sumMobileInvoices }}</th>
+                            <th class="end">{{ $total->sumOfficeInvoices }}</th>
                         </tr>
                     </table>
                 </div>

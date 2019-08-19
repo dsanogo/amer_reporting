@@ -125,62 +125,50 @@ class InvoiceController extends Controller
     {
         try {
             $invoiceDetailed = [];
-            $offices = Office::select('Id', 'Name')->get();
-            $invoicesFromOffice = Invoice::select('TotalFees', 'MobileRequestId')->where('Origin', 1)->get();
-            $invoicesFromMobile = Invoice::select('TotalFees', 'MobileRequestId')->where('Origin', 2)->get();
-
-            /**
-            * Get all the invoices done from Mobile
-            *
-            */
+            $offices = $offices = Office::select('Id', 'Name')->get();
+            $invoices = Invoice::select('TotalFees', 'MobileRequestId', 'Origin')->get();
+            $sumOfInvoices = 0;
+            $sumMobileInvoices = 0;
+            $sumOfficeInvoices = 0;
+            
             foreach ($offices as $office) {
-                $mobileTotalFees = 0;
-                $invoiceCount = 0;
-                foreach ($invoicesFromMobile as $mobileInvoice) {
+                $mobileInvoices = 0;
+                $officeInvoices = 0;
+
+                foreach ($invoices as $invoice) {
                     
                     // Get the office Id of the Invoice
-                    $officeId = MobileRequest::select('OfficeId')->where('Id', $mobileInvoice->MobileRequestId)->first();
-                    if($officeId) {
+                    $officeId = MobileRequest::select('OfficeId')->where('Id', $invoice->MobileRequestId)->first();
+
+                    if($officeId){
                         $officeName = 'office' . $office->Id;
 
-                    
-                        if($office->Id == $officeId->OfficeId){
-                            $mobileTotalFees += $mobileInvoice->TotalFees;
-                            $invoiceCount += 1;
-                        }                
-                        $invoiceDetailed['mobile'][$officeName]['totalFees'] = $mobileTotalFees;
-                        $invoiceDetailed['mobile'][$officeName]['count'] = $invoiceCount;
+                        if($office->Id == $officeId->OfficeId && $invoice->Origin == 1){
+                            $sumOfInvoices += 1;
+                            $sumOfficeInvoices += 1;
+                            $officeInvoices += 1;
+                        }else if($office->Id == $officeId->OfficeId && $invoice->Origin == 2){
+                            $sumOfInvoices += 1;
+                            $sumMobileInvoices += 1;
+                            $mobileInvoices += 1;
+                        }         
+                        
+                        $invoiceDetailed[$officeName] = (object)[
+                            'office' => $office->Name,
+                            'mobileInvoices' => $mobileInvoices,
+                            'officeInvoices' => $officeInvoices
+                        ];
                     }
-                    
                 }
             }
 
-            /**
-            * Get all the invoices done from Office
-            *
-            */
-            foreach ($offices as $office) {
-                $mobileTotalFees = 0;
-                $invoiceCount = 0;
-                foreach ($invoicesFromOffice as $officeInvoice) {
-                    
-                    // Get the office Id of the Invoice
-
-                    $officeId = MobileRequest::select('OfficeId')->where('Id', $officeInvoice->MobileRequestId)->first();
-                    $officeName = 'office' . $office->Id;
-
-                    if($officeId) {
-                        if($office->Id == $officeId->OfficeId){
-                            $mobileTotalFees += $officeInvoice->TotalFees;
-                            $invoiceCount += 1;
-                        }                
-                        $invoiceDetailed['offices'][$officeName]['totalFees'] = $mobileTotalFees;
-                        $invoiceDetailed['offices'][$officeName]['count'] = $invoiceCount;
-                    }
-                }
-            }        
-
-            return view('admin.invoicesReport.mobileAndOffice')->withInvoices($invoiceDetailed);
+            $total = (object)[
+                'totalInvoices' => $sumOfInvoices,
+                'sumMobileInvoices' => $sumMobileInvoices,
+                'sumOfficeInvoices' => $sumOfficeInvoices
+            ];
+            
+            return view('admin.invoicesReport.mobileAndOffice')->withInvoices($invoiceDetailed)->withOffices($offices)->withTotal($total);
             // return response()->json(['status' => 'success', 'data' => $invoiceDetailed], 200);
         } catch (\Exception $ex) {
             return response()->json(['status' => 'error', 'data' => $ex->getMessage()], 200);
@@ -212,10 +200,62 @@ class InvoiceController extends Controller
                                     ->groupBy(DB::raw('MONTH(Time)'), DB::raw("DATENAME(mm, Time)"),DB::raw('YEAR(Time)'))->get();
             $totalInvoices = Invoice::count();
 
-        return view('admin.invoicesReport.invoicesPerMonth')->withInvoices($monthlyInvoices)->withTotalInvoices($totalInvoices);
+            return view('admin.invoicesReport.invoicesPerMonth')->withInvoices($monthlyInvoices)->withTotalInvoices($totalInvoices);
         } catch (\Exception $ex) {
             return response()->json(['error' => $ex->getMessage()], 200);
         }
-        
+    }
+
+    public function getInvoiceMonthlyProcessTime(Request $request)
+    {
+        try {
+            
+            if(isset($request->office_id)){
+                $mobileRequestId = $this->getMobileRequestIdsFromInvoices($request->office_id);
+            }else {
+                $mobileRequestId = '';
+            }
+
+            $offices = Office::select('Id', 'Name')->get();
+            $monthlyInvoices = DB::table('Invoices')->select(
+                DB::raw('COUNT(Id) as total_invoices'),
+                DB::raw("MONTH(Time) as m"), 
+                DB::raw("DATENAME(mm, Time) as month"),
+                DB::raw("SUM(ProcessingTime) as total_process_time"),
+                DB::raw('AVG(ProcessingTime) as process_time'), 
+                DB::raw('YEAR(Time) as year'))
+                ->where(function($query) use ($mobileRequestId) {
+                    if($mobileRequestId !== ''){
+                        $query->whereIn('MobileRequestId', $mobileRequestId);
+                    }
+                })
+                ->groupBy(DB::raw('MONTH(Time)'), 
+                            DB::raw("DATENAME(mm, Time)"),
+                            DB::raw('YEAR(Time)'))->get();
+
+            return view('admin.invoicesReport.invoicesPerMonthlyProcessTime')->withInvoices($monthlyInvoices)->withOffices($offices);
+        } catch (\Exception $ex) {
+            return response()->json(['error' => $ex->getMessage()], 200);
+        }
+    }
+
+    public function getMobileRequestIdsFromInvoices($officeId)
+    {
+        $mobileRequestIds = [];
+        $invoices = Invoice::select('TotalFees', 'MobileRequestId', 'Origin')->get();
+        foreach ($invoices as $invoice) {
+
+            // Get Mobile Req for each invoice and get it's office ID
+            $mobileRequest = MobileRequest::select('Id', 'OfficeId')->where('Id', $invoice->MobileRequestId)->first();
+
+            // Check if the OfficeID matched the requested Office ID
+            if(isset($mobileRequest->OfficeId) && $officeId == $mobileRequest->OfficeId){
+                if(!in_array($mobileRequest->Id, $mobileRequestIds)){
+                    array_push($mobileRequestIds, $mobileRequest->Id);    
+                }
+            }
+        }
+
+        return $mobileRequestIds;
     }
 }
