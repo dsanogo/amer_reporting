@@ -10,6 +10,10 @@ use App\Models\Invoice;
 use App\Models\Office;
 use App\Models\MobileRequest;
 use Illuminate\Support\Facades\DB;
+use App\Models\Service;
+use App\User;
+use App\Models\Employee;
+use App\Models\OfficeService;
 
 class InvoiceController extends Controller
 {
@@ -204,6 +208,92 @@ class InvoiceController extends Controller
         }
     }
 
+    public function getQuarterInvoicesByMobileRequestByOffice()
+    {
+        try {
+
+            $now = now()->startOfMonth();
+            $quarterAhead = now()->addMonths(-3)->firstOfMonth();
+
+            $invoiceDetailed = [];
+            $offices = $offices = Office::select('Id', 'Name')->get();
+            $invoices = Invoice::select('TotalFees', 'MobileRequestId', 'Origin', 'UserId')->whereDate('Time', '>=', $quarterAhead)->whereDate('Time', '<', $now)->get();
+            $sumOfInvoices = 0;
+            $sumMobileInvoices = 0;
+            $sumOfficeInvoices = 0;
+            $mobileServicesArray = [];
+            $officeServicesArray = [];
+
+            foreach ($offices as $office) {
+                $mobileInvoices = 0;
+                $officeInvoices = 0;
+                
+                foreach ($invoices as $invoice) {
+                    
+                    // Get the office Id of the Invoice
+                    $officeId = MobileRequest::select('OfficeId', 'ServiceId')->where('Id', $invoice->MobileRequestId)->first();
+
+                    if($officeId == null) {
+                        $user = User::select('EmployeeId')->findOrFail($invoice->UserId);
+                        $emp = Employee::select('OfficeId')->findOrFail($user->EmployeeId);
+                        $officeId = OfficeService::select('OfficeId', 'ServiceId')->where('OfficeId', $emp->OfficeId)->first();
+                    }
+
+                    
+                    if($officeId){
+                        $officeName = 'office' . $office->Id;
+
+                        if($office->Id == $officeId->OfficeId && $invoice->Origin == 1){
+                            array_push($officeServicesArray, $officeId->ServiceId);
+                            $sumOfInvoices += 1;
+                            $sumOfficeInvoices += 1;
+                            $officeInvoices += 1;
+                        }else if($office->Id == $officeId->OfficeId && $invoice->Origin == 2){
+                            array_push($mobileServicesArray, $officeId->ServiceId);
+                            $sumOfInvoices += 1;
+                            $sumMobileInvoices += 1;
+                            $mobileInvoices += 1;
+                        }         
+                        
+                        $invoiceDetailed[$officeName] = (object)[
+                            'office' => $office->Name,
+                            'mobileInvoices' => $mobileInvoices,
+                            'officeInvoices' => $officeInvoices
+                        ];
+                    }
+                }
+            }
+
+            
+            // Get array count of mobileServiceArray and officeServiceArray
+            $countMobileServices = array_count_values($mobileServicesArray);
+            $countOfficeeServices = array_count_values($officeServicesArray);
+            dd($officeServicesArray, $mobileServicesArray);
+            // Get the Id with max count of both arrays
+            $topMobileServiceId = array_search(max($countMobileServices), $countMobileServices);
+            $topOfficeServiceId = array_search(max($countOfficeeServices), $countOfficeeServices);
+
+            // Get the name of the top services
+            $topMobileServiceName = Service::select('Name')->where('Id', $topMobileServiceId)->first()->Name;
+            $topOfficeServiceName = Service::select('Name')->where('Id', $topOfficeServiceId)->first()->Name;
+
+            $topServices = (object) [
+                'fromMobile' => $topMobileServiceName,
+                'fromOffice' => $topOfficeServiceName
+            ];
+
+            $total = (object)[
+                'totalInvoices' => $sumOfInvoices,
+                'sumMobileInvoices' => $sumMobileInvoices,
+                'sumOfficeInvoices' => $sumOfficeInvoices
+            ];
+            
+            return view('admin.invoicesReport.quarterlyMobileAndOffice')->withInvoices($invoiceDetailed)->withOffices($offices)->withTotal($total)->withTopServices($topServices);
+            // return response()->json(['status' => 'success', 'data' => $invoiceDetailed], 200);
+        } catch (\Exception $ex) {
+            return response()->json(['status' => 'error', 'data' => $ex->getMessage()], 200);
+        }
+    }
 
     public function getInvoiceMonthly()
     {
