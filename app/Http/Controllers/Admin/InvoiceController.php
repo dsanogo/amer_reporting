@@ -19,6 +19,10 @@ class InvoiceController extends Controller
     */
     public function getInvoicesByServiceCategory(Request $request)
     {
+        $date = explode(' - ', $request->daterange);
+        $from = $date[0];
+        $to = $date[1];
+
         $category = ServiceCategory::findOrFail($request->category_id);
         $categories = ServiceCategory::select('Id', 'Name')->get();
         $sumOfTotalFees = 0;
@@ -36,17 +40,21 @@ class InvoiceController extends Controller
 
                 // Get Total Fees for the service
                 foreach ($serviceInvoiceDetails as $serviceDetail) {
-                    $serviceInvoice = Invoice::select('TotalFees')->findOrFail($serviceDetail->InvoiceId);
-                    $serviceTotalFees += $serviceInvoice->TotalFees;
-                    $sumOfTotalFees += $serviceInvoice->TotalFees;
-                    $serviceName = 'service' . $service->Id;
-                    $sumOfInvoices += 1;
+                    $serviceInvoice = Invoice::select('TotalFees')->whereDate('Time','>=', $from)->whereDate('Time', '<=', $to)->where('Id', $serviceDetail->InvoiceId)->first();
                     
-                    $invoiceDetailed['services'][$serviceName] = $service;
-                    $invoiceDetailed['services'][$serviceName]['invoiceCount'] = count($serviceInvoiceDetails);
-                    $invoiceDetailed['services'][$serviceName]['invoicetotalFees'] = $serviceTotalFees;
+                    if($serviceInvoice){
+                        $serviceTotalFees += $serviceInvoice->TotalFees;
+                        $sumOfTotalFees += $serviceInvoice->TotalFees;
+                        $serviceName = 'service' . $service->Id;
+                        $sumOfInvoices += 1;
+                        
+                        $invoiceDetailed['services'][$serviceName] = $service;
+                        $invoiceDetailed['services'][$serviceName]['invoiceCount'] = count($serviceInvoiceDetails);
+                        $invoiceDetailed['services'][$serviceName]['invoicetotalFees'] = $serviceTotalFees;
+                    }                    
                 }
             }
+
             $invoiceDetailed['services'] = $category->services;
             $total = (object)[
                 'totalFees' => $sumOfTotalFees,
@@ -177,19 +185,23 @@ class InvoiceController extends Controller
 
     public function getInvoicesPerMonth()
     {
-        $data['totalFeesPerMonth'] = DB::table('Invoices')->select(DB::raw('SUM(TotalFees) as total_fees'), DB::raw('MONTH(Time) as month'))
+        try {
+            $data['totalFeesPerMonth'] = DB::table('Invoices')->select(DB::raw('SUM(TotalFees) as total_fees'), DB::raw('MONTH(Time) as month'))
                                     ->groupBy(DB::raw('MONTH(TIME)'))->get();
-        $data['totalInvoicesPerMonth'] = DB::table('Invoices')->select(DB::raw('COUNT(Id) as total_invoices'), DB::raw('MONTH(Time) as month'))
-                                    ->groupBy(DB::raw('MONTH(TIME)'))->get();
-        $data['maxInvoices'] = DB::table('Invoices')->select(DB::raw('COUNT(Id) as max_invoices'))->first();
+            $data['totalInvoicesPerMonth'] = DB::table('Invoices')->select(DB::raw('COUNT(Id) as total_invoices'), DB::raw('MONTH(Time) as month'))
+                                        ->groupBy(DB::raw('MONTH(TIME)'))->get();
+            $data['maxInvoices'] = DB::table('Invoices')->select(DB::raw('COUNT(Id) as max_invoices'))->first();
 
-        $data['maxFees'] = DB::table('Invoices')->fromSub(
-                                DB::table('Invoices')->select(DB::raw('SUM(TotalFees) as total_fees'), DB::raw('MONTH(Time) as month'))
+            $data['maxFees'] = DB::table('Invoices')->fromSub(
+                                    DB::table('Invoices')->select(DB::raw('SUM(TotalFees) as total_fees'), DB::raw('MONTH(Time) as month'))
                                     ->groupBy(DB::raw('MONTH(TIME)')), 'TotalFees', function($query) {
                                         $query->select(DB::raw('MAX(TotalFees) as max_fees'));
                                     })->max('total_fees');
         
         return response()->json($data);
+        } catch (\Exception $ex) {
+            return response()->json(['error' => $ex->getMessage()], 200);
+        }
     }
 
 
