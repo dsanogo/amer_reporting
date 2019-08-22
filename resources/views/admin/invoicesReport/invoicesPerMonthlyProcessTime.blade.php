@@ -68,6 +68,9 @@
                     </table>
                 </div>
             @endif
+            <div class='col-md-5 pull-right rtl'>
+            <canvas id="myChart"></canvas>
+            </div>
     </div>
 
 @endsection
@@ -79,7 +82,38 @@
                 opens: 'right'
             }, function(start, end, label) {
                 console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+                
             });
+
+            new Chart(document.getElementById("myChart"), { 
+        "type": "line", 
+        "data": { 
+            "labels": ["January", "February", "March", "April", "May", "June", "July"],
+             "datasets": [{ 
+                 "label": " المتوسط المحدد لزمن المعاملة",
+                  "data": [65, 59, 80, 81, 56, 55, 40], 
+                  "fill": false, 
+                  "borderColor": "#5081bd", 
+                  "lineTension": 0.1 }] },
+                  
+                  
+                  
+                   "options": {xAxes: [{
+                  ticks: {
+                      fontFamily: "Bahij",
+                      fontColor: "#bbc3d0",
+                      fontSize: 14,
+                      stepSize: 1,
+                      beginAtZero: true,
+                      maxRotation: 45,
+                      minRotation: 45
+                  },
+                  barPercentage: 0.6,
+                  
+                  maxBarThickness: 30,
+                  minBarLength: 2
+                 
+              }]} });
         });
     </script>
 @endsection

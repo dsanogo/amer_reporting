@@ -30,6 +30,7 @@ class OfficeController extends Controller
             $offices = $offices = Office::select('Id', 'Name')->get();
             $invoices = Invoice::select('TotalFees', 'MobileRequestId')->get();
             $sumOfInvoices = 0;
+            $maxidserve =[];
             
             foreach ($offices as $key => $office) {
                 $invoiceCount = 0;
