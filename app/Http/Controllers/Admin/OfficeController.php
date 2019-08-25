@@ -58,12 +58,27 @@ class OfficeController extends Controller
                 }
             }
             
+
+            $topOffices = [];
+            $test = (array)$invoiceDetailed;
+
+            foreach ($test as $key => $invoice) {
+
+                if (count($topOffices) < 5 && ($key < count($test)-1)) {
+                    if($invoice->count > $test[$key+1]->count || $invoice->count == $test[$key+1]->count){
+                        array_push($topOffices, $invoice);
+                    }
+                }
+            };
+           
+
+            
             $total = (object)[
                 'totalInvoices' => $sumOfInvoices,
                 'totalEmp' => Employee::count()
             ];
 
-            return view('admin.offices.detailedOffices')->withData($data)->withInvoices($invoiceDetailed)->withTotal($total);
+            return view('admin.offices.detailedOffices')->withData($data)->withInvoices($invoiceDetailed)->withTotal($total)->withtopOffices($topOffices);
         } catch (\Exception $ex) {
             return response()->json(['error' => $ex->getMessage()], 200);
         }

@@ -63,7 +63,7 @@
                             <tr>
                                 <th>المكتب</th>
                                 <th>عدد العاملين</th>
-                                <th>عدد المعاملات</th>
+                                <th>عدد المعاملات</th> 
                             </tr>
                         </thead>
                         <tbody>
@@ -97,7 +97,15 @@
 
 @section('script')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.6/Chart.js"></script>
+
     <script>
+     var top_office_name = new Array();
+     var top_office_count= new Array();
+            @foreach ($topOffices as $key => $office)
+                top_office_name.push('{{$office->office}}');
+                top_office_count.push('{{$office->count}}');
+            @endforeach
+    
         $(function() {
             $('input[name="daterange"]').daterangepicker({
                 opens: 'right'
@@ -109,11 +117,17 @@
                 var myChart = new Chart(ctx, {
                 type: 'bar',
                 data: {
-                    labels: ["office1", "office2", "office3", "office4", "office5"],
+                    labels:top_office_name,
                     datasets: [{
                     label: 'عدد المعاملات بامليون',
-                    data: [12, 19, 3, 5, 2,],
-                    backgroundColor: '#4e81bd',
+                    data: top_office_count,
+                    backgroundColor: [
+                        "#356eb3",
+                        "#bb3835",
+                        "#8db241",
+                        "#73529c",
+                        "#34aacb"
+                    ],
                     borderWidth: 1
                     }]
                 },
@@ -123,7 +137,7 @@
                     xAxes: [{
                         ticks: {
                             fontFamily: "Bahij",
-                            fontColor: "#bbc3d0",
+                            fontColor: "#356eb3",
                             fontSize: 14,
                             stepSize: 1,
                             beginAtZero: true,
@@ -140,10 +154,10 @@
                       },
                       ticks: {
                           beginAtZero: true,
-                          steps: 10,
-                          stepValue: 10,
-                          max: 50,
-                           stepSize: 10,
+                          steps: 2,
+                          stepValue: 2,
+                          max: 20,
+                           stepSize: 2,
                            fontColor: "rgba(51, 51, 51, 1)",
                         //    callback: function(label, index, labels) {
                         //        if(maxFees < 100){
@@ -175,7 +189,7 @@
                   
                   labels: {
                       // This more specific font property overrides the global property
-                      fontColor: 'rgb(46, 148, 94)',
+                      fontColor: '#356eb3',
                       fontFamily: "Bahij",
                       radius:5
                   }
@@ -188,7 +202,7 @@
             var myChart = new Chart(ctx, {
             type: 'doughnut',
             data: {
-                labels: ["office1", "office2", "office3", "office4", "office5"],
+                labels: top_office_name,
                 datasets: [{
                 backgroundColor: [
                     "#356eb3",
@@ -197,7 +211,7 @@
                     "#73529c",
                     "#34aacb"
                 ],
-                data: [ 19, 3, 17, 28, 24]
+                data: top_office_count
                 }]
             }
             });     

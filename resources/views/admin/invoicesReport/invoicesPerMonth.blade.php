@@ -97,17 +97,20 @@
                 console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
             });
         });
-
-
-
-
+        var month = new Array();
+        var invoices= new Array();
+        @foreach ($invoices as $invoice)
+              month.push('{{ $invoice->month . ' ' . $invoice->year }}');
+               invoices.push('{{$invoice->total_invoices}}');
+        @endforeach
+     
         new Chart(document.getElementById("myChart"), { 
         "type": "line", 
         "data": { 
-            "labels": ["January", "February", "March", "April", "May", "June", "July"],
+            "labels": month,
              "datasets": [{ 
                  "label": " المتوسط المحدد لزمن المعاملة",
-                  "data": [65, 59, 80, 81, 56, 55, 40], 
+                  "data": invoices, 
                   "fill": false, 
                   "borderColor": "#5081bd", 
                   "lineTension": 0.1 }] },
