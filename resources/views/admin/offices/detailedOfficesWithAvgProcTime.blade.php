@@ -59,7 +59,7 @@
                         </thead>
                         <tbody>
                             @foreach ($data['offices'] as $key => $office)
-                            <tr>
+                            <tr> 
                                 <td>{{ $office->Name }}</td>
                                 <td>{{ count($office->employees)}}</td>
                                 <td>{{ $invoices[$key]->processTime }}</td>   
@@ -88,14 +88,20 @@
                 console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
             });
         });
+           var top_office_name = new Array();
+     var top_procees_time= new Array();
+            @foreach ($topOffices as $key => $office)
+                top_office_name.push('{{$office->office}}');
+                top_procees_time.push('{{$office->processTime}}');
+            @endforeach
         var ctx = document.getElementById('myChart');
                 var myChart = new Chart(ctx, {
                 type: 'bar',
                 data: {
-                    labels: ["office1", "office2", "office3", "office4", "office5"],
+                    labels: top_office_name,
                     datasets: [{
-                    label: 'عدد المعاملات بامليون',
-                    data: [12, 19, 3, 5, 2,],
+                    label: 'المتوسط المحدد لزمن المعاملة',
+                    data: top_procees_time,
                     backgroundColor: '#4e81bd',
                     borderWidth: 1
                     }]
@@ -106,7 +112,7 @@
                     xAxes: [{
                         ticks: {
                             fontFamily: "Bahij",
-                            fontColor: "#bbc3d0",
+                            fontColor: "#4e81bd",
                             fontSize: 14,
                             stepSize: 1,
                             beginAtZero: true,
@@ -141,7 +147,7 @@
                   }],xAxes: [{
                   ticks: {
                       fontFamily: "Bahij",
-                      fontColor: "#bbc3d0",
+                      fontColor: "#4e81bd",
                       fontSize: 14,
                       stepSize: 1,
                       beginAtZero: true,
@@ -158,7 +164,7 @@
                   
                   labels: {
                       // This more specific font property overrides the global property
-                      fontColor: 'rgb(46, 148, 94)',
+                      fontColor: '#4e81bd',
                       fontFamily: "Bahij",
                       radius:5
                   }

@@ -78,6 +78,7 @@
 @section('script')
     <script>
         $(function() {
+
             $('input[name="daterange"]').daterangepicker({
                 opens: 'right'
             }, function(start, end, label) {
@@ -85,13 +86,20 @@
                 
             });
 
+            var month = new Array();
+            var process_time= new Array();
+            @foreach ($invoices as $invoice)
+                month.push('{{ $invoice->month . ' ' . $invoice->year }}');
+                process_time.push('{{$invoice->process_time}}');
+            @endforeach
+     
             new Chart(document.getElementById("myChart"), { 
         "type": "line", 
         "data": { 
-            "labels": ["January", "February", "March", "April", "May", "June", "July"],
+            "labels": month,
              "datasets": [{ 
                  "label": " المتوسط المحدد لزمن المعاملة",
-                  "data": [65, 59, 80, 81, 56, 55, 40], 
+                  "data": process_time, 
                   "fill": false, 
                   "borderColor": "#5081bd", 
                   "lineTension": 0.1 }] },

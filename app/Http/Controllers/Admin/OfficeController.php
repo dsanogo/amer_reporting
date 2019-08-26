@@ -120,8 +120,19 @@ class OfficeController extends Controller
                     }
                 }
             }
+            $topOffices = [];
+            $test = (array)$invoiceDetailed;
+
+            foreach ($test as $key => $invoice) {
+
+                if (count($topOffices) < 5 && ($key < count($test)-1)) {
+                    if($invoice->countInvoice > $test[$key+1]->countInvoice || $invoice->countInvoice == $test[$key+1]->countInvoice){
+                        array_push($topOffices, $invoice);
+                    }
+                }
+            };
         
-            return view('admin.offices.detailedOfficesWithAvgProcTime')->withData($data)->withInvoices($invoiceDetailed);
+            return view('admin.offices.detailedOfficesWithAvgProcTime')->withData($data)->withInvoices($invoiceDetailed)->withtopOffices($topOffices);
         } catch (\Exception $ex) {
             return response()->json(['error' => $ex->getMessage()], 200);
         }
