@@ -49,16 +49,24 @@
               </li>
           
               <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">احصائيات وقياس الاداء<span class="caret"></span></a>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">احصائيات وقياس الاداء<span class="caret"></span></a>
+                <ul class="dropdown-menu  fixaa text-right">
+                    <li><a href="{{route('admin.offices.details')}}">احصائيات مقارنة انتاجية المكاتب</a></li>
+                    <li><a href="{{route('admin.monthlyInvoices')}}">التطور الزمني لانتاجية المكاتب</a></li>
+                    <li><a href="{{route('admin.offices.ProcessTimeDetails')}}">قياس اداء المكاتب</a></li>
+                    <li><a href="{{route('admin.monthlyInvoicesProcessTime')}}">التطور الزمني لاداء الكاتب</a></li>
+                    
+                </ul>
+                </li>
+
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">تقاير الذكاء الاصطناعي<span class="caret"></span></a>
                     <ul class="dropdown-menu  fixaa text-right">
-                      <li><a href="{{route('admin.offices.details')}}">احصائيات مقارنة انتاجية المكاتب</a></li>
-                      <li><a href="{{route('admin.monthlyInvoices')}}">التطور الزمني لانتاجية المكاتب</a></li>
-                      <li><a href="{{route('admin.offices.ProcessTimeDetails')}}">قياس اداء المكاتب</a></li>
-                      <li><a href="{{route('admin.monthlyInvoicesProcessTime')}}">التطور الزمني لاداء الكاتب</a></li>
-                     
+                        <li><a href="{{route('admin.offices.details')}}">ما هى المكاتب التى يسوء أداؤها وتستدعى التدخل؟</a></li>
+                        <li><a href="{{route('admin.getMobileAndOfficeInvoicesQuarterly')}}">هل اصدار المعاملات بالمكاتب مفضل للمتعامل أم بنظام المحمول؟</a></li>
+                        <li><a href="{{route('admin.offices.ProcessTimeDetails')}}">ما هى مواسم زيادة وقلة أعداد المعاملات؟</a></li>
                     </ul>
-                  </li>
-            <li><a href="">تقاير الذكاء الاصطناعي</a></li>
+                </li>
         </ul>
     </div>
 </div>
