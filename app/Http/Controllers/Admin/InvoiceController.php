@@ -268,7 +268,7 @@ class InvoiceController extends Controller
             // Get array count of mobileServiceArray and officeServiceArray
             $countMobileServices = array_count_values($mobileServicesArray);
             $countOfficeeServices = array_count_values($officeServicesArray);
-            dd($officeServicesArray, $mobileServicesArray);
+            // dd($officeServicesArray, $mobileServicesArray);
             // Get the Id with max count of both arrays
             $topMobileServiceId = array_search(max($countMobileServices), $countMobileServices);
             $topOfficeServiceId = array_search(max($countOfficeeServices), $countOfficeeServices);

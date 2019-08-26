@@ -640,7 +640,7 @@ color: white;
         direction: rtl;
         padding: 11px 20px 5px 20px;
         color: white;
-        font-size: 11px;
+        font-size: 10px;
         width: 65%;
     }
     .left-sied {
@@ -700,8 +700,26 @@ color: white;
     }
     .nav-aamer-p2 {
         width: 100%;
-        height: 170px;
+        height: auto;
         background-color: #393777;
+        text-align: center;
+    }
+    .dropdown-menu>li>a{
+        color: #fff;
+        padding: 0;
+        margin: 10px 0;
+        font-size: 12px;
+    }
+    .open>.dropdown-menu {
+        display: block;
+        display: contents;
+    }
+    .dropdown-backdrop{
+        display: none
+    }
+    li {
+        list-style-type: none;
+        margin: 6px;
         text-align: center;
     }
     .navbar-toggle {
