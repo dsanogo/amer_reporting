@@ -51,10 +51,9 @@ label{
                     </div>
                 </div>
             </form>
-          
                 <div class="col-md-12 text-right text-qu">
-                    <p>{{$topServices->fromMobile}} : أكثر نوع معاملة تم طلبها بنظام المحمول</p>
-                    <p>{{$topServices->fromOffice}} : أكثر نوع معاملة تم طلبها من المكتب مباشرة</p>
+                    <p>{{$topServices->fromMobile !== '' ? $topServices->fromMobile : "No Service for this period"}} : أكثر نوع معاملة تم طلبها بنظام المحمول</p>
+                    <p>{{$topServices->fromOffice !== '' ? $topServices->fromOffice : "No Service for this period"}} : أكثر نوع معاملة تم طلبها من المكتب مباشرة</p>
                 </div>
          
             @if (isset($invoices))

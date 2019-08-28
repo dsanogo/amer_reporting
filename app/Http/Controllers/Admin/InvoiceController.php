@@ -268,14 +268,33 @@ class InvoiceController extends Controller
             // Get array count of mobileServiceArray and officeServiceArray
             $countMobileServices = array_count_values($mobileServicesArray);
             $countOfficeeServices = array_count_values($officeServicesArray);
-            dd($officeServicesArray, $mobileServicesArray);
+
             // Get the Id with max count of both arrays
-            $topMobileServiceId = array_search(max($countMobileServices), $countMobileServices);
-            $topOfficeServiceId = array_search(max($countOfficeeServices), $countOfficeeServices);
+            if(count($countMobileServices)){
+                $topMobileServiceId = array_search(max($countMobileServices), $countMobileServices);
+            }else {
+                $topMobileServiceId = '';
+            }
+            
+            if(count($countOfficeeServices)){
+                $topOfficeServiceId = array_search(max($countOfficeeServices), $countOfficeeServices);
+            }else {
+                $topOfficeServiceId = '';
+            }
 
             // Get the name of the top services
-            $topMobileServiceName = Service::select('Name')->where('Id', $topMobileServiceId)->first()->Name;
-            $topOfficeServiceName = Service::select('Name')->where('Id', $topOfficeServiceId)->first()->Name;
+            if($topMobileServiceId !== ''){
+                $topMobileServiceName = Service::select('Name')->where('Id', $topMobileServiceId)->first()->Name;
+            }else {
+                $topMobileServiceName = '';
+            }
+
+            if($topOfficeServiceId !== ''){
+                $topOfficeServiceName = Service::select('Name')->where('Id', $topOfficeServiceId)->first()->Name;
+            }else {
+                $topOfficeServiceName = '';
+            }
+            
 
             $topServices = (object) [
                 'fromMobile' => $topMobileServiceName,
