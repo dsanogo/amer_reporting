@@ -11,4 +11,9 @@ class Office extends Model
     *
     */
     protected $table = 'Offices';
+
+    public function employees()
+    {
+        return $this->hasMany('App\Models\Employee', 'OfficeId', 'Id');
+    }
 }

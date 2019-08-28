@@ -65,12 +65,7 @@
                             @endforeach
                             
                         </tbody>
-                    
-                        <tr id="trfoo">
-                            <th class="end">Total</th>
-                            <th class="end">{{ $total->sumMobileInvoices }}</th>
-                            <th class="end">{{ $total->sumOfficeInvoices }}</th>
-                        </tr>
+               
                     </table>
                 </div>
             @endif

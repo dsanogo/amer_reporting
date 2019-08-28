@@ -1,7 +1,15 @@
 @extends('admin.inc.main')
 @section('style')
     <style>
-
+.tabel {
+    padding-top: 15px;
+}
+.text-qu{
+    PADDING-RIGHT: 49PX;FONT-SIZE: 19PX;+
+}
+label{
+    background: transparent!important;
+}
         @media screen and (min-width: 320px) and (max-width: 479px)
         { 
             .amaerf2 {
@@ -33,7 +41,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="inputPassword"  class="col-md-5 col-sm-4 control-label label-tabel">فتره المعاملات</label>
-                                <input type="text" id="daterange" name="daterange" value="{{isset($_GET['daterange']) ? $_GET['daterange'] : ''}}" class="form-control" id="inputPassword" placeholder="التاريخ">
+                                <input disabled type="text" id="daterange" name="daterange" value="{{isset($_GET['daterange']) ? $_GET['daterange'] : ''}}" class="form-control" id="inputPassword" placeholder="التاريخ">
                             </div>
                         </div>
                     </div>
@@ -43,7 +51,12 @@
                     </div>
                 </div>
             </form>
-
+          
+                <div class="col-md-12 text-right text-qu">
+                    <p>{{$topServices->fromMobile}} : أكثر نوع معاملة تم طلبها بنظام المحمول</p>
+                    <p>{{$topServices->fromOffice}} : أكثر نوع معاملة تم طلبها من المكتب مباشرة</p>
+                </div>
+         
             @if (isset($invoices))
 
                 <div class="col-md-12 rtl tabel" >

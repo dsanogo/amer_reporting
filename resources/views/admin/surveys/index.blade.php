@@ -25,7 +25,7 @@
                             <div class="form-group">
                                 <label for="inputPassword" class="col-md-5 col-sm-4 control-label label-tabel">الجنسية</label>
                                 {{-- <input type="password" class="form-control" id="inputPassword" placeholder="مصر">\ --}}
-                                <select name="office_id" id="" class="form-control" disabled>
+                                <select name="category_id" id="" class="form-control" disabled>
                                     <option value=""></option>
                                 </select>                            
                             </div>
@@ -44,33 +44,41 @@
                 </div>
             </form>
 
-            @if (isset($invoices))
-
+            
+            @if (isset($surveys))
                 <div class="col-md-12 rtl tabel" >
                     <table class="table table-striped">
                         <thead class="waleed">
                             <tr>
-                                <th>Office Name</th>
-                                <th>Number of invoices From Mobile</th>
-                                <th>Number of invoices From Office</th>
+                                <th>Survey Subject</th>
+                                <th>Number of surveys</th>
+                                <th>Excellent</th>
+                                <th>Very Good</th>
+                                <th>Medium</th>
+                                <th>Bad</th>
+                                <th>Very Bad</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($invoices as $key => $invoice)
-                            <tr>
-                                <td>{{ $invoice->office}}</td>
-                                <td>{{ $invoice->mobileInvoices}}</td>
-                                <td>{{ $invoice->officeInvoices}}</td>
-                            </tr>
+                            @foreach ($surveys['surveys'] as $key => $survey)
+                                <tr>
+                                    <td>{{ $survey['description'] }}</td>
+                                    <td>{{ $survey['numberOfSurveys'] }}</td>
+                                    <td>{{ $survey['excellents'] }}%</td>
+                                    <td>{{ $survey['veryGoods'] }}%</td>
+                                    <td>{{ $survey['mediums'] }}%</td>
+                                    <td>{{ $survey['bads'] }}%</td>
+                                    <td>{{ $survey['veryBads'] }}%</td>
+                                </tr>
                             @endforeach
                             
                         </tbody>
                     
-                        <tr id="trfoo">
+                        {{-- <tr id="trfoo">
                             <th class="end">Total</th>
-                            <th class="end">{{ $total->sumMobileInvoices }}</th>
-                            <th class="end">{{ $total->sumOfficeInvoices }}</th>
-                        </tr>
+                            <th class="end">{{ $total->totalInvoices }}</th>
+                            <th class="end">{{ $total->totalFees }}</th>
+                        </tr> --}}
                     </table>
                 </div>
             @endif

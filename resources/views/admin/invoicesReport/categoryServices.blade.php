@@ -17,78 +17,63 @@
 @section('content')
     <body>
         <!-- section one-->
-        
         <div class="seciton-tabel">
-            <div class="row">
-            <div class="col-md-8 col-sm-12 col-xs-12 tabel-input rtl pull-right">
-                <div class="col-md-6">
-                   
+            <form action="{{route('admin.getInvoicesByCategory')}}" method="get">
+                <div class="col-md-12">
+                    <div class="col-md-8 col-sm-12 col-xs-12 tabel-input rtl pull-right">
+                        <div class="col-md-6">
                             <div class="form-group">
-                            <input type="password" class="form-control" id="inputPassword" placeholder="مصر">
-                       
-                        <label for="inputPassword" class="col-md-5 col-sm-4 control-label label-tabel">الجنسية</label>
+                                <label for="inputPassword" class="col-md-5 col-sm-4 control-label label-tabel">الجنسية</label>
+                                {{-- <input type="password" class="form-control" id="inputPassword" placeholder="مصر">\ --}}
+                                <select name="category_id" id="" class="form-control">
+                                    @foreach ($categories as $category)
+                                        <option value="{{$category->Id}}" {{isset($_GET['category_id']) && $_GET['category_id']==$category->Id ? 'selected' : ''}}>{{ $category->Name}}</option>    
+                                    @endforeach
+                                </select>                            
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="inputPassword"  class="col-md-5 col-sm-4 control-label label-tabel">فتره المعاملات</label>
+                                <input type="text" id="daterange" name="daterange" value="{{isset($_GET['daterange']) ? $_GET['daterange'] : ''}}" class="form-control" id="inputPassword" placeholder="التاريخ">
+                            </div>
+                        </div>
                     </div>
-                   
-                   
-                </div>
-                <div class="col-md-6">
-                  
-                   
-                                <div class="form-group">
-                            <input type="text" id="daterange" name="daterange" class="form-control" id="inputPassword" placeholder="التاريخ">
-                        
-                        <label for="inputPassword"  class="col-md-5 col-sm-4 control-label label-tabel">فتره المعاملات</label>
-                
+                    <div class="col-md-4 tabel-button col-sm-12 col-xs-12">
+                        <button class="col-md-5 col-sm-6 col-xs-6 m-r-0 btn p-d-0 colorbtn pull-right" type="submit">جلب البيانات </button>
+                        <button class="col-md-5 col-sm-6 col-xs-6 m-r-0 btn p-d-0 pull-right">ارسال النتائج </button>
                     </div>
-                 
                 </div>
-            </div>
-            <div class="col-md-4 tabel-button col-sm-12 col-xs-12">
-                <button class="col-md-5 col-sm-6 col-xs-6 m-r-0 btn p-d-0 colorbtn pull-right">جلب البيانات </button>
-                <button class="col-md-5 col-sm-6 col-xs-6 m-r-0 btn p-d-0 pull-right">ارسال النتائج </button>
-
-            </div>
-        </div>
-            <div class="col-md-12 rtl tabel" >
-                <table class="table table-striped">
-                    <thead class="waleed">
-                        <tr>
-                         
-                            <th>First Name</th>
-                            <th>Last Name</th>
-                            <th>Username</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                           
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td>@mdo</td>
-                        </tr>
-                        <tr>
-                          
-                            <td>Jacob</td>
-                            <td>Thornton</td>
-                            <td>@fat</td>
-                        </tr>
-                        <tr>
-                        
-                            <td>Larry</td>
-                            <td>the Bird</td>
-                            <td>@twitter</td>
-                        </tr>
-                    </tbody>
-            
-                            <tr id="trfoo">
-                             
-                                <th class="end">First Name</th>
-                                <th class="end">Last Name</th>
-                                <th class="end">Username</th>
+            </form>
+            @if (isset($invoices))
+                <div class="col-md-12 rtl tabel" >
+                    <table class="table table-striped">
+                        <thead class="waleed">
+                            <tr>
+                                <th>Service Name</th>
+                                <th>Number of invoices</th>
+                                <th>Total Fees</th>
                             </tr>
-             
-                </table>
-            </div>
+                        </thead>
+                        <tbody>
+                            @foreach ($invoices['services'] as $service)
+                            <tr>
+                                <td>{{ $service->Name}}</td>
+                                <td>{{ isset($service->invoiceCount) ? $service->invoiceCount : 0 }}</td>
+                                <td>{{ isset($service->invoicetotalFees) ? $service->invoicetotalFees : 0 }}</td>
+                            </tr>
+                            @endforeach
+                            
+                        </tbody>
+                    
+                        <tr id="trfoo">
+                            <th class="end">Total</th>
+                            <th class="end">{{ $total->totalInvoices }}</th>
+                            <th class="end">{{ $total->totalFees }}</th>
+                        </tr>
+                    </table>
+                </div>
+            @endif
     </div>
 
 @endsection
