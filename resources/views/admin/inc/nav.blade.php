@@ -6,17 +6,17 @@
     <div class="col-md-2 col-sm-6 col-xs-6 pull-right">
         <p class="amaerf2">اللوحه الرئيسية</p>
     </div>
-    <div class="col-md-3 col-sm-4 col-xs-8 left-sied">
-        <div class="col-md-5 col-sm-6 col-xs-6 dropdown p-l-30r" style=""> <a href="#" class="dropdown-toggle"
+    <div class="col-md-4 col-sm-4 col-xs-8 left-sied">
+        <div class="col-lg-5 col-md-7 col-sm-6 col-xs-6 dropdown p-l-30r text-center" style=""> <a href="#" class="dropdown-toggle"
                 data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span
-                    class="caret"></span>احمد حسن<img class="person hidden-xs" src="{{asset('public/assets/img/person-placeholder.png')}}" alt=""> </a>
+                    class="caret"></span>احمد حسن<img class="person hidden-sm hidden-xs" src="{{asset('public/assets/img/person-placeholder.png')}}" alt=""> </a>
             <ul class="dropdown-menu ">
                 <li><a href="#">Action</a></li>
 
             </ul>
         </div>
 
-        <div class="dropdown col-md-6 col-sm-6 col-xs-6">
+        <div class="dropdown col-lg-6 col-md-5 col-sm-6 col-xs-6">
             <a class="sptop" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                 aria-expanded="false"><span class="caret"></span>العربيه </a>
             <ul class="dropdown-menu ">

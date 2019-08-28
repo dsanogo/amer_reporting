@@ -644,6 +644,10 @@ color: white;
     .loc-s {
         font-size: 12px;
     }
+    .sptop {
+        position: relative;
+        top: 0px;
+    }
     .left-sied a {
         font-size: 14px;
         color: white;
