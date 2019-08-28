@@ -379,4 +379,154 @@ class InvoiceController extends Controller
 
         return $mobileRequestIds;
     }
+
+    public function getInvoiceQuarterlyProcessTime()
+    {
+        try {
+
+            $now = now()->startOfMonth();
+            $quarterAhead = now()->addMonths(-3)->firstOfMonth();
+
+            $invoiceDetailed = [];
+            $offices = $offices = Office::select('Id', 'Name')->get();
+
+            // $invoices = DB::select("SELECT MobileRequestId, 
+            //                                 COUNT(Id) as total_invoices, 
+            //                                 MONTH(Time) as m, 
+            //                                 DATENAME(mm, Time) as month, 
+            //                                 SUM(ProcessingTime) as total_process_time,
+            //                                 AVG(ProcessingTime) as avg_process_time,
+            //                                 YEAR(Time) as year
+            //                         FROM Invoices
+            //                         WHERE 'Time' >= " .$quarterAhead . " AND Time <= ".$now."
+            //                         GROUP BY MONTH(Time), YEAR(Time)
+            //                         ");
+
+            // return $invoices;
+            $invoices = Invoice::selectRaw('
+                COUNT(Id) as total_invoices,
+                MONTH(Time) as m, 
+                DATENAME(mm, Time) as month,
+                SUM(ProcessingTime) as total_process_time,
+                AVG(ProcessingTime) as process_time,
+                YEAR(Time) as year')
+                ->whereDate('Time', '>=', $quarterAhead)->whereDate('Time', '<', $now)
+                ->groupBy(DB::raw('MONTH(Time)'), 
+                            DB::raw("DATENAME(mm, Time)"),
+                            DB::raw('YEAR(Time)'))->get();
+
+            return $invoices;
+            $officesArray = [];
+
+            foreach ($offices as $office) {
+                $mobileInvoices = 0;
+                $officeInvoices = 0;
+                
+                foreach ($invoices as $invoice) {
+                    
+                    // Get the office Id of the Invoice
+                    $officeId = MobileRequest::select('OfficeId')->where('Id', $invoice->MobileRequestId)->first();
+
+                    dd($officeId);
+
+                    if($officeId == null) {
+                        $user = User::select('EmployeeId')->findOrFail($invoice->UserId);
+                        $emp = Employee::select('OfficeId')->findOrFail($user->EmployeeId);
+                        $officeId = OfficeService::select('OfficeId', 'ServiceId')->where('OfficeId', $emp->OfficeId)->first();
+                    }
+
+                    
+                    if($officeId){
+                        $officeName = 'office' . $office->Id;
+
+                        if($office->Id == $officeId->OfficeId && $invoice->Origin == 1){
+                            
+                        }     
+                        
+                        $invoiceDetailed[$officeName] = (object)[
+                            'office' => $office->Name,
+                            'mobileInvoices' => $mobileInvoices,
+                            'officeInvoices' => $officeInvoices
+                        ];
+                    }
+                }
+            }
+
+            
+            // Get array count of mobileServiceArray and officeServiceArray
+            $countMobileServices = array_count_values($mobileServicesArray);
+            $countOfficeeServices = array_count_values($officeServicesArray);
+
+            // Get the Id with max count of both arrays
+            if(count($countMobileServices)){
+                $topMobileServiceId = array_search(max($countMobileServices), $countMobileServices);
+            }else {
+                $topMobileServiceId = '';
+            }
+            
+            if(count($countOfficeeServices)){
+                $topOfficeServiceId = array_search(max($countOfficeeServices), $countOfficeeServices);
+            }else {
+                $topOfficeServiceId = '';
+            }
+
+            // Get the name of the top services
+            if($topMobileServiceId !== ''){
+                $topMobileServiceName = Service::select('Name')->where('Id', $topMobileServiceId)->first()->Name;
+            }else {
+                $topMobileServiceName = '';
+            }
+
+            if($topOfficeServiceId !== ''){
+                $topOfficeServiceName = Service::select('Name')->where('Id', $topOfficeServiceId)->first()->Name;
+            }else {
+                $topOfficeServiceName = '';
+            }
+            
+
+            $topServices = (object) [
+                'fromMobile' => $topMobileServiceName,
+                'fromOffice' => $topOfficeServiceName
+            ];
+
+            $total = (object)[
+                'totalInvoices' => $sumOfInvoices,
+                'sumMobileInvoices' => $sumMobileInvoices,
+                'sumOfficeInvoices' => $sumOfficeInvoices
+            ];
+            
+            return view('admin.invoicesReport.quarterlyMobileAndOffice')->withInvoices($invoiceDetailed)->withOffices($offices)->withTotal($total)->withTopServices($topServices);
+            // return response()->json(['status' => 'success', 'data' => $invoiceDetailed], 200);
+        } catch (\Exception $ex) {
+            return response()->json(['status' => 'error', 'data' => $ex->getMessage()], 200);
+        }
+    }
+
+    public function getLastThreeYearsInvoices()
+    {
+        try {
+            $now = now()->startOfMonth();
+            $lastThreeYears = now()->addYear(-2)->firstOfYear();
+
+            $invoices = Invoice::selectRaw('
+                    count(Id) as total_invoices, MONTH(Time) as mth, DATENAME(mm, Time) as month, YEAR(Time) as year
+                ')->whereDate('Time', '>=', $lastThreeYears)->whereDate('Time', '<', $now)
+                ->groupBy(DB::raw('MONTH(Time)'), DB::raw('YEAR(Time)'), DB::raw('DATENAME(mm, Time)'))
+                ->get();
+
+            $years  = [];
+
+            foreach ($invoices as $key => $invoice) {
+
+                if(!in_array($invoice->year, $years)){
+                    array_push($years, $invoice->year);
+                }
+            }
+
+            return view('admin.invoicesReport.lastThreeYearsInvoices')->withYears($years)->withInvoices($invoices);
+
+        } catch (\Exception $ex) {
+            return response()->json(['status' => 'error', 'message' => $ex->getMessage()], 200);
+        }
+    }
 }
