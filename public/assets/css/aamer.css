@@ -15,7 +15,21 @@ tr>td{
     
   
     }
-   
+   .person{
+    width: 40px;
+    margin-left: 5px;
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+    position: relative;
+    top: -2px;
+   }
+   .sptop{
+    position: relative;
+    top: 6px;
+   }
     .text-right{
         text-align: right !important;
     }
@@ -352,15 +366,15 @@ color: white;
     display: inline-block!important;
 }
 .receipt {
-    font-size: 75px !important;
-    /* padding-left: 10px; */
-    padding-right: 15px!important;
+    font-size: 80px !important;
+    padding-left: 4px;
+    padding-right: 11px!important;
     color: #2e9658!important;
 }
-.wallet{
-    font-size: 75px !important;
-    /* padding-left: 10px; */
-    padding-right: 15px!important;
+.wallet {
+    font-size: 80px !important;
+    padding-left: 2px;
+    padding-right: 12px!important;
     color: #2e5bff!important;
 }
 .color2{
@@ -704,15 +718,21 @@ color: white;
         background-color: #393777;
         text-align: center;
     }
-    .dropdown-menu>li>a{
-        color: #fff;
+    .dropdown-menu>li>a {
+        color: #251e54;
         padding: 0;
         margin: 10px 0;
         font-size: 12px;
     }
-    .open>.dropdown-menu {
+    .open>.dropdown-menusa{
         display: block;
         display: contents;
+    }
+    .dropdown-menusa>li>a {
+        color: #ffffff;
+        padding: 0;
+        margin: 10px 0;
+        font-size: 12px;
     }
     .dropdown-backdrop{
         display: none
@@ -816,10 +836,56 @@ color: white;
         font-size: 13px;
         margin: 0;
     }
+    .sptop {
+        position: relative;
+        top: 0px;
+    }
+    .person {
+        width: 13px;
+        margin-left: 5px;
+        border-radius: 50%;
+        -webkit-border-radius: 50%;
+        -moz-border-radius: 50%;
+        -ms-border-radius: 50%;
+        -o-border-radius: 50%;
+        position: relative;
+        top: -2px;
+    }
+    .map-amaer-s1 {
+    height: auto;
+}
 }
 @media only screen and (max-width : 320px) {
+    .map-amaer-s1 {
+        height: auto;
+    }
+    .open>.dropdown-menusa{
+        display: block;
+        display: contents;
+    }
+    .dropdown-menusa>li>a {
+        color: #ffffff;
+        padding: 0;
+        margin: 10px 0;
+        font-size: 9px;
+    }
+    .person {
+        width: 13px;
+        margin-left: 5px;
+        border-radius: 50%;
+        -webkit-border-radius: 50%;
+        -moz-border-radius: 50%;
+        -ms-border-radius: 50%;
+        -o-border-radius: 50%;
+        position: relative;
+        top: -2px;
+    }
+
     /* Styles */
-    
+    .sptop {
+        position: relative;
+        top: 0px;
+    }
     .amaerf2 {
         font-size: 17px;
         color: white;
