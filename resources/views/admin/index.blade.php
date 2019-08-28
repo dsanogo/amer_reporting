@@ -213,7 +213,7 @@
                 invoiceMonths.push(data.month);
                 invoiceCounts.push(data.total_invoices);
             });
-
+            console.log(maxInvoices)
         var ctx = document.getElementById('myChart').getContext('2d');
       
       var chart = new Chart(ctx, {
@@ -275,7 +275,8 @@
           // Configuration options go here
           options: {
               scales: {
-                  yAxes: [{
+                  yAxes: [
+                      {
                     id: 'FeesAmount',
                       stacked: true,
                       position: 'right',
@@ -312,16 +313,9 @@
                         steps: 10,
                         stepValue: 10,
                         max: maxInvoices + 10,
-                        stepSize: 2,
+                        stepSize: 10,
                         fontColor: "#2e9658",
-                        callback: function(label, index, labels) {
-                               if(maxInvoices < 100){
-                                    return label;
-                               }else if(maxInvoices > 1000) {
-                                    return label/1000+'k';
-                               }
-                                
-                            }
+                       
                       },
                           
                   }],
@@ -336,7 +330,7 @@
                       maxRotation: 45,
                       minRotation: 45
                   },
-                  barPercentage: 0.8,
+                  barPercentage: 0.6,
                   
                   maxBarThickness: 30,
                   minBarLength: 2

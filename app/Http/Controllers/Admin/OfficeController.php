@@ -30,6 +30,7 @@ class OfficeController extends Controller
             $offices = $offices = Office::select('Id', 'Name')->get();
             $invoices = Invoice::select('TotalFees', 'MobileRequestId')->get();
             $sumOfInvoices = 0;
+            $maxidserve =[];
             
             foreach ($offices as $key => $office) {
                 $invoiceCount = 0;
@@ -57,12 +58,27 @@ class OfficeController extends Controller
                 }
             }
             
+
+            $topOffices = [];
+            $test = (array)$invoiceDetailed;
+
+            foreach ($test as $key => $invoice) {
+
+                if (count($topOffices) < 5 && ($key < count($test)-1)) {
+                    if($invoice->count > $test[$key+1]->count || $invoice->count == $test[$key+1]->count){
+                        array_push($topOffices, $invoice);
+                    }
+                }
+            };
+           
+
+            
             $total = (object)[
                 'totalInvoices' => $sumOfInvoices,
                 'totalEmp' => Employee::count()
             ];
 
-            return view('admin.offices.detailedOffices')->withData($data)->withInvoices($invoiceDetailed)->withTotal($total);
+            return view('admin.offices.detailedOffices')->withData($data)->withInvoices($invoiceDetailed)->withTotal($total)->withtopOffices($topOffices);
         } catch (\Exception $ex) {
             return response()->json(['error' => $ex->getMessage()], 200);
         }
@@ -104,8 +120,19 @@ class OfficeController extends Controller
                     }
                 }
             }
+            $topOffices = [];
+            $test = (array)$invoiceDetailed;
+
+            foreach ($test as $key => $invoice) {
+
+                if (count($topOffices) < 5 && ($key < count($test)-1)) {
+                    if($invoice->countInvoice > $test[$key+1]->countInvoice || $invoice->countInvoice == $test[$key+1]->countInvoice){
+                        array_push($topOffices, $invoice);
+                    }
+                }
+            };
         
-            return view('admin.offices.detailedOfficesWithAvgProcTime')->withData($data)->withInvoices($invoiceDetailed);
+            return view('admin.offices.detailedOfficesWithAvgProcTime')->withData($data)->withInvoices($invoiceDetailed)->withtopOffices($topOffices);
         } catch (\Exception $ex) {
             return response()->json(['error' => $ex->getMessage()], 200);
         }

@@ -12,31 +12,21 @@
                 font-family: "Bahij";
             }
         }
-        #myChart{
-            width: 100% !important;
-            height: 380px !important;
-            margin-top: 20px;
-            margin-left:80px
-
-        }
     </style>
 @endsection
 @section('content')
     <body>
         <!-- section one-->
         <div class="seciton-tabel">
-            <form action="{{route('admin.monthlyInvoices')}}" method="get">
+            <form action="{{route('admin.getInvoicesByCategory')}}" method="get">
                 <div class="col-md-12">
                     <div class="col-md-8 col-sm-12 col-xs-12 tabel-input rtl pull-right">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="inputPassword" class="col-md-5 col-sm-4 control-label label-tabel">المنطقة</label>
+                                <label for="inputPassword" class="col-md-5 col-sm-4 control-label label-tabel">الجنسية</label>
                                 {{-- <input type="password" class="form-control" id="inputPassword" placeholder="مصر">\ --}}
                                 <select name="office_id" id="" class="form-control" disabled>
-                                    <option value="">Offices</option>
-                                    {{-- @foreach ($data['offices'] as $office)
-                                        <option value="{{$office->Id}}" {{isset($_GET['office_id']) && $_GET['office_id']==$office->Id ? 'selected' : ''}}>{{ $office->Name}}</option>    
-                                    @endforeach --}}
+                                    <option value=""></option>
                                 </select>                            
                             </div>
                         </div>
@@ -55,35 +45,30 @@
             </form>
 
             @if (isset($invoices))
-                <div class="col-md-5 pull-right rtl tabel" >
+
+                <div class="col-md-12 rtl tabel" >
                     <table class="table table-striped">
                         <thead class="waleed">
                             <tr>
-                                <th>الشهر</th>
-                                <th>عدد المعاملات</th>
+                                <th>Office Name</th>
+                                <th>Number of invoices From Mobile</th>
+                                <th>Number of invoices From Office</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($invoices as $invoice)
+                            @foreach ($invoices as $key => $invoice)
                             <tr>
-                                <td>{{ $invoice->month . ' ' . $invoice->year }}</td>
-                                <td>{{ $invoice->total_invoices }}</td>   
+                                <td>{{ $invoice->office}}</td>
+                                <td>{{ $invoice->mobileInvoices}}</td>
+                                <td>{{ $invoice->officeInvoices}}</td>
                             </tr>
                             @endforeach
                             
                         </tbody>
-                    
-                        <tr id="trfoo">
-                            <th class="end">الاجماليات</th>
-                            <th class="end">{{$totalInvoices}}</th>
-                            
-                        </tr>
+               
                     </table>
                 </div>
             @endif
-            <div class="col-md-6">
-            <canvas id="myChart"></canvas>
-            </div>
     </div>
 
 @endsection
@@ -97,41 +82,5 @@
                 console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
             });
         });
-        var month = new Array();
-        var invoices= new Array();
-        @foreach ($invoices as $invoice)
-              month.push('{{ $invoice->month . ' ' . $invoice->year }}');
-               invoices.push('{{$invoice->total_invoices}}');
-        @endforeach
-     
-        new Chart(document.getElementById("myChart"), { 
-        "type": "line", 
-        "data": { 
-            "labels": month,
-             "datasets": [{ 
-                 "label": " المتوسط المحدد لزمن المعاملة",
-                  "data": invoices, 
-                  "fill": false, 
-                  "borderColor": "#5081bd", 
-                  "lineTension": 0.1 }] },
-                  
-                  
-                  
-                   "options": {xAxes: [{
-                  ticks: {
-                      fontFamily: "Bahij",
-                      fontColor: "#bbc3d0",
-                      fontSize: 14,
-                      stepSize: 1,
-                      beginAtZero: true,
-                      maxRotation: 45,
-                      minRotation: 45
-                  },
-                  barPercentage: 0.6,
-                  
-                  maxBarThickness: 30,
-                  minBarLength: 2
-                 
-              }]} });
     </script>
 @endsection

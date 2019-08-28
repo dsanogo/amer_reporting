@@ -68,6 +68,9 @@
                     </table>
                 </div>
             @endif
+            <div class='col-md-5 pull-right rtl'>
+            <canvas id="myChart"></canvas>
+            </div>
     </div>
 
 @endsection
@@ -75,11 +78,50 @@
 @section('script')
     <script>
         $(function() {
+
             $('input[name="daterange"]').daterangepicker({
                 opens: 'right'
             }, function(start, end, label) {
                 console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+                
             });
+
+            var month = new Array();
+            var process_time= new Array();
+            @foreach ($invoices as $invoice)
+                month.push('{{ $invoice->month . ' ' . $invoice->year }}');
+                process_time.push('{{$invoice->process_time}}');
+            @endforeach
+     
+            new Chart(document.getElementById("myChart"), { 
+        "type": "line", 
+        "data": { 
+            "labels": month,
+             "datasets": [{ 
+                 "label": " المتوسط المحدد لزمن المعاملة",
+                  "data": process_time, 
+                  "fill": false, 
+                  "borderColor": "#5081bd", 
+                  "lineTension": 0.1 }] },
+                  
+                  
+                  
+                   "options": {xAxes: [{
+                  ticks: {
+                      fontFamily: "Bahij",
+                      fontColor: "#bbc3d0",
+                      fontSize: 14,
+                      stepSize: 1,
+                      beginAtZero: true,
+                      maxRotation: 45,
+                      minRotation: 45
+                  },
+                  barPercentage: 0.6,
+                  
+                  maxBarThickness: 30,
+                  minBarLength: 2
+                 
+              }]} });
         });
     </script>
 @endsection

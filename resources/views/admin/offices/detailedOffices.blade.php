@@ -12,6 +12,15 @@
                 font-family: "Bahij";
             }
         }
+        #myChart{
+            width: 90% !important;
+            height: 350px !important;
+            margin-top: 50px;
+            margin-right: 20px;
+        }
+        #pie{
+            margin-bottom: 30px;
+        }
     </style>
 @endsection
 @section('content')
@@ -54,7 +63,7 @@
                             <tr>
                                 <th>المكتب</th>
                                 <th>عدد العاملين</th>
-                                <th>عدد المعاملات</th>
+                                <th>عدد المعاملات</th> 
                             </tr>
                         </thead>
                         <tbody>
@@ -75,14 +84,28 @@
                             
                         </tr>
                     </table>
-                </div>
+            
             @endif
     </div>
+    <div class="col-md-6 pull-right rtl">
 
+    <canvas id="myChart"></canvas>
+    <canvas id="pie"></canvas>
+    </div>
+        </div>
 @endsection
 
 @section('script')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.6/Chart.js"></script>
+
     <script>
+     var top_office_name = new Array();
+     var top_office_count= new Array();
+            @foreach ($topOffices as $key => $office)
+                top_office_name.push('{{$office->office}}');
+                top_office_count.push('{{$office->count}}');
+            @endforeach
+    
         $(function() {
             $('input[name="daterange"]').daterangepicker({
                 opens: 'right'
@@ -90,5 +113,107 @@
                 console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
             });
         });
+             var ctx = document.getElementById('myChart');
+                var myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels:top_office_name,
+                    datasets: [{
+                    label: 'عدد المعاملات بامليون',
+                    data: top_office_count,
+                    backgroundColor: [
+                        "#356eb3",
+                        "#bb3835",
+                        "#8db241",
+                        "#73529c",
+                        "#34aacb"
+                    ],
+                    borderWidth: 1
+                    }]
+                },
+                options: {
+                
+                    scales: {
+                    xAxes: [{
+                        ticks: {
+                            fontFamily: "Bahij",
+                            fontColor: "#356eb3",
+                            fontSize: 14,
+                            stepSize: 1,
+                            beginAtZero: true,
+                            maxRotation: 45,
+                            minRotation: 45
+                        }
+                    }],
+                    yAxes: [{
+                    id: 'FeesAmount',
+                      stacked: true,
+                      position: 'left',
+                      gridLines: {
+                        drawBorder: false
+                      },
+                      ticks: {
+                          beginAtZero: true,
+                          steps: 2,
+                          stepValue: 2,
+                          max: 20,
+                           stepSize: 2,
+                           fontColor: "rgba(51, 51, 51, 1)",
+                        //    callback: function(label, index, labels) {
+                        //        if(maxFees < 100){
+                        //             return label;
+                        //        }else if(maxFees > 1000) {
+                        //             return label/1000+'k';
+                        //        }
+                                
+                        //     }
+                      },
+                          
+                  }],xAxes: [{
+                  ticks: {
+                      fontFamily: "Bahij",
+                      fontColor: "#bbc3d0",
+                      fontSize: 14,
+                      stepSize: 1,
+                      beginAtZero: true,
+                      maxRotation: 45,
+                      minRotation: 45
+                  },
+                  barPercentage: 0.6,
+                  
+                  maxBarThickness: 30,
+                  minBarLength: 2
+                 
+              }]
+                    }, legend: {
+                  
+                  labels: {
+                      // This more specific font property overrides the global property
+                      fontColor: '#356eb3',
+                      fontFamily: "Bahij",
+                      radius:5
+                  }
+              }
+                }
+                });
+
+
+                var ctx = document.getElementById("pie").getContext('2d');
+            var myChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: top_office_name,
+                datasets: [{
+                backgroundColor: [
+                    "#356eb3",
+                    "#bb3835",
+                    "#8db241",
+                    "#73529c",
+                    "#34aacb"
+                ],
+                data: top_office_count
+                }]
+            }
+            });     
     </script>
 @endsection
