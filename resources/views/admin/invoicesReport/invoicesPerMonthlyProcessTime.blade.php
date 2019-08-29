@@ -48,7 +48,7 @@
             </form>
 
             @if (isset($invoices))
-                <div class="col-md-5 pull-right rtl tabel" >
+                <div class="col-md-5 col-sm-12 col-xs-12 pull-right rtl tabel" >
                     <table class="table table-striped">
                         <thead class="waleed">
                             <tr>
@@ -68,7 +68,7 @@
                     </table>
                 </div>
             @endif
-            <div class='col-md-5 pull-right rtl'>
+            <div class='col-md-5 col-sm-12 col-xs-12 pull-right rtl'>
             <canvas id="myChart"></canvas>
             </div>
     </div>

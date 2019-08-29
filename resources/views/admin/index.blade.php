@@ -269,7 +269,9 @@
                   // Changes this dataset to become a line
                   type: 'line'
               }],
+              
               labels: allMonths,
+              
           },
       
           // Configuration options go here
