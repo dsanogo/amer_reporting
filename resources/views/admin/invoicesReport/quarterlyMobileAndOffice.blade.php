@@ -10,6 +10,9 @@
 label{
     background: transparent!important;
 }
+.p-t-10{
+    padding-top:20px;
+}
         @media screen and (min-width: 320px) and (max-width: 479px)
         { 
             .amaerf2 {
@@ -26,32 +29,7 @@ label{
     <body>
         <!-- section one-->
         <div class="seciton-tabel">
-            <form action="{{route('admin.getMobileAndOfficeInvoicesQuarterly')}}" method="get">
-                <div class="col-md-12">
-                    <div class="col-md-8 col-sm-12 col-xs-12 tabel-input rtl pull-right">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="inputPassword" class="col-md-5 col-sm-4 control-label label-tabel">الجنسية</label>
-                                {{-- <input type="password" class="form-control" id="inputPassword" placeholder="مصر">\ --}}
-                                <select name="office_id" id="" class="form-control" disabled>
-                                    <option value=""></option>
-                                </select>                            
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="inputPassword"  class="col-md-5 col-sm-4 control-label label-tabel">فتره المعاملات</label>
-                                <input disabled type="text" id="daterange" name="daterange" value="{{isset($_GET['daterange']) ? $_GET['daterange'] : ''}}" class="form-control" id="inputPassword" placeholder="التاريخ">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 tabel-button col-sm-12 col-xs-12">
-                        <button class="col-md-5 col-sm-6 col-xs-6 m-r-0 btn p-d-0 colorbtn pull-right" type="submit">جلب البيانات </button>
-                        <button class="col-md-5 col-sm-6 col-xs-6 m-r-0 btn p-d-0 pull-right">ارسال النتائج </button>
-                    </div>
-                </div>
-            </form>
-                <div class="col-md-12 text-right text-qu">
+                <div class="col-md-12 text-right text-qu p-t-10">
                     <p>{{$topServices->fromMobile !== '' ? $topServices->fromMobile : "No Service for this period"}} : أكثر نوع معاملة تم طلبها بنظام المحمول</p>
                     <p>{{$topServices->fromOffice !== '' ? $topServices->fromOffice : "No Service for this period"}} : أكثر نوع معاملة تم طلبها من المكتب مباشرة</p>
                 </div>

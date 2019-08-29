@@ -21,18 +21,6 @@
             <form action="{{route('admin.getInvoicesByCategory')}}" method="get">
                 <div class="col-md-12">
                     <div class="col-md-4 col-sm-12 col-xs-12 tabel-input rtl pull-right">
-                        <!-- <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="inputPassword" class="col-md-5 col-sm-4 control-label label-tabel">الجنسية</label>
-                                {{-- <input type="password" class="form-control" id="inputPassword" placeholder="مصر">\ --}}
-                                <select name="office_id" id="" class="form-control" disabled>
-                                    <option value="">Offices</option>
-                                    @foreach ($offices as $office)
-                                        <option value="{{$office->Id}}" {{isset($_GET['office_id']) && $_GET['office_id']==$office->Id ? 'selected' : ''}}>{{ $office->Name}}</option>    
-                                    @endforeach
-                                </select>                            
-                            </div>
-                        </div> -->
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label for="inputPassword"  class="col-md-5 col-sm-4 control-label label-tabel">فتره المعاملات</label>

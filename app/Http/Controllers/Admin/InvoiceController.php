@@ -14,6 +14,7 @@ use App\Models\Service;
 use App\User;
 use App\Models\Employee;
 use App\Models\OfficeService;
+use DateTime;
 
 class InvoiceController extends Controller
 {
@@ -120,7 +121,6 @@ class InvoiceController extends Controller
                 'totalInvoices' => $sumOfInvoices
             ];
             
-
             
             return view('admin.invoicesReport.offices')->withInvoices($invoiceDetailed)->withOffices($offices)->withTotal($total);
             // return response()->json(['status' => 'success', 'data' => $invoiceDetailed], 200);
@@ -505,28 +505,58 @@ class InvoiceController extends Controller
     public function getLastThreeYearsInvoices()
     {
         try {
-            $now = now()->startOfMonth();
-            $lastThreeYears = now()->addYear(-2)->firstOfYear();
+            $data = [];
+            // Get the last 3 years
+            $years = [];
 
-            $invoices = Invoice::selectRaw('
-                    count(Id) as total_invoices, MONTH(Time) as mth, DATENAME(mm, Time) as month, YEAR(Time) as year
-                ')->whereDate('Time', '>=', $lastThreeYears)->whereDate('Time', '<', $now)
-                ->groupBy(DB::raw('MONTH(Time)'), DB::raw('YEAR(Time)'), DB::raw('DATENAME(mm, Time)'))
-                ->get();
+            for ($i=0; $i < 3; $i++) { 
+                array_push($years, date("Y",strtotime(" -" .$i." year")));
+            }
 
-            $years  = [];
+            // Get all the months
+            $months = [];
 
-            foreach ($invoices as $key => $invoice) {
+            for ($m=1; $m<=12; $m++) {
+                array_push($months, [
+                    'id' => $m,
+                    'name' => date('F', mktime(0,0,0,$m, 1, date('Y')))
+                ]);
+            }
 
-                if(!in_array($invoice->year, $years)){
-                    array_push($years, $invoice->year);
+            foreach ($months as $month) {
+
+                foreach ($years as $year) {
+                    $data[$month['name']][$year]['invoice'] = $this->getInvoicesPerMonthInYear($month['id'], $year);
                 }
             }
 
-            return view('admin.invoicesReport.lastThreeYearsInvoices')->withYears($years)->withInvoices($invoices);
+            $yearsCount = [];
+            foreach ($years as $year) {
+                array_push($yearsCount, $this->getTotalInvicePerYear($year));
+            }
+
+            return view('admin.invoicesReport.lastThreeYearsInvoices')->withData($data)->withYears($years)->withYearsCount($yearsCount);
 
         } catch (\Exception $ex) {
             return response()->json(['status' => 'error', 'message' => $ex->getMessage()], 200);
         }
+    }
+
+    public function getInvoicesPerMonthInYear($month, $year)
+    {
+        $invoices = intVal(Invoice::selectRaw('COUNT(id) as number_of_invoice')
+                            ->WhereRaw('MONTH(Time) = ' . $month . ' AND YEAR(Time) = ' . $year)
+                            ->pluck('number_of_invoice')->toArray()[0]);
+
+        return $invoices;
+    }
+
+    public function getTotalInvicePerYear($year)
+    {
+        $number_of_invoice = intVal(Invoice::selectRaw('COUNT(id) as number_of_invoice')
+                ->WhereRaw('YEAR(Time) = ' . $year)
+                ->pluck('number_of_invoice')->toArray()[0]);
+
+        return $number_of_invoice;
     }
 }

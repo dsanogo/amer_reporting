@@ -12,40 +12,53 @@
                 font-family: "Bahij";
             }
         }
+        .bordered{
+            border: 1px solid black !important;
+            background: lightblue;
+            font-size: 18px;
+        }
+        tr>td{
+            border: 1px solid black !important;
+        }
+    .colored {
+        background: lightgray !important;
+        color: red;
+        font-weight: bold;
+        font-size: 20px;
+    }
     </style>
 @endsection
 @section('content')
     <body>
         <!-- section one-->
         <div class="seciton-tabel">
-
-            @if ($invoices)
+            @if ($data)
             <div class="col-md-12 pull-right rtl tabel" >
 
-                <table class="table table-responsive table-striped" border="1">
-            
+                <table class="table table-responsive table-striped" >
                     <tr>
-                        <td rowspan="2" style="padding-top: 30px;">Months</td>
-                        <td colspan="{{count($years)}}">Years</td>
+                        <td rowspan="2" style="padding-top: 30px;" class="bordered">Months</td>
+                        <td colspan="{{count($years)}}" class="bordered">Years</td>
                     </tr>
                     <tr>
-                   
                         @foreach ($years as $year)
-                            <td>{{$year}}</td>
+                            <td class="bordered">{{$year}}</td>
                         @endforeach
-                    </tr>                 
-                    @foreach ($invoices as $invoice)
-                        <tr>
-                            <td>{{$invoice->month}}</td>
-                            @foreach ($years as $year)
-                                @if ($invoice->year == $year)
-                                    <td>{{$invoice->total_invoices}}</td>
-                                @else
-                                    <td>0</td>
-                                @endif
-                            @endforeach
-                        </tr>
+                    </tr>
+                    @foreach ($data as $key => $value)
+                    <tr>
+                        <td>{{$key}}</td>
+                        @foreach ($data[$key] as $values)
+                            <td>{{$values['invoice']}}</td>
+                        @endforeach
+                    </tr>
                     @endforeach
+                    <tr class="colored">
+                        <td>Total</td>
+                        @foreach ($yearsCount as $total)
+                        <td>{{$total}}</td>
+                        @endforeach    
+                    </tr>           
                 </table>
             </div>
             
