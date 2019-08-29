@@ -29,8 +29,8 @@
         <div class="seciton-tabel">
             <form action="{{route('admin.offices.details')}}" method="get">
                 <div class="col-md-12">
-                    <div class="col-md-8 col-sm-12 col-xs-12 tabel-input rtl pull-right">
-                        <div class="col-md-6">
+                    <div class="col-md-4 col-sm-12 col-xs-12 tabel-input rtl pull-right">
+                        <!-- <div class="col-md-6">
                             <div class="form-group">
                                 <label for="inputPassword" class="col-md-5 col-sm-4 control-label label-tabel">المنطقة</label>
                                 {{-- <input type="password" class="form-control" id="inputPassword" placeholder="مصر">\ --}}
@@ -41,15 +41,15 @@
                                     @endforeach
                                 </select>                            
                             </div>
-                        </div>
-                        <div class="col-md-6">
+                        </div> -->
+                        <div class="col-md-12">
                             <div class="form-group">
                                 <label for="inputPassword"  class="col-md-5 col-sm-4 control-label label-tabel">فتره المعاملات</label>
                                 <input type="text" id="daterange" name="daterange" value="{{isset($_GET['daterange']) ? $_GET['daterange'] : ''}}" class="form-control" id="inputPassword" placeholder="التاريخ">
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4 tabel-button col-sm-12 col-xs-12">
+                    <div class="col-md-4 tabel-button col-sm-12 col-xs-12  pull-right">
                         <button class="col-md-5 col-sm-6 col-xs-6 m-r-0 btn p-d-0 colorbtn pull-right" type="submit">جلب البيانات </button>
                         <button class="col-md-5 col-sm-6 col-xs-6 m-r-0 btn p-d-0 pull-right">ارسال النتائج </button>
                     </div>
@@ -57,7 +57,7 @@
             </form>
 
             @if (isset($invoices))
-                <div class="col-md-6 pull-right rtl tabel" >
+                <div class="col-md-6 col-sm-12 col-xs-12 pull-right rtl tabel" >
                     <table class="table table-striped">
                         <thead class="waleed">
                             <tr>
@@ -87,7 +87,7 @@
             
             @endif
     </div>
-    <div class="col-md-6 pull-right rtl">
+    <div class="col-md-6 col-sm-12 col-xs-12 pull-right rtl">
 
     <canvas id="myChart"></canvas>
     <canvas id="pie"></canvas>
