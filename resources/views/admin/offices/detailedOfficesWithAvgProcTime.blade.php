@@ -92,7 +92,7 @@
      var top_procees_time= new Array();
             @foreach ($topOffices as $key => $office)
                 top_office_name.push('{{$office->office}}');
-                top_procees_time.push('{{$office->processTime}}');
+                top_procees_time.push('{{$office->proccess_time}}');
             @endforeach
         var ctx = document.getElementById('myChart');
                 var myChart = new Chart(ctx, {
@@ -131,7 +131,7 @@
                           beginAtZero: true,
                           steps: 10,
                           stepValue: 10,
-                          max: 50,
+                          max: {{$topOffices[0]->proccess_time+10}},
                            stepSize: 10,
                            fontColor: "rgba(51, 51, 51, 1)",
                         //    callback: function(label, index, labels) {

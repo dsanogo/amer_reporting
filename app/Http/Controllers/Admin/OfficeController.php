@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\District;
 use App\Models\Office;
 use App\Models\Invoice;
 use App\Models\MobileRequest;
@@ -30,7 +31,6 @@ class OfficeController extends Controller
             $offices = $offices = Office::select('Id', 'Name')->get();
             $invoices = Invoice::select('TotalFees', 'MobileRequestId')->get();
             $sumOfInvoices = 0;
-            $maxidserve =[];
             
             foreach ($offices as $key => $office) {
                 $invoiceCount = 0;
@@ -91,7 +91,8 @@ class OfficeController extends Controller
 
             $invoiceDetailed = [];
             $offices = $offices = Office::select('Id', 'Name')->get();
-            $invoices = Invoice::select('TotalFees', 'MobileRequestId', 'ProcessingTime')->get();
+            $invoices = Invoice::select('MobileRequestId', 'ProcessingTime')->get();
+            $districts = District::select('Id', 'Name')->get();
             $sumOfInvoices = 0;
             
             foreach ($offices as $key => $office) {
@@ -112,6 +113,7 @@ class OfficeController extends Controller
                         }                
                         
                         $invoiceDetailed[$key] = (object)[
+                            'officeId' => $office->Id,
                             'office' => $office->Name,
                             'countInvoice' => $invoiceCount,
                             'totalTime' => $processTime,
@@ -120,18 +122,49 @@ class OfficeController extends Controller
                     }
                 }
             }
+
+            $procTimes = [];
+
+            foreach ($invoiceDetailed as $key => $invoice) {
+                array_push($procTimes, $invoice->processTime);
+            }
+
+            rsort($procTimes);
+
+            $topOfficesIndex = [];
+            foreach ($procTimes as $p_time) {
+                if(count($topOfficesIndex) !== 5){
+                    $key = array_search($p_time, array_column($invoiceDetailed, 'processTime'));
+                    array_push($topOfficesIndex, $key);
+                }
+            }
+            
             $topOffices = [];
-            $test = (array)$invoiceDetailed;
+            foreach ($topOfficesIndex as $oIndex) {
+                array_push($topOffices, (object)[
+                    'office_id' => $invoiceDetailed[$oIndex]->officeId,
+                    'office' => $invoiceDetailed[$oIndex]->office,
+                    'proccess_time' => $invoiceDetailed[$oIndex]->processTime
+                ]);
+            }
 
-            foreach ($test as $key => $invoice) {
-
-                if (count($topOffices) < 5 && ($key < count($test)-1)) {
-                    if($invoice->countInvoice > $test[$key+1]->countInvoice || $invoice->countInvoice == $test[$key+1]->countInvoice){
-                        array_push($topOffices, $invoice);
+            $areas = [];
+            
+             foreach ($districts as $key => $district) {
+                $distritCount = 0;
+                foreach ($topOffices as $office) {
+                    $districtId = Office::select('DistrictId')->where('Id', $office->office_id)->first()->toArray()['DistrictId'];
+                    if($district->Id == $districtId){
+                        $distritCount+=1;
                     }
                 }
-            };
-        
+
+                $areas[$key] = (object)[
+                    'disctict' => $district->Name,
+                    'count' => $distritCount,
+                ];
+             }
+            
             return view('admin.offices.detailedOfficesWithAvgProcTime')->withData($data)->withInvoices($invoiceDetailed)->withtopOffices($topOffices);
         } catch (\Exception $ex) {
             return response()->json(['error' => $ex->getMessage()], 200);
