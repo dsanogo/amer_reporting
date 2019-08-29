@@ -47,7 +47,7 @@
                 <div class="section-f1 section-f1s" style="padding-top:5px">
                     <i class="material-icons domain">domain</i>
                     <p class="section-2ts">قائمه المركز</p>
-                    <span class="section-2t pull-left circal">12 </span>
+                    <span class="section-2t pull-left circal">{{count($data['offices'])}} </span>
                     <p id="map" class="section-2t pull-left"><i class="material-icons public"> public</i>عرض عل الخريطة
                     </p>
                     <p id="net" class="section-2t pull-left"><i class="material-icons view_module">view_module</i>عرض
@@ -113,24 +113,24 @@
 
                         </div>
                         <div class="col-md-2 loclitons col-sm-12 col-sm-12 " style="overflow-y: scroll; height: 500px;">
-                                @foreach ($data['offices'] as $key => $office)
-
-                        <div class="locliton col-md-12 offices" 
-                            data-location='{"lat": {{intVal($office->Latitude)}}, "lng": {{intVal($office->Longitude)}}}' 
-                            data-nb-emp="{{count($office->employees)}}"
-                            data-total-fees="{{$invoices[$key]->totalFees}}"
-                            data-nb-invoices="{{$invoices[$key]->count}}"
-                            data-office-name="{{ $office->Name }}"
-                            id="{{$key==0 ? 'office1': ''}}"
-                            >
-                                <i class="material-icons col-md-2 pull-right p-d-0 location_on">location_on </i>
-                                <div class="col-md-10 pull-right p-d-0 loc-s">
-                                    <p class="C-1"> {{ $office->Name }}</p>
-                                    <p class="C-2">اجمالي المبالغ المحصلة</p>
-                                    <p class="C-3"> د.ر{{ $invoices[$key]->totalFees }}</p>
-                                </div>
-                            </div>
-                           @endforeach
+                            @foreach ($data['offices'] as $key => $office)
+                                <div class="locliton col-md-12 offices" 
+                                    data-location='{"lat": {{intVal($office->Latitude)}}, "lng": {{intVal($office->Longitude)}}}' 
+                                    data-nb-emp="{{count($office->employees)}}"
+                                    data-total-fees="{{$invoices[$key]->totalFees}}"
+                                    data-nb-invoices="{{$invoices[$key]->count}}"
+                                    data-office-name="{{ $office->Name }}"
+                                    id="{{$key==0 ? 'office1': ''}}"
+                                    >
+                                        <i class="material-icons col-md-2 pull-right p-d-0 location_on">location_on </i>
+                                        <div class="col-md-10 pull-right p-d-0 loc-s">
+                                            <p class="C-1"> {{ $office->Name }}</p>
+                                            <p class="C-2">اجمالي المبالغ المحصلة</p>
+                                            <p class="C-3"> د.ر{{ $invoices[$key]->totalFees }}</p>
+                                        </div>
+                                    </div>
+                            @endforeach
+                          <div class="text-center">  {{$data['offices']->links()}}</div>
                         </div>
                     </div>
 

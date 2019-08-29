@@ -24,7 +24,7 @@ class DashboardController extends Controller
         $data['employees'] = Employee::count();
         $data['numberOfInvoices'] = Invoice::count();
         $data['totalFees'] = DB::table('Invoices')->sum('TotalFees');
-        $data['offices'] = Office::with('employees')->paginate(12);
+        $data['offices'] = Office::with('employees')->paginate(10);
 
         $invoiceDetailed = [];
             $offices = Office::select('Id', 'Name')->get();
