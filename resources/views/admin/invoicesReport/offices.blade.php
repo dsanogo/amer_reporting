@@ -37,12 +37,17 @@
 
             @if (isset($invoices))
                 <div class="col-md-12 rtl tabel" >
+                    <div class="text-center" style="margin: 5px;">
+                        <a href="#" class="btn btn-primary btn-lg">Excel</a>
+                        <a href="#" class="btn btn-primary btn-lg" >PDF</a>
+                        <a href="{{route('admin.printInvoicesByOffices')}}" class="btn btn-primary btn-lg printPage">Print</a>
+                    </div>
                     <table class="table table-striped">
                         <thead class="waleed">
                             <tr>
-                                <th>Office Name</th>
-                                <th>Number of invoices</th>
-                                <th>Total Fees</th>
+                                <th>المكتب</th>
+                                <th>إجمالى أعداد المعاملات</th>
+                                <th>إجمالى الرسوم</th>
                             </tr>
                         </thead>
                         <tbody>

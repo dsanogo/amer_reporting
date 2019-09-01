@@ -47,16 +47,21 @@
             
             @if (isset($surveys))
                 <div class="col-md-12 rtl tabel" >
+                    <div class="text-center" style="margin: 5px;">
+                        <a href="#" class="btn btn-primary btn-lg">Excel</a>
+                        <a href="#" class="btn btn-primary btn-lg" >PDF</a>
+                        <a href="{{route('admin.printSurveysReport')}}" class="btn btn-primary btn-lg printPage">Print</a>
+                    </div>
                     <table class="table table-striped">
                         <thead class="waleed">
                             <tr>
-                                <th>Survey Subject</th>
-                                <th>Number of surveys</th>
-                                <th>Excellent</th>
-                                <th>Very Good</th>
-                                <th>Medium</th>
-                                <th>Bad</th>
-                                <th>Very Bad</th>
+                                <th>عنوان الاستطلاع</th>
+                                <th>عدد المصوتين</th>
+                                <th>جيد جداً</th>
+                                <th>جيد</th>
+                                <th>متوسط</th>
+                                <th>سىء</th>
+                                <th>سىء جداً</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -73,12 +78,7 @@
                             @endforeach
                             
                         </tbody>
-                    
-                        {{-- <tr id="trfoo">
-                            <th class="end">Total</th>
-                            <th class="end">{{ $total->totalInvoices }}</th>
-                            <th class="end">{{ $total->totalFees }}</th>
-                        </tr> --}}
+                
                     </table>
                 </div>
             @endif

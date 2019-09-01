@@ -23,7 +23,7 @@
                     <div class="col-md-8 col-sm-12 col-xs-12 tabel-input rtl pull-right">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="inputPassword" class="col-md-5 col-sm-4 control-label label-tabel">الجنسية</label>
+                                <label for="inputPassword" class="col-md-5 col-sm-4 control-label label-tabel"> نوع المعاملة</label>
                                 {{-- <input type="password" class="form-control" id="inputPassword" placeholder="مصر">\ --}}
                                 <select name="category_id" id="" class="form-control">
                                     @foreach ($categories as $category)
@@ -45,14 +45,25 @@
                     </div>
                 </div>
             </form>
+            
             @if (isset($invoices))
+
+            <?php 
+                $cat_id = $_GET['category_id'];
+                $date_range = $_GET['daterange'];
+            ?>
                 <div class="col-md-12 rtl tabel" >
-                    <table class="table table-striped">
+                    <div class="text-center" style="margin: 5px;">
+                        <a href="#" class="btn btn-primary btn-lg">Excel</a>
+                        <a href="#" class="btn btn-primary btn-lg" >PDF</a>
+                        <a href="{{route('admin.printInvoicesByCategory',['category_id'=> $cat_id, 'daterange' => $date_range])}}" class="btn btn-primary btn-lg printPage">Print</a>
+                    </div>
+                    <table class="table table-striped print">
                         <thead class="waleed">
                             <tr>
-                                <th>Service Name</th>
-                                <th>Number of invoices</th>
-                                <th>Total Fees</th>
+                                <th>نوع المعاملة</th>
+                                <th>إجمالى أعداد المعاملات</th>
+                                <th>إجمالى الرسوم</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -67,7 +78,7 @@
                         </tbody>
                     
                         <tr id="trfoo">
-                            <th class="end">Total</th>
+                            <th class="end">الإجماليات</th>
                             <th class="end">{{ $total->totalInvoices }}</th>
                             <th class="end">{{ $total->totalFees }}</th>
                         </tr>
@@ -77,7 +88,6 @@
     </div>
 
 @endsection
-
 @section('script')
     <script>
         $(function() {

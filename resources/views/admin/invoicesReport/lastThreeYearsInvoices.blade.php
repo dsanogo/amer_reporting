@@ -32,13 +32,17 @@
     <body>
         <!-- section one-->
         <div class="seciton-tabel">
-            @if ($data)
+        @if ($data)
             <div class="col-md-12 pull-right rtl tabel" >
-
+                <div class="text-center" style="margin: 5px;">
+                    <a href="#" class="btn btn-primary btn-lg">Excel</a>
+                    <a href="#" class="btn btn-primary btn-lg" >PDF</a>
+                    <a href="{{route('admin.invoices.printLastThreeYears')}}" class="btn btn-primary btn-lg printPage">Print</a>
+                </div>
                 <table class="table table-responsive table-striped" >
                     <tr>
-                        <td rowspan="2" style="padding-top: 30px;" class="bordered">Months</td>
-                        <td colspan="{{count($years)}}" class="bordered">Years</td>
+                        <td rowspan="2" style="padding-top: 30px;" class="bordered">الشهور</td>
+                        <td colspan="{{count($years)}}" class="bordered">السنوات</td>
                     </tr>
                     <tr>
                         @foreach ($years as $year)
@@ -54,7 +58,7 @@
                     </tr>
                     @endforeach
                     <tr class="colored">
-                        <td>Total</td>
+                        <td>الإجماليات</td>
                         @foreach ($yearsCount as $total)
                         <td>{{$total}}</td>
                         @endforeach    
