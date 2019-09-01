@@ -25,12 +25,14 @@
 </style>
 </head>
 <body>
+    @if (isset($export) && $export == false)
     <div class="nav-aamer">
         <div class="logo-amer col-md-2 col-sm-6 col-xs-6 pull-right"><img class="logo-f" src="{{asset('public/assets/img/logo-fafic.svg')}}" alt=""></div>
         <div class="col-md-2 col-sm-6 col-xs-6 pull-right">
             <p class="amaerf2">نظام المتابعة والتحكم</p>
         </div>
     </div>
+    @endif
     
 @yield('content')
 
