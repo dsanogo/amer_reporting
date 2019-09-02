@@ -1,15 +1,5 @@
 @extends('admin.exports.print.header')
 @section('content')
-<style>
-    .bordered{
-            border: 1px solid black !important;
-            background: lightblue !important;
-            font-size: 18px !important;
-        }
-    table tr td{
-        border: 1px solid gray !important;
-    }
-</style>
     <div class="seciton-tabel" style="width: 100% !important">
         @if ($data)
             <h4 style="text-align: right; padding: 0px !important;">مواسم زيادة وقلة أعداد المعاملات</h4>

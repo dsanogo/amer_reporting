@@ -59,7 +59,7 @@
             @if (isset($invoices))
                 <div class="col-md-6 col-sm-12 col-xs-12 pull-right rtl tabel" >
                     <div class="text-center" style="margin: 5px;">
-                        <a href="#" class="btn btn-primary btn-lg">Excel</a>
+                        <a href="{{route('admin.offices.exportDetails')}}" class="btn btn-primary btn-lg">Excel</a>
                         <a href="#" class="btn btn-primary btn-lg" >PDF</a>
                         <a href="{{route('admin.offices.printDetails')}}" class="btn btn-primary btn-lg printPage">Print</a>
                     </div>

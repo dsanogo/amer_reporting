@@ -2,14 +2,11 @@
 
 namespace App\Exports\ExcelExports;
 
-use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\FromView;
 use Illuminate\Contracts\View\View;
-use Maatwebsite\Excel\Concerns\WithHeadings;
 
-class CategoryServices implements FromView, WithHeadings
+class CategoryServices implements FromView
 {
-
     public $invoices;
     public $total;
 
@@ -27,14 +24,5 @@ class CategoryServices implements FromView, WithHeadings
             'total' => $this->total,
             'export' => true
         ]);
-    }
-
-    public function headings(): array
-    {
-        return [
-            'نوع المعاملة',
-            'إجمالى أعداد المعاملات',
-            'إجمالى الرسوم',
-        ];
     }
 }

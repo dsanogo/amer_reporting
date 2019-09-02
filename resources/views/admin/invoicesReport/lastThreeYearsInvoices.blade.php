@@ -35,7 +35,7 @@
         @if ($data)
             <div class="col-md-12 pull-right rtl tabel" >
                 <div class="text-center" style="margin: 5px;">
-                    <a href="#" class="btn btn-primary btn-lg">Excel</a>
+                    <a href="{{route('admin.invoices.exportLastThreeYears')}}" class="btn btn-primary btn-lg">Excel</a>
                     <a href="#" class="btn btn-primary btn-lg" >PDF</a>
                     <a href="{{route('admin.invoices.printLastThreeYears')}}" class="btn btn-primary btn-lg printPage">Print</a>
                 </div>

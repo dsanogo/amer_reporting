@@ -44,11 +44,10 @@
                 </div>
             </form>
 
-            
             @if (isset($surveys))
                 <div class="col-md-12 rtl tabel" >
                     <div class="text-center" style="margin: 5px;">
-                        <a href="#" class="btn btn-primary btn-lg">Excel</a>
+                        <a href="{{route('admin.exportSurveysReport')}}" class="btn btn-primary btn-lg">Excel</a>
                         <a href="#" class="btn btn-primary btn-lg" >PDF</a>
                         <a href="{{route('admin.printSurveysReport')}}" class="btn btn-primary btn-lg printPage">Print</a>
                     </div>

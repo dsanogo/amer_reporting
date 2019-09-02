@@ -15,6 +15,15 @@
 }
 
 
+    .bordered{
+            border: 1px solid black !important;
+            background: lightblue !important;
+            font-size: 18px !important;
+        }
+    table tr td{
+        border: 1px solid gray !important;
+    }
+
     .nav-aamer{
         background-color: #251e54 !important;
     }
