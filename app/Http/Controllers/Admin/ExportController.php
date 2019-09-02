@@ -28,6 +28,7 @@ use App\Models\SurveySubject;
 use App\User;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
+use PDF;
 
 class ExportController extends Controller
 {
@@ -613,4 +614,65 @@ class ExportController extends Controller
 
         return $number_of_invoice;
     }
+
+    // PDF GENERATION
+
+    public function genPdfInvoicesByServiceCategory(Request $request)
+    {
+        $date = explode(' - ', $request->daterange);
+        $from = $date[0];
+        $to = $date[1];
+
+        $category = ServiceCategory::findOrFail($request->category_id);
+        $sumOfTotalFees = 0;
+        $sumOfInvoices = 0;
+        try {
+            $invoiceDetailed = [];
+        
+            // Get all the services for this category
+            $categoryServices = $category->services;
+
+            foreach ($categoryServices as $service) {
+                $serviceTotalFees = 0;
+                //Get the service Invoice
+                $serviceInvoiceDetails = InvoiceDetail::select('ServiceId', 'InvoiceId')->where('ServiceId', $service->Id)->get();
+
+                // Get Total Fees for the service
+                foreach ($serviceInvoiceDetails as $serviceDetail) {
+                    $serviceInvoice = Invoice::select('TotalFees')->whereDate('Time','>=', $from)->whereDate('Time', '<=', $to)->where('Id', $serviceDetail->InvoiceId)->first();
+                    
+                    if($serviceInvoice){
+                        $serviceTotalFees += $serviceInvoice->TotalFees;
+                        $sumOfTotalFees += $serviceInvoice->TotalFees;
+                        $serviceName = 'service' . $service->Id;
+                        $sumOfInvoices += 1;
+                        
+                        $invoiceDetailed['services'][$serviceName] = $service;
+                        $invoiceDetailed['services'][$serviceName]['invoiceCount'] = count($serviceInvoiceDetails);
+                        $invoiceDetailed['services'][$serviceName]['invoicetotalFees'] = $serviceTotalFees;
+                    }                    
+                }
+            }
+
+            $invoiceDetailed['services'] = $category->services;
+            $total = (object)[
+                'totalFees' => $sumOfTotalFees,
+                'totalInvoices' => $sumOfInvoices
+            ];
+
+            $dataToSend = ['invoices' => $invoiceDetailed, 'total' => $total];
+
+            $pdf = Pdf::loadView('admin.exports.print.categoryServices', $dataToSend, [], ['useOTL' => 0xFF, 'format' => 'A4',]);
+
+            return $pdf->stream('invoicesPerCategory.pdf');
+
+            // return Excel::download(new CategoryServices($invoiceDetailed, $total), 'invoicesPerCategory.xlsx');
+            
+            // return view('admin.exports.print.categoryServices')->withInvoices($invoiceDetailed)->withCategories($categories)->withTotal($total)->withCategory($category)->withDaterange($daterange);
+        } catch (\Exception $ex) {
+            return response()->json(['status' => 'error', 'data' => $ex->getMessage()], 200);
+        }   
+    }
+
+
 }

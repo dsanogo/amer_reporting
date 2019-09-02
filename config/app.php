@@ -175,8 +175,8 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
-        Barryvdh\DomPDF\ServiceProvider::class,
-        niklasravnsborg\LaravelPdf\PdfServiceProvider::class,
+        niklasravnsborg\LaravelPdf\PdfServiceProvider::class
+
     ],
 
     /*
@@ -228,8 +228,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
-        'DomPDF' => Barryvdh\DomPDF\Facade::class,
-        'PDF' => niklasravnsborg\LaravelPdf\Facades\Pdf::class,
+        'PDF' => niklasravnsborg\LaravelPdf\Facades\Pdf::class
     ],
 
 ];

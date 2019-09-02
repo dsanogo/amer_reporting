@@ -35,6 +35,8 @@ Route::prefix('admin')->namespace('Admin')->group(function () {
     Route::get('print-category-invoices', 'InvoiceController@printInvoicesByServiceCategory')->name('admin.printInvoicesByCategory');
     // Print Invoices for Each services by Category
     Route::get('export-category-invoices', 'ExportController@exportInvoicesByServiceCategory')->name('admin.exportInvoicesByCategory');
+    // Generate PDF Invoices for Each services by Category
+    Route::get('pdf-category-invoices', 'ExportController@genPdfInvoicesByServiceCategory')->name('admin.pdfInvoicesByCategory');
 
     // Get Invoices for Each services by Offices
     Route::get('offices-invoices', 'InvoiceController@getInvoicesForOffices')->name('admin.getInvoicesByOffices');
