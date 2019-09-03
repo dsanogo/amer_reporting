@@ -44,6 +44,8 @@ Route::prefix('admin')->namespace('Admin')->group(function () {
     Route::get('print-offices-invoices', 'InvoiceController@printInvoicesForOffices')->name('admin.printInvoicesByOffices');
     // Export Invoices for Each services by Offices
     Route::get('export-offices-invoices', 'ExportController@exportInvoicesForOffices')->name('admin.exportInvoicesByOffices');
+    // PDF Invoices for Each services by Offices
+    Route::get('pdf-offices-invoices', 'ExportController@pdfInvoicesForOffices')->name('admin.pdfInvoicesByOffices');
 
     // Get Invoices for per Requests done from Mobile and those done from Office
     Route::get('mobile-and-offices-invoices', 'InvoiceController@getInvoicesByMobileRequestByOffice')->name('admin.getMobileAndOfficeInvoices');
@@ -51,14 +53,17 @@ Route::prefix('admin')->namespace('Admin')->group(function () {
     Route::get('print-mobile-and-offices-invoices', 'InvoiceController@printInvoicesByMobileRequestByOffice')->name('admin.printMobileAndOfficeInvoices');
     // Export Invoices for per Requests done from Mobile and those done from Office
     Route::get('export-mobile-and-offices-invoices', 'ExportController@exportInvoicesByMobileRequestByOffice')->name('admin.exportMobileAndOfficeInvoices');
-
+    // PDF Invoices for per Requests done from Mobile and those done from Office
+    Route::get('pdf-mobile-and-offices-invoices', 'ExportController@pdfInvoicesByMobileRequestByOffice')->name('admin.pdfMobileAndOfficeInvoices');
 
     // Get Invoices for per Requests done from Mobile and those done from Office
     Route::get('quarterly-mobile-and-offices-invoices', 'InvoiceController@getQuarterInvoicesByMobileRequestByOffice')->name('admin.getMobileAndOfficeInvoicesQuarterly');
     // Print Invoices for per Requests done from Mobile and those done from Office
     Route::get('print-quarterly-mobile-and-offices-invoices', 'InvoiceController@printQuarterInvoicesByMobileRequestByOffice')->name('admin.printMobileAndOfficeInvoicesQuarterly');
-   // export Invoices for per Requests done from Mobile and those done from Office
-   Route::get('export-quarterly-mobile-and-offices-invoices', 'ExportController@exportQuarterInvoicesByMobileRequestByOffice')->name('admin.exportMobileAndOfficeInvoicesQuarterly');
+    // export Invoices for per Requests done from Mobile and those done from Office
+    Route::get('export-quarterly-mobile-and-offices-invoices', 'ExportController@exportQuarterInvoicesByMobileRequestByOffice')->name('admin.exportMobileAndOfficeInvoicesQuarterly');
+    // pdf Invoices for per Requests done from Mobile and those done from Office
+    Route::get('pdf-quarterly-mobile-and-offices-invoices', 'ExportController@pdfQuarterInvoicesByMobileRequestByOffice')->name('admin.pdfMobileAndOfficeInvoicesQuarterly');
 
     // Get all the TotalFeesPerMonth and their corresponding  ratings
     Route::get('get-invoices-per-month', 'InvoiceController@getInvoicesPerMonth')->name('admin.getInvoicesPerMonth');
@@ -69,6 +74,8 @@ Route::prefix('admin')->namespace('Admin')->group(function () {
     Route::get('print-surveys', 'SurveyController@printSurveysReport')->name('admin.printSurveysReport');
     // export all the serveySubjects and their corresponding  ratings
     Route::get('export-surveys', 'ExportController@exportSurveysReport')->name('admin.exportSurveysReport');
+    // PDF all the serveySubjects and their corresponding  ratings
+    Route::get('pdf-surveys', 'ExportController@pdfSurveysReport')->name('admin.pdfSurveysReport');
 
     //Get Offices Details
     Route::get('offices-details', 'OfficeController@getOfficesDetails')->name('admin.offices.details');
@@ -76,6 +83,8 @@ Route::prefix('admin')->namespace('Admin')->group(function () {
     Route::get('print-offices-details', 'OfficeController@printOfficesDetails')->name('admin.offices.printDetails');
     //export Offices Details
     Route::get('export-offices-details', 'ExportController@exportOfficesDetails')->name('admin.offices.exportDetails');
+    //PDF Offices Details
+    Route::get('pdf-offices-details', 'ExportController@pdfOfficesDetails')->name('admin.offices.pdfDetails');
 
     //Get Offices Details with Average time
     Route::get('offices-details-with-process-time', 'OfficeController@getOfficesDetailsWithAverage')->name('admin.offices.ProcessTimeDetails');
@@ -83,6 +92,8 @@ Route::prefix('admin')->namespace('Admin')->group(function () {
     Route::get('print-offices-details-with-process-time', 'OfficeController@printOfficesDetailsWithAverage')->name('admin.offices.printProcessTimeDetails');
     //export Offices Details with Average time
     Route::get('export-offices-details-with-process-time', 'ExportController@exportOfficesDetailsWithAverage')->name('admin.offices.exportProcessTimeDetails');
+    //pdf Offices Details with Average time
+    Route::get('pdf-offices-details-with-process-time', 'ExportController@pdfOfficesDetailsWithAverage')->name('admin.offices.pdfProcessTimeDetails');
 
     //Get Invoices Per Month
     Route::get('monthly-invoices', 'InvoiceController@getInvoiceMonthly')->name('admin.monthlyInvoices');
@@ -90,6 +101,8 @@ Route::prefix('admin')->namespace('Admin')->group(function () {
     Route::get('print-monthly-invoices', 'InvoiceController@printInvoiceMonthly')->name('admin.printMonthlyInvoices');
     //export Invoices Per Month
     Route::get('export-monthly-invoices', 'ExportController@exportInvoiceMonthly')->name('admin.exportMonthlyInvoices');
+    //pdf Invoices Per Month
+    Route::get('pdf-monthly-invoices', 'ExportController@pdfInvoiceMonthly')->name('admin.pdfMonthlyInvoices');
 
     //Get Invoices Per Month And their Process Time
     Route::get('monthly-invoices-per-process-time', 'InvoiceController@getInvoiceMonthlyProcessTime')->name('admin.monthlyInvoicesProcessTime');
@@ -97,6 +110,8 @@ Route::prefix('admin')->namespace('Admin')->group(function () {
     Route::get('print-monthly-invoices-per-process-time', 'InvoiceController@printInvoiceMonthlyProcessTime')->name('admin.printMonthlyInvoicesProcessTime');
     //export Invoices Per Month And their Process Time
     Route::get('export-monthly-invoices-per-process-time', 'ExportController@exportInvoiceMonthlyProcessTime')->name('admin.exportMonthlyInvoicesProcessTime');
+    //pdf Invoices Per Month And their Process Time
+    Route::get('pdf-monthly-invoices-per-process-time', 'ExportController@pdfInvoiceMonthlyProcessTime')->name('admin.pdfMonthlyInvoicesProcessTime');
 
     //Get Invoices Quarterly And their Process Time
     Route::get('quarterly-invoices-per-process-time', 'InvoiceController@getInvoiceQuarterlyProcessTime')->name('admin.quarterlyInvoicesProcessTime');
@@ -107,4 +122,6 @@ Route::prefix('admin')->namespace('Admin')->group(function () {
     Route::get('print-last-three-years-invoices', 'InvoiceController@printLastThreeYearsInvoices')->name('admin.invoices.printLastThreeYears');
     //export Invoices for the last 3 years
     Route::get('export-last-three-years-invoices', 'ExportController@exportLastThreeYearsInvoices')->name('admin.invoices.exportLastThreeYears');
+    //pdf Invoices for the last 3 years
+    Route::get('pdf-last-three-years-invoices', 'ExportController@pdfLastThreeYearsInvoices')->name('admin.invoices.pdfLastThreeYears');
 });

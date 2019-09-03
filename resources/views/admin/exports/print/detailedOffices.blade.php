@@ -7,9 +7,9 @@
                 <table class="table table-striped">
                     <thead class="waleed">
                         <tr>
-                            <th style=" background-color: #383838 !important;color:white !important">المكتب</th>
-                            <th style=" background-color: #383838 !important;color:white !important">عدد العاملين</th>
-                            <th style=" background-color: #383838 !important;color:white !important">عدد المعاملات</th> 
+                            <th style=" background-color: #383838 !important;color:#fff !important" class="ta-header">المكتب</th>
+                            <th style=" background-color: #383838 !important;color:#fff !important" class="ta-header">عدد العاملين</th>
+                            <th style=" background-color: #383838 !important;color:#fff !important" class="ta-header">عدد المعاملات</th> 
                         </tr>
                     </thead>
                     <tbody>

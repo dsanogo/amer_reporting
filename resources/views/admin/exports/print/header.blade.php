@@ -34,6 +34,23 @@
     }
   
 }
+
+    table, th, td{
+        border: none;
+        color: black;
+        border-collapse: collapse;
+        text-align: center;
+    }
+
+    .ta-header{
+        background-color: #4b5257 !important;
+        color: white !important;
+        text-align: center;
+        font-weight: 700;
+        font-size: 17px;
+        padding: 10px;
+
+    }
   
 </style>
 

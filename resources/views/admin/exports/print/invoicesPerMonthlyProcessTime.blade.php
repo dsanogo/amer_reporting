@@ -7,8 +7,8 @@
                 <table class="table table-striped">
                     <thead class="waleed">
                         <tr>
-                            <th style=" background-color: #383838 !important;color:white !important">الشهر</th>
-                            <th style=" background-color: #383838 !important;color:white !important">متوسط زمن المعاملة بالدقيقة</th>
+                            <th style=" background-color: #383838 !important;color:#ffffff !important" class="ta-header">الشهر</th>
+                            <th style=" background-color: #383838 !important;color:#ffffff !important" class="ta-header">متوسط زمن المعاملة بالدقيقة</th>
                         </tr>
                     </thead>
                     <tbody>

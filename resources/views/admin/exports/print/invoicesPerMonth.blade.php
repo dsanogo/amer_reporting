@@ -7,8 +7,8 @@
                 <table class="table table-striped">
                     <thead class="waleed">
                         <tr>
-                            <th style=" background-color: #383838 !important;color:white !important">الشهر</th>
-                            <th style=" background-color: #383838 !important;color:white !important">عدد المعاملات</th>
+                            <th style=" background-color: #383838 !important;color:#ffffff !important" class="ta-header">الشهر</th>
+                            <th style=" background-color: #383838 !important;color:#ffffff !important" class="ta-header">عدد المعاملات</th>
                         </tr>
                     </thead>
                     <tbody>

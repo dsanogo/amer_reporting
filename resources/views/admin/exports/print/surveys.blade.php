@@ -7,13 +7,13 @@
                 <table class="table table-striped">
                     <thead class="waleed">
                         <tr>
-                            <th style=" background-color: #383838 !important;color:white !important">عنوان الاستطلاع</th>
-                            <th style=" background-color: #383838 !important;color:white !important">عدد المصوتين</th>
-                            <th style=" background-color: #383838 !important;color:white !important">جيد جداً</th>
-                            <th style=" background-color: #383838 !important;color:white !important">جيد</th>
-                            <th style=" background-color: #383838 !important;color:white !important">متوسط</th>
-                            <th style=" background-color: #383838 !important;color:white !important">سىء</th>
-                            <th style=" background-color: #383838 !important;color:white !important">سىء جداً</th>
+                            <th style=" background-color: #383838 !important;color:#ffffff !important" class="ta-header">عنوان الاستطلاع</th>
+                            <th style=" background-color: #383838 !important;color:#ffffff !important" class="ta-header">عدد المصوتين</th>
+                            <th style=" background-color: #383838 !important;color:#ffffff !important" class="ta-header">جيد جداً</th>
+                            <th style=" background-color: #383838 !important;color:#ffffff !important" class="ta-header">جيد</th>
+                            <th style=" background-color: #383838 !important;color:#ffffff !important" class="ta-header">متوسط</th>
+                            <th style=" background-color: #383838 !important;color:#ffffff !important" class="ta-header">سىء</th>
+                            <th style=" background-color: #383838 !important;color:#ffffff !important" class="ta-header">سىء جداً</th>
                         </tr>
                     </thead>
                     <tbody>

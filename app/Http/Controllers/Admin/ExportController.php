@@ -54,7 +54,6 @@ class ExportController extends Controller
             $total = $data['total'];
             
             return Excel::download(new Offices($invoiceDetailed, $total), 'officesInvoices.xlsx');
-            // return view('admin.invoicesReport.offices')->withInvoices($invoiceDetailed)->withOffices($offices)->withTotal($total);
         } catch (\Exception $ex) {
             return response()->json(['status' => 'error', 'data' => $ex->getMessage()], 200);
         }
@@ -178,7 +177,6 @@ class ExportController extends Controller
         }
     }
 
-
     // PDF GENERATION 
 
     public function genPdfInvoicesByServiceCategory(Request $request)
@@ -197,5 +195,171 @@ class ExportController extends Controller
         }   
     }
 
+    public function pdfInvoicesForOffices()
+    {
+        try {
+            $data = $this->invoiceModel->getInvoicesForOffices();
+            
+            $dataToSend = [
+                        'invoices' => $data['invoices'], 
+                        'total' => $data['total']
+                        ];
+            
+            $pdf = Pdf::loadView('admin.exports.print.offices', $dataToSend, [], ['useOTL' => 0xFF, 'format' => 'A4',]);
+            return $pdf->stream('offices.pdf');
+        } catch (\Exception $ex) {
+            return response()->json(['status' => 'error', 'data' => $ex->getMessage()], 200);
+        }
+    }
+
+    public function pdfInvoicesByMobileRequestByOffice()
+    {
+        try {
+            $data = $this->invoiceModel->getInvoicesByMobileRequestByOffice();     
+            
+            $dataToSend = [
+                'invoices' => $data['invoices'],
+                'offices' =>  $data['offices'], 
+                'total' => $data['total']
+                ];
+    
+            $pdf = Pdf::loadView('admin.exports.print.mobileAndOffice', $dataToSend, [], ['useOTL' => 0xFF, 'format' => 'A4',]);
+            
+            return $pdf->stream('mobileAndOffice.pdf');
+        } catch (\Exception $ex) {
+            return response()->json(['status' => 'error', 'data' => $ex->getMessage()], 200);
+        }
+    }
+
+    public function pdfSurveysReport()
+    {
+        try {
+            $surveys = $this->surveyModel->getSurveysReport()['surveys'];
+            $dataToSend = [
+                'surveys' => $surveys
+                ];
+    
+            $pdf = Pdf::loadView('admin.exports.print.surveys', $dataToSend, [], ['useOTL' => 0xFF, 'format' => 'A4',]);
+            return $pdf->stream('surveys.pdf');
+
+        } catch (\Exception $ex) {
+            return response()->json(['status' => 'error', 'message' => $ex->getMessage()], 200);
+        }
+    }
+
+    public function pdfOfficesDetails()
+    {
+        try {
+            $report = $this->officeModel->getOfficesDetails();
+
+            $dataToSend = [
+                'data' => $report['data'],
+                'invoices' => $report['invoices'],
+                'total' => $report['total'],
+                'topOffices' => $report['topOffices']
+                ];
+
+            $pdf = Pdf::loadView('admin.exports.print.detailedOffices', $dataToSend, [], ['useOTL' => 0xFF, 'format' => 'A4',]);
+            return $pdf->stream('detailedOffices.pdf');
+
+        } catch (\Exception $ex) {
+            return response()->json(['error' => $ex->getMessage()], 200);
+        }
+    }
+
+    public function pdfInvoiceMonthly()
+    {
+        try {
+            $data = $this->invoiceModel->getInvoiceMonthly();
+            
+            $dataToSend = [
+                'invoices' => $data['monthlyInvoices'],
+                'totalInvoices' => $data['totalInvoices']
+                ];
+    
+            $pdf = Pdf::loadView('admin.exports.print.invoicesPerMonth', $dataToSend, [], ['useOTL' => 0xFF, 'format' => 'A4',]);
+            return $pdf->stream('invoicesPerMonth.pdf');
+            
+        } catch (\Exception $ex) {
+            return response()->json(['error' => $ex->getMessage()], 200);
+        }
+    }
+
+    public function pdfOfficesDetailsWithAverage()
+    {
+        try {
+            $report = $this->officeModel->getOfficesDetailsWithAverage();
+
+            $dataToSend = [
+                'data' => $report['data'],
+                'invoices' => $report['invoices'],
+                'topOffices' => $report['topOffices']
+                ];
+    
+            $pdf = Pdf::loadView('admin.exports.print.detailedOfficesWithAvgProcTime', $dataToSend, [], ['useOTL' => 0xFF, 'format' => 'A4',]);
+            return $pdf->stream('detailedOfficesWithAvgProcTime.pdf');
+            
+        } catch (\Exception $ex) {
+            return response()->json(['error' => $ex->getMessage()], 200);
+        }
+    }
+
+    public function pdfInvoiceMonthlyProcessTime(Request $request)
+    {
+        try {
+            $data = $this->invoiceModel->getInvoiceMonthlyProcessTime($request);
+
+            $dataToSend = [
+                'invoices' => $data['monthlyInvoices'],
+                'offices' => $data['offices']
+                ];
+    
+            $pdf = Pdf::loadView('admin.exports.print.invoicesPerMonthlyProcessTime', $dataToSend, [], ['useOTL' => 0xFF, 'format' => 'A4',]);
+            return $pdf->stream('invoicesPerMonthlyProcessTime.pdf');
+        } catch (\Exception $ex) {
+            return response()->json(['error' => $ex->getMessage()], 200);
+        }
+    }
+
+    public function pdfQuarterInvoicesByMobileRequestByOffice()
+    {
+        try {
+
+           $data = $this->invoiceModel->getQuarterInvoicesByMobileRequestByOffice();
+
+           $dataToSend = [
+            'invoices' => $data['invoices'],
+            'offices' => $data['offices'],
+            'total' => $data['total'],
+            'topServices' => $data['topServices']
+            ];
+
+            $pdf = Pdf::loadView('admin.exports.print.quarterlyMobileAndOffice', $dataToSend, [], ['useOTL' => 0xFF, 'format' => 'A4',]);
+            return $pdf->stream('quarterlyMobileAndOffice.pdf');
+            
+        } catch (\Exception $ex) {
+            return response()->json(['status' => 'error', 'data' => $ex->getMessage()], 200);
+        }
+    }
+
+    public function pdfLastThreeYearsInvoices()
+    {
+        try {
+            
+            $report = $this->invoiceModel->getLastThreeYearsInvoices();
+
+            $dataToSend = [
+                'data' => $report['data'],
+                'years' => $report['years'],
+                'yearsCount' => $report['yearsCount'],
+                ];
+    
+            $pdf = Pdf::loadView('admin.exports.print.lastThreeYearsInvoices', $dataToSend, [], ['useOTL' => 0xFF, 'format' => 'A4',]);
+            return $pdf->stream('lastThreeYearsInvoices.pdf');
+
+        } catch (\Exception $ex) {
+            return response()->json(['status' => 'error', 'message' => $ex->getMessage()], 200);
+        }
+    }
 
 }

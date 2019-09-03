@@ -51,7 +51,7 @@
                 <div class="col-md-6 col-sm-12 col-xs-12 pull-right rtl tabel" >
                     <div class="text-center" style="margin: 5px;">
                         <a href="{{route('admin.offices.exportProcessTimeDetails')}}" class="btn btn-primary btn-lg">Excel</a>
-                        <a href="#" class="btn btn-primary btn-lg" >PDF</a>
+                        <a href="{{route('admin.offices.pdfProcessTimeDetails')}}" class="btn btn-primary btn-lg" >PDF</a>
                         <a href="{{route('admin.offices.printProcessTimeDetails')}}" class="btn btn-primary btn-lg printPage">Print</a>
                     </div>
                     <table class="table table-striped">

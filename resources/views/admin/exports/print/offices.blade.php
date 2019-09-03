@@ -1,4 +1,7 @@
 @extends('admin.exports.print.header')
+
+@section('style')
+@endsection
 @section('content')    
     <div class="seciton-tabel">
         @if (isset($invoices))
@@ -7,9 +10,9 @@
                 <table class="table table-striped">
                     <thead class="waleed">
                         <tr>
-                            <th style=" background-color: #383838 !important;color:white !important">المكتب</th>
-                            <th style=" background-color: #383838 !important;color:white !important">إجمالى أعداد المعاملات</th>
-                            <th style=" background-color: #383838 !important;color:white !important">إجمالى الرسوم</th>
+                            <th style=" background-color: #383838 !important;color:#ffffff !important" class="ta-header">المكتب</th>
+                            <th style=" background-color: #383838 !important;color:#ffffff !important" class="ta-header">إجمالى أعداد المعاملات</th>
+                            <th style=" background-color: #383838 !important;color:#ffffff !important" class="ta-header">إجمالى الرسوم</th>
                         </tr>
                     </thead>
                     <tbody>
