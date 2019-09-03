@@ -19,6 +19,12 @@
             margin-left:80px
 
         } */
+        #myChart {
+    height: auto;
+    padding-left: 100px;
+    position: relative;
+    top: 50px;
+}
     </style>
 @endsection
 @section('content')

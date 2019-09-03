@@ -48,11 +48,15 @@
             </form>
 
             @if (isset($invoices))
+            <?php 
+                $office_id = $_GET['office_id'];
+                $date_range = $_GET['daterange'];
+            ?>
                 <div class="col-md-5 col-sm-12 col-xs-12 pull-right rtl tabel" >
                     <div class="text-center" style="margin: 5px;">
-                        <a href="{{route('admin.exportMonthlyInvoicesProcessTime')}}" class="btn btn-primary btn-lg">Excel</a>
+                        <a href="{{route('admin.exportMonthlyInvoicesProcessTime', ['office_id'=> $office_id, 'daterange' => $date_range])}}" class="btn btn-primary btn-lg">Excel</a>
                         <a href="#" class="btn btn-primary btn-lg" >PDF</a>
-                        <a href="{{route('admin.printMonthlyInvoicesProcessTime')}}" class="btn btn-primary btn-lg printPage">Print</a>
+                        <a href="{{route('admin.printMonthlyInvoicesProcessTime', ['office_id'=> $office_id, 'daterange' => $date_range])}}" class="btn btn-primary btn-lg printPage">Print</a>
                     </div>
                     <table class="table table-striped">
                         <thead class="waleed">
