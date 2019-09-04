@@ -54,9 +54,27 @@
             ?>
                 <div class="col-md-12 rtl tabel" >
                     <div class="text-center" style="margin: 5px;">
+                        @if(session()->has('success'))
+                            <div style="width: 300px;" class="alert alert-success center-block">
+                                {{ session()->get('success') }}
+                            </div>
+                        @endif
                         <a href="{{route('admin.exportInvoicesByCategory', ['category_id'=> $cat_id, 'daterange' => $date_range])}}" class="btn btn-primary btn-lg">Excel</a>
                         <a href="{{route('admin.pdfInvoicesByCategory',['category_id'=> $cat_id, 'daterange' => $date_range])}}" class="btn btn-primary btn-lg" >PDF</a>
+                        <a class="btn btn-primary btn-lg sendmail">Send to mail</a>
                         <a href="{{route('admin.printInvoicesByCategory',['category_id'=> $cat_id, 'daterange' => $date_range])}}" class="btn btn-primary btn-lg printPage">Print</a>
+                        
+                        {{-- Email form  --}}
+                        <form class="form-inline emailForm" action="{{route('admin.pdfInvoicesByCategory')}}" style="display: none">
+                            <div class="form-group center-block" style="width:270px;margin: 10px 0;">
+                                <input type="hidden" name="category_id" value="{{$cat_id}}">
+                                <input type="hidden" name="daterange" value="{{$date_range}}">
+                                <input type="hidden" name="byMail" value="true">
+                                <input type="email" style="width: 270px;height: 35px;" class="form-group form-control" id="email" name="email" placeholder="Enter email">
+                            </div>
+                            <button type="submit" style="font-size: 15px;padding: 3px 14px;height: 35px;border-radius: 0;" class="btn btn-sm btn-primary">Send</button>
+                        </form>
+                        {{-- End Emial Form --}}
                     </div>
                     <table class="table table-striped print">
                         <thead class="waleed">

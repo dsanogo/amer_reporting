@@ -14,9 +14,11 @@ use App\Exports\ExcelExports\QuarterlyMobileAndOffice;
 use App\Exports\ExcelExports\Surveys;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Mail\SendPDF;
 use App\Models\Invoice;
 use App\Models\Office;
 use App\Models\SurveySubject;
+use Illuminate\Support\Facades\Mail;
 use Maatwebsite\Excel\Facades\Excel;
 use PDF;
 
@@ -188,6 +190,12 @@ class ExportController extends Controller
 
             $pdf = Pdf::loadView('admin.exports.print.categoryServices', $dataToSend, [], ['useOTL' => 0xFF, 'format' => 'A4',]);
 
+            if(isset($request->byMail)){
+                $userEmail = $request->email; 
+                Mail::send(new SendPDF($pdf->output(), $userEmail));
+                return redirect()->back()->with('success', 'Email successfully sent with attachment');
+            }
+            
             return $pdf->stream('invoicesPerCategory.pdf');
 
         } catch (\Exception $ex) {
@@ -195,7 +203,7 @@ class ExportController extends Controller
         }   
     }
 
-    public function pdfInvoicesForOffices()
+    public function pdfInvoicesForOffices(Request $request)
     {
         try {
             $data = $this->invoiceModel->getInvoicesForOffices();
@@ -206,13 +214,20 @@ class ExportController extends Controller
                         ];
             
             $pdf = Pdf::loadView('admin.exports.print.offices', $dataToSend, [], ['useOTL' => 0xFF, 'format' => 'A4',]);
+
+            if(isset($request->byMail)){
+                $userEmail = $request->email; 
+                Mail::send(new SendPDF($pdf->output(), $userEmail));
+                return redirect()->back()->with('success', 'Email successfully sent with attachment');;
+            }
+
             return $pdf->stream('offices.pdf');
         } catch (\Exception $ex) {
             return response()->json(['status' => 'error', 'data' => $ex->getMessage()], 200);
         }
     }
 
-    public function pdfInvoicesByMobileRequestByOffice()
+    public function pdfInvoicesByMobileRequestByOffice(Request $request)
     {
         try {
             $data = $this->invoiceModel->getInvoicesByMobileRequestByOffice();     
@@ -224,6 +239,12 @@ class ExportController extends Controller
                 ];
     
             $pdf = Pdf::loadView('admin.exports.print.mobileAndOffice', $dataToSend, [], ['useOTL' => 0xFF, 'format' => 'A4',]);
+
+            if(isset($request->byMail)){
+                $userEmail = $request->email; 
+                Mail::send(new SendPDF($pdf->output(), $userEmail));
+                return redirect()->back()->with('success', 'Email successfully sent with attachment');;
+            }
             
             return $pdf->stream('mobileAndOffice.pdf');
         } catch (\Exception $ex) {
@@ -231,7 +252,7 @@ class ExportController extends Controller
         }
     }
 
-    public function pdfSurveysReport()
+    public function pdfSurveysReport(Request $request)
     {
         try {
             $surveys = $this->surveyModel->getSurveysReport()['surveys'];
@@ -240,6 +261,13 @@ class ExportController extends Controller
                 ];
     
             $pdf = Pdf::loadView('admin.exports.print.surveys', $dataToSend, [], ['useOTL' => 0xFF, 'format' => 'A4',]);
+
+            if(isset($request->byMail)){
+                $userEmail = $request->email; 
+                Mail::send(new SendPDF($pdf->output(), $userEmail));
+                return redirect()->back()->with('success', 'Email successfully sent with attachment');;
+            }
+
             return $pdf->stream('surveys.pdf');
 
         } catch (\Exception $ex) {
@@ -247,7 +275,7 @@ class ExportController extends Controller
         }
     }
 
-    public function pdfOfficesDetails()
+    public function pdfOfficesDetails(Request $request)
     {
         try {
             $report = $this->officeModel->getOfficesDetails();
@@ -260,6 +288,13 @@ class ExportController extends Controller
                 ];
 
             $pdf = Pdf::loadView('admin.exports.print.detailedOffices', $dataToSend, [], ['useOTL' => 0xFF, 'format' => 'A4',]);
+
+            if(isset($request->byMail)){
+                $userEmail = $request->email; 
+                Mail::send(new SendPDF($pdf->output(), $userEmail));
+                return redirect()->back()->with('success', 'Email successfully sent with attachment');;
+            }
+
             return $pdf->stream('detailedOffices.pdf');
 
         } catch (\Exception $ex) {
@@ -267,7 +302,7 @@ class ExportController extends Controller
         }
     }
 
-    public function pdfInvoiceMonthly()
+    public function pdfInvoiceMonthly(Request $request)
     {
         try {
             $data = $this->invoiceModel->getInvoiceMonthly();
@@ -278,6 +313,13 @@ class ExportController extends Controller
                 ];
     
             $pdf = Pdf::loadView('admin.exports.print.invoicesPerMonth', $dataToSend, [], ['useOTL' => 0xFF, 'format' => 'A4',]);
+
+            if(isset($request->byMail)){
+                $userEmail = $request->email; 
+                Mail::send(new SendPDF($pdf->output(), $userEmail));
+                return redirect()->back()->with('success', 'Email successfully sent with attachment');;
+            }
+
             return $pdf->stream('invoicesPerMonth.pdf');
             
         } catch (\Exception $ex) {
@@ -285,7 +327,7 @@ class ExportController extends Controller
         }
     }
 
-    public function pdfOfficesDetailsWithAverage()
+    public function pdfOfficesDetailsWithAverage(Request $request)
     {
         try {
             $report = $this->officeModel->getOfficesDetailsWithAverage();
@@ -297,6 +339,13 @@ class ExportController extends Controller
                 ];
     
             $pdf = Pdf::loadView('admin.exports.print.detailedOfficesWithAvgProcTime', $dataToSend, [], ['useOTL' => 0xFF, 'format' => 'A4',]);
+
+            if(isset($request->byMail)){
+                $userEmail = $request->email; 
+                Mail::send(new SendPDF($pdf->output(), $userEmail));
+                return redirect()->back()->with('success', 'Email successfully sent with attachment');;
+            }
+
             return $pdf->stream('detailedOfficesWithAvgProcTime.pdf');
             
         } catch (\Exception $ex) {
@@ -315,13 +364,20 @@ class ExportController extends Controller
                 ];
     
             $pdf = Pdf::loadView('admin.exports.print.invoicesPerMonthlyProcessTime', $dataToSend, [], ['useOTL' => 0xFF, 'format' => 'A4',]);
+
+            if(isset($request->byMail)){
+                $userEmail = $request->email; 
+                Mail::send(new SendPDF($pdf->output(), $userEmail));
+                return redirect()->back()->with('success', 'Email successfully sent with attachment');;
+            }
+
             return $pdf->stream('invoicesPerMonthlyProcessTime.pdf');
         } catch (\Exception $ex) {
             return response()->json(['error' => $ex->getMessage()], 200);
         }
     }
 
-    public function pdfQuarterInvoicesByMobileRequestByOffice()
+    public function pdfQuarterInvoicesByMobileRequestByOffice(Request $request)
     {
         try {
 
@@ -335,6 +391,13 @@ class ExportController extends Controller
             ];
 
             $pdf = Pdf::loadView('admin.exports.print.quarterlyMobileAndOffice', $dataToSend, [], ['useOTL' => 0xFF, 'format' => 'A4',]);
+
+            if(isset($request->byMail)){
+                $userEmail = $request->email; 
+                Mail::send(new SendPDF($pdf->output(), $userEmail));
+                return redirect()->back()->with('success', 'Email successfully sent with attachment');;
+            }
+
             return $pdf->stream('quarterlyMobileAndOffice.pdf');
             
         } catch (\Exception $ex) {
@@ -342,7 +405,7 @@ class ExportController extends Controller
         }
     }
 
-    public function pdfLastThreeYearsInvoices()
+    public function pdfLastThreeYearsInvoices(Request $request)
     {
         try {
             
@@ -353,8 +416,15 @@ class ExportController extends Controller
                 'years' => $report['years'],
                 'yearsCount' => $report['yearsCount'],
                 ];
-    
+   
             $pdf = Pdf::loadView('admin.exports.print.lastThreeYearsInvoices', $dataToSend, [], ['useOTL' => 0xFF, 'format' => 'A4',]);
+
+            if(isset($request->byMail)){
+                $userEmail = $request->email; 
+                Mail::send(new SendPDF($pdf->output(), $userEmail));
+                return redirect()->back()->with('success', 'Email successfully sent with attachment');;
+            }
+
             return $pdf->stream('lastThreeYearsInvoices.pdf');
 
         } catch (\Exception $ex) {

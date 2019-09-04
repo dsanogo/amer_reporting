@@ -22,10 +22,16 @@
         $(".printPage").printPage({
             message: 'Loading your document. Please wait...'
         });
-});
+        $('.sendmail').click(function(){
+            $('.emailForm').show();
+        })
+    });
+
 </script>
 @yield('script')
 
 </body>
+
+
 
 </html>
