@@ -48,10 +48,10 @@ class ExportController extends Controller
         }    
     }
 
-    public function exportInvoicesForOffices()
+    public function exportInvoicesForOffices(Request $request)
     {
         try {
-            $data = $this->invoiceModel->getInvoicesForOffices();
+            $data = $this->invoiceModel->getInvoicesForOffices($request);
             $invoiceDetailed = $data['invoices'];
             $total = $data['total'];
             
@@ -61,10 +61,10 @@ class ExportController extends Controller
         }
     }
 
-    public function exportInvoicesByMobileRequestByOffice()
+    public function exportInvoicesByMobileRequestByOffice(Request $request)
     {
         try {
-            $data = $this->invoiceModel->getInvoicesByMobileRequestByOffice();
+            $data = $this->invoiceModel->getInvoicesByMobileRequestByOffice($request);
             
             $invoiceDetailed = $data['invoices'];
             $total = $data['total'];
@@ -206,7 +206,7 @@ class ExportController extends Controller
     public function pdfInvoicesForOffices(Request $request)
     {
         try {
-            $data = $this->invoiceModel->getInvoicesForOffices();
+            $data = $this->invoiceModel->getInvoicesForOffices($request);
             
             $dataToSend = [
                         'invoices' => $data['invoices'], 
@@ -230,7 +230,7 @@ class ExportController extends Controller
     public function pdfInvoicesByMobileRequestByOffice(Request $request)
     {
         try {
-            $data = $this->invoiceModel->getInvoicesByMobileRequestByOffice();     
+            $data = $this->invoiceModel->getInvoicesByMobileRequestByOffice($request);     
             
             $dataToSend = [
                 'invoices' => $data['invoices'],

@@ -46,11 +46,11 @@ class InvoiceController extends Controller
     * Get all the invoices for the Category Services.
     *
     */
-    public function getInvoicesForOffices()
+    public function getInvoicesForOffices(Request $request)
     {
         try {
             
-            $data = $this->invoiceModel->getInvoicesForOffices();
+            $data = $this->invoiceModel->getInvoicesForOffices($request);
             $invoiceDetailed = $data['invoices'];
             $offices = $data['offices'];
             $total = $data['total'];
@@ -66,10 +66,10 @@ class InvoiceController extends Controller
     * Get all the invoices done from Mobile and those from Offices.
     *
     */
-    public function getInvoicesByMobileRequestByOffice()
+    public function getInvoicesByMobileRequestByOffice(Request $request)
     {
         try {
-            $data = $this->invoiceModel->getInvoicesByMobileRequestByOffice();
+            $data = $this->invoiceModel->getInvoicesByMobileRequestByOffice($request);
             $invoiceDetailed = $data['invoices'];
             $offices = $data['offices'];
             $total = $data['total'];
@@ -229,10 +229,11 @@ class InvoiceController extends Controller
         }
     }
 
-    public function printInvoicesForOffices()
+    public function printInvoicesForOffices(Request $request)
     {
         try {
-            $data = $this->invoiceModel->getInvoicesForOffices();
+            dd($request->all());
+            $data = $this->invoiceModel->getInvoicesForOffices($request);
             $invoiceDetailed = $data['invoices'];
             $offices = $data['offices'];
             $total = $data['total'];
@@ -244,10 +245,10 @@ class InvoiceController extends Controller
         }
     }
 
-    public function printInvoicesByMobileRequestByOffice()
+    public function printInvoicesByMobileRequestByOffice(Request $request)
     {
         try {
-            $data = $this->invoiceModel->getInvoicesByMobileRequestByOffice();
+            $data = $this->invoiceModel->getInvoicesByMobileRequestByOffice($request);
             $invoiceDetailed = $data['invoices'];
             $offices = $data['offices'];
             $total = $data['total'];

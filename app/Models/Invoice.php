@@ -15,7 +15,7 @@ class Invoice extends Model
     */
     protected $table = 'Invoices';
 
-    public function getInvoicesByServiceCategory(Request $request)
+    public function getInvoicesByServiceCategory($request)
     {
         $date = explode(' - ', $request->daterange);
         $from = $date[0];
@@ -70,12 +70,27 @@ class Invoice extends Model
         }
     }
 
-    public function getInvoicesForOffices()
+    public function getInvoicesForOffices($request)
     {
         try {
+            
+            if(isset($request->daterange)){
+                $date = explode(' - ', $request->daterange);
+                $from = $date[0];
+                $to = $date[1];
+            }else {
+                $from = '';
+                $to = '';
+            }
+
             $invoiceDetailed = [];
             $offices = $offices = Office::select('Id', 'Name')->get();
-            $invoices = Invoice::select('TotalFees', 'MobileRequestId')->get();
+            $invoices = Invoice::select('TotalFees', 'MobileRequestId')
+            ->where(function($query) use ($from, $to) {
+                if($from !== '' && $to !== '') {
+                    $query->whereDate('Time','>=', $from)->whereDate('Time', '<=', $to);
+                }
+            })->get();
             $sumOfTotalFees = 0;
             $sumOfInvoices = 0;
             
@@ -128,12 +143,28 @@ class Invoice extends Model
         }
     }
 
-    public function getInvoicesByMobileRequestByOffice()
+    public function getInvoicesByMobileRequestByOffice($request)
     {
         try {
+            
+            if(isset($request->daterange)){
+                $date = explode(' - ', $request->daterange);
+                $from = $date[0];
+                $to = $date[1];
+            }else {
+                $from = '';
+                $to = '';
+            }
+
             $invoiceDetailed = [];
             $offices = $offices = Office::select('Id', 'Name')->get();
-            $invoices = Invoice::select('TotalFees', 'MobileRequestId', 'Origin')->get();
+            $invoices = Invoice::select('TotalFees', 'MobileRequestId', 'Origin')
+            ->where(function($query) use ($from, $to) {
+                if($from !== '' && $to !== '') {
+                    $query->whereDate('Time','>=', $from)->whereDate('Time', '<=', $to);
+                }
+            })
+            ->get();
             $sumOfInvoices = 0;
             $sumMobileInvoices = 0;
             $sumOfficeInvoices = 0;

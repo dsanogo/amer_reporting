@@ -18,7 +18,7 @@
     <body>
         <!-- section one-->
         <div class="seciton-tabel">
-            <form action="{{route('admin.getInvoicesByCategory')}}" method="get">
+            <form action="{{route('admin.getInvoicesByOffices')}}" method="get">
                 <div class="col-md-12">
                     <div class="col-md-4 col-sm-12 col-xs-12 tabel-input rtl pull-right">
                         <div class="col-md-12">
