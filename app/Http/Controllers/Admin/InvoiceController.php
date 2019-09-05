@@ -4,17 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\ServiceCategory;
-use App\Models\InvoiceDetail;
 use App\Models\Invoice;
-use App\Models\Office;
-use App\Models\MobileRequest;
-use Illuminate\Support\Facades\DB;
-use App\Models\Service;
-use App\User;
-use App\Models\Employee;
-use App\Models\OfficeService;
-use DateTime;
+
 
 class InvoiceController extends Controller
 {
