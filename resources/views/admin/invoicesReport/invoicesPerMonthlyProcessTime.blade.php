@@ -47,7 +47,13 @@
                 </div>
             </form>
 
-            @if (isset($invoices))
+                @if (count($invoices) == 0)
+                    <div class="col-md-12 rtl text-center alert alert-danger block-center" >
+                        <h5>No Result found for this period</h5>
+                    </div>
+                @endif
+
+            @if (isset($invoices) && count($invoices) > 0)
             <?php 
                 $office_id = isset($_GET['office_id']) ? $_GET['office_id'] : '';
                 $date_range = isset($_GET['daterange']) ? $_GET['daterange'] : '';
@@ -101,11 +107,8 @@
             </div>
     </div>
 
-@endsection
-
-@section('script')
     <script>
-        $(function() {
+         $(function() {
 
             $('input[name="daterange"]').daterangepicker({
                 opens: 'right'
@@ -113,7 +116,16 @@
                 console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
                 
             });
+         });
 
+    </script>
+
+@endsection
+@if (count($invoices) > 0)
+
+@section('script')
+    <script>
+        $(function() {
             var month = new Array();
             var process_time= new Array();
             @foreach ($invoices as $invoice)
@@ -153,3 +165,4 @@
         });
     </script>
 @endsection
+@endif

@@ -29,13 +29,21 @@ label{
     <body>
         <!-- section one-->
         <div class="seciton-tabel">
-                <div class="col-md-12 text-right text-qu p-t-10">
-                    <p>{{$topServices->fromMobile !== '' ? $topServices->fromMobile : "No Service for this period"}} : أكثر نوع معاملة تم طلبها بنظام المحمول</p>
-                    <p>{{$topServices->fromOffice !== '' ? $topServices->fromOffice : "No Service for this period"}} : أكثر نوع معاملة تم طلبها من المكتب مباشرة</p>
-                </div>
-         
-            @if (isset($invoices))
+            <div class="col-md-12 text-right text-qu p-t-10">
+                <p>{{$topServices->fromMobile !== '' ? $topServices->fromMobile : "No Service for this period"}} : أكثر نوع معاملة تم طلبها بنظام المحمول</p>
+                <p>{{$topServices->fromOffice !== '' ? $topServices->fromOffice : "No Service for this period"}} : أكثر نوع معاملة تم طلبها من المكتب مباشرة</p>
+            </div>
 
+        @if (count($invoices) == 0)
+            <div class="col-md-12 rtl text-center alert alert-danger block-center" >
+                <h5>No Result found for this period</h5>
+            </div>
+        @endif
+         
+            @if (isset($invoices) && count($invoices) > 0)
+                <?php 
+                    $date_range = isset($_GET['daterange']) ? $_GET['daterange'] : '';
+                ?>
                 <div class="col-md-12 rtl tabel" >
                     <div class="text-center" style="margin: 5px;">
                         @if(session()->has('success'))
@@ -43,14 +51,15 @@ label{
                                 {{ session()->get('success') }}
                             </div>
                         @endif
-                        <a href="{{route('admin.exportMobileAndOfficeInvoicesQuarterly')}}" class="btn btn-primary btn-lg">Excel</a>
-                        <a href="{{route('admin.pdfMobileAndOfficeInvoicesQuarterly')}}" class="btn btn-primary btn-lg" >PDF</a>
+                        <a href="{{route('admin.exportMobileAndOfficeInvoicesQuarterly', ['daterange' => $date_range])}}" class="btn btn-primary btn-lg">Excel</a>
+                        <a href="{{route('admin.pdfMobileAndOfficeInvoicesQuarterly', ['daterange' => $date_range])}}" class="btn btn-primary btn-lg" >PDF</a>
                         <a class="btn btn-primary btn-lg sendmail" >Send to mail</a>
-                        <a href="{{route('admin.printMobileAndOfficeInvoicesQuarterly')}}" class="btn btn-primary btn-lg printPage">Print</a>
+                        <a href="{{route('admin.printMobileAndOfficeInvoicesQuarterly', ['daterange' => $date_range])}}" class="btn btn-primary btn-lg printPage">Print</a>
                         {{-- Email form  --}}
                         <form class="form-inline emailForm" action="{{route('admin.pdfMobileAndOfficeInvoicesQuarterly')}}" style="display: none">
                             <div class="form-group center-block" style="width:270px;margin: 10px 0;">
                                 <input type="hidden" name="byMail" value="true">
+                                <input type="hidden" name="daterange" value="{{$date_range}}">
                                 <input type="email" style="width: 270px;height: 35px;" class="form-group form-control" id="email" name="email" placeholder="Enter email">
                             </div>
                             <button type="submit" style="font-size: 15px;padding: 3px 14px;height: 35px;border-radius: 0;" class="btn btn-sm btn-primary">Send</button>

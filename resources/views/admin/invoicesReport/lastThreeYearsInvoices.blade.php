@@ -32,7 +32,15 @@
     <body>
         <!-- section one-->
         <div class="seciton-tabel">
-        @if ($data)
+        @if (count($data) == 0)
+            <div class="col-md-12 rtl text-center alert alert-danger block-center" >
+                <h5>No Result found for this period</h5>
+            </div>
+        @endif
+        @if ($data && count($data) > 0)
+            <?php 
+                $date_range = isset($_GET['daterange']) ? $_GET['daterange'] : '';
+            ?>
             <div class="col-md-12 pull-right rtl tabel" >
                 <div class="text-center" style="margin: 5px;">
                     @if(session()->has('success'))
@@ -40,14 +48,15 @@
                             {{ session()->get('success') }}
                         </div>
                     @endif
-                    <a href="{{route('admin.invoices.exportLastThreeYears')}}" class="btn btn-primary btn-lg">Excel</a>
-                    <a href="{{route('admin.invoices.pdfLastThreeYears')}}" class="btn btn-primary btn-lg" >PDF</a>
+                    <a href="{{route('admin.invoices.exportLastThreeYears', ['daterange' => $date_range])}}" class="btn btn-primary btn-lg">Excel</a>
+                    <a href="{{route('admin.invoices.pdfLastThreeYears', ['daterange' => $date_range])}}" class="btn btn-primary btn-lg" >PDF</a>
                     <a class="btn btn-primary btn-lg sendmail" >Send to mail</a>
-                    <a href="{{route('admin.invoices.printLastThreeYears')}}" class="btn btn-primary btn-lg printPage">Print</a>
+                    <a href="{{route('admin.invoices.printLastThreeYears', ['daterange' => $date_range])}}" class="btn btn-primary btn-lg printPage">Print</a>
                     {{-- Email form  --}}
-                    <form class="form-inline emailForm" action="{{route('admin.pdfLastThreeYears')}}" style="display: none">
+                    <form class="form-inline emailForm" action="{{route('admin.invoices.pdfLastThreeYears')}}" style="display: none">
                         <div class="form-group center-block" style="width:270px;margin: 10px 0;">
                             <input type="hidden" name="byMail" value="true">
+                            <input type="hidden" name="daterange" value="{{$date_range}}">
                             <input type="email" style="width: 270px;height: 35px;" class="form-group form-control" id="email" name="email" placeholder="Enter email">
                         </div>
                         <button type="submit" style="font-size: 15px;padding: 3px 14px;height: 35px;border-radius: 0;" class="btn btn-sm btn-primary">Send</button>

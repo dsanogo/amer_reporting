@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Office;
-
+use Illuminate\Http\Request;
 
 class OfficeController extends Controller
 {
@@ -24,10 +24,10 @@ class OfficeController extends Controller
         }
     }
 
-    public function getOfficesDetails()
+    public function getOfficesDetails(Request $request)
     {
         try {
-            $report = $this->officeModel->getOfficesDetails();
+            $report = $this->officeModel->getOfficesDetails($request);
             $data = $report['data'];
             $invoiceDetailed = $report['invoices'];
             $total = $report['total'];
@@ -39,11 +39,11 @@ class OfficeController extends Controller
         }
     }
 
-    public function getOfficesDetailsWithAverage()
+    public function getOfficesDetailsWithAverage(Request $request)
     {
         try {
             
-            $report = $this->officeModel->getOfficesDetailsWithAverage();
+            $report = $this->officeModel->getOfficesDetailsWithAverage($request);
             $data = $report['data'];
             $invoiceDetailed = $report['invoices'];
             $topOffices = $report['topOffices'];
@@ -54,10 +54,10 @@ class OfficeController extends Controller
         }
     }
 
-    public function printOfficesDetailsWithAverage()
+    public function printOfficesDetailsWithAverage(Request $request)
     {
         try {
-            $report = $this->officeModel->getOfficesDetailsWithAverage();
+            $report = $this->officeModel->getOfficesDetailsWithAverage($request);
             $data = $report['data'];
             $invoiceDetailed = $report['invoices'];
             $topOffices = $report['topOffices'];
@@ -68,10 +68,10 @@ class OfficeController extends Controller
         }
     }
 
-    public function printOfficesDetails()
+    public function printOfficesDetails(Request $request)
     {
         try {
-            $report = $this->officeModel->getOfficesDetails();
+            $report = $this->officeModel->getOfficesDetails($request);
             $data = $report['data'];
             $invoiceDetailed = $report['invoices'];
             $total = $report['total'];

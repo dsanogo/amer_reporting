@@ -125,11 +125,11 @@ class InvoiceController extends Controller
         }
     }
     
-    public function getInvoiceMonthly()
+    public function getInvoiceMonthly(Request $request)
     {
         try {
            
-            $data = $this->invoiceModel->getInvoiceMonthly();
+            $data = $this->invoiceModel->getInvoiceMonthly($request);
             $monthlyInvoices = $data['monthlyInvoices'];
             $totalInvoices = $data['totalInvoices'];
 
@@ -232,7 +232,6 @@ class InvoiceController extends Controller
     public function printInvoicesForOffices(Request $request)
     {
         try {
-            dd($request->all());
             $data = $this->invoiceModel->getInvoicesForOffices($request);
             $invoiceDetailed = $data['invoices'];
             $offices = $data['offices'];
@@ -259,10 +258,10 @@ class InvoiceController extends Controller
         }
     }
 
-    public function printInvoiceMonthly()
+    public function printInvoiceMonthly(Request $request)
     {
         try {
-            $data = $this->invoiceModel->getInvoiceMonthly();
+            $data = $this->invoiceModel->getInvoiceMonthly($request);
             $monthlyInvoices = $data['monthlyInvoices'];
             $totalInvoices = $data['totalInvoices'];
             

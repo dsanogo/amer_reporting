@@ -76,10 +76,10 @@ class ExportController extends Controller
         }
     }
 
-    public function exportSurveysReport()
+    public function exportSurveysReport(Request $request)
     {
         try {
-            $surveys = $this->surveyModel->getSurveysReport()['surveys'];
+            $surveys = $this->surveyModel->getSurveysReport($request)['surveys'];
 
             return Excel::download(new Surveys($surveys), 'surveys.xlsx');
             // return view('admin.exports.print.surveys')->withSurveys($surveys);
@@ -89,10 +89,10 @@ class ExportController extends Controller
         }
     }
 
-    public function exportOfficesDetails()
+    public function exportOfficesDetails(Request $request)
     {
         try {
-            $report = $this->officeModel->getOfficesDetails();
+            $report = $this->officeModel->getOfficesDetails($request);
             $data = $report['data'];
             $invoiceDetailed = $report['invoices'];
             $total = $report['total'];
@@ -104,10 +104,10 @@ class ExportController extends Controller
         }
     }
     
-    public function exportInvoiceMonthly()
+    public function exportInvoiceMonthly(Request $request)
     {
         try {
-            $data = $this->invoiceModel->getInvoiceMonthly();
+            $data = $this->invoiceModel->getInvoiceMonthly($request);
             $monthlyInvoices = $data['monthlyInvoices'];
             $totalInvoices = $data['totalInvoices'];
 
@@ -118,10 +118,10 @@ class ExportController extends Controller
         }
     }
 
-    public function exportOfficesDetailsWithAverage()
+    public function exportOfficesDetailsWithAverage(Request $request)
     {
         try {
-            $report = $this->officeModel->getOfficesDetailsWithAverage();
+            $report = $this->officeModel->getOfficesDetailsWithAverage($request);
             $data = $report['data'];
             $invoiceDetailed = $report['invoices'];
             
@@ -255,7 +255,7 @@ class ExportController extends Controller
     public function pdfSurveysReport(Request $request)
     {
         try {
-            $surveys = $this->surveyModel->getSurveysReport()['surveys'];
+            $surveys = $this->surveyModel->getSurveysReport($request)['surveys'];
             $dataToSend = [
                 'surveys' => $surveys
                 ];
@@ -278,7 +278,7 @@ class ExportController extends Controller
     public function pdfOfficesDetails(Request $request)
     {
         try {
-            $report = $this->officeModel->getOfficesDetails();
+            $report = $this->officeModel->getOfficesDetails($request);
 
             $dataToSend = [
                 'data' => $report['data'],
@@ -305,7 +305,7 @@ class ExportController extends Controller
     public function pdfInvoiceMonthly(Request $request)
     {
         try {
-            $data = $this->invoiceModel->getInvoiceMonthly();
+            $data = $this->invoiceModel->getInvoiceMonthly($request);
             
             $dataToSend = [
                 'invoices' => $data['monthlyInvoices'],
@@ -330,7 +330,7 @@ class ExportController extends Controller
     public function pdfOfficesDetailsWithAverage(Request $request)
     {
         try {
-            $report = $this->officeModel->getOfficesDetailsWithAverage();
+            $report = $this->officeModel->getOfficesDetailsWithAverage($request);
 
             $dataToSend = [
                 'data' => $report['data'],

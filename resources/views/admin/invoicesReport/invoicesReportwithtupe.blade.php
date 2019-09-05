@@ -44,8 +44,17 @@
                 </div>
             </form>
 
-            @if (isset($invoices))
+            @if (count($invoices) == 0)
+                <div class="col-md-12 rtl text-center alert alert-danger block-center" >
+                    <h5>No Result found for this period</h5>
+                </div>
+            @endif
 
+
+            @if (isset($invoices) && count($invoices) > 0)
+                <?php 
+                    $date_range = isset($_GET['daterange']) ? $_GET['daterange'] : '';
+                ?>
                 <div class="col-md-12 rtl tabel" >
                     <div class="text-center" style="margin: 5px;">
                         <a href="#" class="btn btn-primary btn-lg">Excel</a>

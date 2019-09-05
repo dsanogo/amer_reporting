@@ -14,11 +14,11 @@ class SurveyController extends Controller
     public function __construct(SurveySubject $survey) {
         $this->surveyModel = $survey;
     }
-    public function getSurveysReport()
+    public function getSurveysReport(Request $request)
     {
         try {
-            $surveys = $this->surveyModel->getSurveysReport()['surveys'];
-
+            $surveys = $this->surveyModel->getSurveysReport($request)['surveys'];
+        
             return view('admin.surveys.index')->withSurveys($surveys);
 
         } catch (\Exception $ex) {
@@ -27,10 +27,10 @@ class SurveyController extends Controller
         
     }
 
-    public function printSurveysReport()
+    public function printSurveysReport(Request $request)
     {
         try {
-            $surveys = $this->surveyModel->getSurveysReport()['surveys'];
+            $surveys = $this->surveyModel->getSurveysReport($request)['surveys'];
             return view('admin.exports.print.surveys')->withSurveys($surveys);
 
         } catch (\Exception $ex) {

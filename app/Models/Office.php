@@ -17,14 +17,30 @@ class Office extends Model
         return $this->hasMany('App\Models\Employee', 'OfficeId', 'Id');
     }
 
-    public function getOfficesDetails()
+    public function getOfficesDetails($request)
     {
         try {
+
+            if(isset($request->daterange)){
+                $date = explode(' - ', $request->daterange);
+                $from = $date[0];
+                $to = $date[1];
+            }else {
+                $from = '';
+                $to = '';
+            }
+
             $data['offices'] = Office::with('employees')->get();
 
             $invoiceDetailed = [];
             $offices = $offices = Office::select('Id', 'Name')->get();
-            $invoices = Invoice::select('TotalFees', 'MobileRequestId')->get();
+            $invoices = Invoice::select('TotalFees', 'MobileRequestId')
+            ->where(function($query) use ($from, $to) {
+                if($from !== '' && $to !== '') {
+                    $query->whereDate('Time','>=', $from)->whereDate('Time', '<=', $to);
+                }
+            })->get();
+            
             $sumOfInvoices = 0;
             
             foreach ($offices as $key => $office) {
@@ -84,14 +100,30 @@ class Office extends Model
         }
     }
 
-    public function getOfficesDetailsWithAverage()
+    public function getOfficesDetailsWithAverage($request)
     {
         try {
+
+            if(isset($request->daterange)){
+                $date = explode(' - ', $request->daterange);
+                $from = $date[0];
+                $to = $date[1];
+            }else {
+                $from = '';
+                $to = '';
+            }
+
             $data['offices'] = Office::with('employees')->get();
 
             $invoiceDetailed = [];
             $offices = $offices = Office::select('Id', 'Name')->get();
-            $invoices = Invoice::select('MobileRequestId', 'ProcessingTime')->get();
+            $invoices = Invoice::select('MobileRequestId', 'ProcessingTime')
+            ->where(function($query) use ($from, $to) {
+                if($from !== '' && $to !== '') {
+                    $query->whereDate('Time','>=', $from)->whereDate('Time', '<=', $to);
+                }
+            })->get();
+            
             $districts = District::select('Id', 'Name')->get();
             $sumOfInvoices = 0;
             

@@ -348,11 +348,28 @@ class Invoice extends Model
         }
     }
 
-    public function getInvoiceMonthly()
+    public function getInvoiceMonthly($request)
     {
         try {
+
+            if(isset($request->daterange)){
+                $date = explode(' - ', $request->daterange);
+                $from = $date[0];
+                $to = $date[1];
+            }else {
+                $from = '';
+                $to = '';
+            }
+
+
             $monthlyInvoices = DB::table('Invoices')->select(DB::raw('COUNT(Id) as total_invoices'),DB::raw("MONTH(Time) as m"), DB::raw("DATENAME(mm, Time) as month"), DB::raw('YEAR(Time) as year'))
-                                    ->groupBy(DB::raw('MONTH(Time)'), DB::raw("DATENAME(mm, Time)"),DB::raw('YEAR(Time)'))->get();
+                    ->where(function($query) use ($from, $to) {
+                        if($from !== '' && $to !== '') {
+                            $query->whereDate('Time','>=', $from)->whereDate('Time', '<=', $to);
+                        }
+                    })
+                    ->groupBy(DB::raw('MONTH(Time)'), DB::raw("DATENAME(mm, Time)"),DB::raw('YEAR(Time)'))->get();
+
             $totalInvoices = Invoice::count();
 
             return [
@@ -364,9 +381,18 @@ class Invoice extends Model
         }
     }
 
-    public function getInvoiceMonthlyProcessTime(Request $request)
+    public function getInvoiceMonthlyProcessTime($request)
     {
         try {
+
+            if(isset($request->daterange)){
+                $date = explode(' - ', $request->daterange);
+                $from = $date[0];
+                $to = $date[1];
+            }else {
+                $from = '';
+                $to = '';
+            }
             
             if(isset($request->office_id)){
                 $mobileRequestId = $this->getMobileRequestIdsFromInvoices($request->office_id);
@@ -385,6 +411,11 @@ class Invoice extends Model
                 ->where(function($query) use ($mobileRequestId) {
                     if($mobileRequestId !== ''){
                         $query->whereIn('MobileRequestId', $mobileRequestId);
+                    }
+                })
+                ->where(function($query) use ($from, $to) {
+                    if($from !== '' && $to !== '') {
+                        $query->whereDate('Time','>=', $from)->whereDate('Time', '<=', $to);
                     }
                 })
                 ->groupBy(DB::raw('MONTH(Time)'), 

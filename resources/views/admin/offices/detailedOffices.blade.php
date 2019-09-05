@@ -30,18 +30,6 @@
             <form action="{{route('admin.offices.details')}}" method="get">
                 <div class="col-md-12">
                     <div class="col-md-4 col-sm-12 col-xs-12 tabel-input rtl pull-right">
-                        <!-- <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="inputPassword" class="col-md-5 col-sm-4 control-label label-tabel">المنطقة</label>
-                                {{-- <input type="password" class="form-control" id="inputPassword" placeholder="مصر">\ --}}
-                                <select name="office_id" id="" class="form-control" disabled>
-                                    <option value="">Offices</option>
-                                    @foreach ($data['offices'] as $office)
-                                        <option value="{{$office->Id}}" {{isset($_GET['office_id']) && $_GET['office_id']==$office->Id ? 'selected' : ''}}>{{ $office->Name}}</option>    
-                                    @endforeach
-                                </select>                            
-                            </div>
-                        </div> -->
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label for="inputPassword"  class="col-md-5 col-sm-4 control-label label-tabel">فتره المعاملات</label>
@@ -56,7 +44,17 @@
                 </div>
             </form>
 
-            @if (isset($invoices))
+            @if (count($invoices) == 0)
+                <div class="col-md-12 rtl text-center alert alert-danger block-center" >
+                    <h5>No Result found for this period</h5>
+                </div>
+            @endif
+
+            @if (isset($invoices) && count($invoices) > 0)
+
+                <?php 
+                    $date_range = isset($_GET['daterange']) ? $_GET['daterange'] : '';
+                ?>
                 <div class="col-md-6 col-sm-12 col-xs-12 pull-right rtl tabel" >
                     <div class="text-center" style="margin: 5px;">
                         @if(session()->has('success'))
@@ -64,14 +62,15 @@
                                 {{ session()->get('success') }}
                             </div>
                         @endif
-                        <a href="{{route('admin.offices.exportDetails')}}" class="btn btn-primary btn-lg">Excel</a>
-                        <a href="{{route('admin.offices.pdfDetails')}}" class="btn btn-primary btn-lg" >PDF</a>
+                        <a href="{{route('admin.offices.exportDetails', ['daterange' => $date_range])}}" class="btn btn-primary btn-lg">Excel</a>
+                        <a href="{{route('admin.offices.pdfDetails', ['daterange' => $date_range])}}" class="btn btn-primary btn-lg" >PDF</a>
                         <a class="btn btn-primary btn-lg sendmail" >Send to mail</a>
-                        <a href="{{route('admin.offices.printDetails')}}" class="btn btn-primary btn-lg printPage">Print</a>
+                        <a href="{{route('admin.offices.printDetails', ['daterange' => $date_range])}}" class="btn btn-primary btn-lg printPage">Print</a>
                         {{-- Email form  --}}
-                        <form class="form-inline emailForm" action="{{route('admin.pdfDetails')}}" style="display: none">
+                        <form class="form-inline emailForm" action="{{route('admin.offices.pdfDetails')}}" style="display: none">
                             <div class="form-group center-block" style="width:270px;margin: 10px 0;">
                                 <input type="hidden" name="byMail" value="true">
+                                <input type="hidden" name="daterange" value="{{$date_range}}">
                                 <input type="email" style="width: 270px;height: 35px;" class="form-group form-control" id="email" name="email" placeholder="Enter email">
                             </div>
                             <button type="submit" style="font-size: 15px;padding: 3px 14px;height: 35px;border-radius: 0;" class="btn btn-sm btn-primary">Send</button>
