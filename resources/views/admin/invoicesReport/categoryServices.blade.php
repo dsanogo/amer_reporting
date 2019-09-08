@@ -45,12 +45,6 @@
                     </div>
                 </div>
             </form>
-            @if (count($invoices) == 0)
-                <div class="col-md-12 rtl text-center alert alert-danger block-center" >
-                    <h5>No Result found for this period</h5>
-                </div>
-            @endif
-
             @if (isset($invoices) && count($invoices) > 0)
 
             <?php 
