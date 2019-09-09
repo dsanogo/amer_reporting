@@ -162,14 +162,13 @@ class InvoiceController extends Controller
         try {
             $data = $this->invoiceModel->getInvoiceQuarterlyProcessTime();
             
-            // Not done yet
-            return $data;
-            $invoiceDetailed = $data['invoices'];
-            $offices = $data['offices'];
-            $total = $data['total'];
-            $topServices = $data['topServices'];
+            $months = $data['months'];
+            $invoices = $data['invoices'];
+            $year = now()->year;
+            
+            
 
-            return view('admin.invoicesReport.quarterlyMobileAndOffice')->withInvoices($invoiceDetailed)->withOffices($offices)->withTotal($total)->withTopServices($topServices);
+            return view('admin.offices.quarterlyProcessingTime')->withInvoices($invoices)->withMonths($months)->withYear($year);
         } catch (\Exception $ex) {
             return response()->json(['status' => 'error', 'data' => $ex->getMessage()], 200);
         }

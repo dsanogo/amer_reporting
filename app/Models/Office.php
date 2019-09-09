@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\User;
 use Illuminate\Database\Eloquent\Model;
 
 class Office extends Model
@@ -15,6 +16,15 @@ class Office extends Model
     public function employees()
     {
         return $this->hasMany('App\Models\Employee', 'OfficeId', 'Id');
+    }
+
+    public function getUserIds($officeId)
+    {
+        $employees = Employee::where('OfficeId', $officeId)->pluck('Id')->toArray();
+
+        $userIds = User::whereIn('EmployeeId', $employees)->pluck('Id')->toArray();
+
+        return $userIds;
     }
 
     public function getOfficesDetails($request)

@@ -121,9 +121,6 @@
             </div>
     </div>
 
-@endsection
-
-@section('script')
     <script>
         $(function() {
             $('input[name="daterange"]').daterangepicker({
@@ -132,6 +129,13 @@
                 console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
             });
         });
+    </script>
+
+@endsection
+@if (count($invoices) > 0)
+@section('script')
+    <script>
+        
         var month = new Array();
         var invoices= new Array();
         @foreach ($invoices as $invoice)
@@ -170,3 +174,4 @@
               }]} });
     </script>
 @endsection
+@endif
