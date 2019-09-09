@@ -54,7 +54,7 @@
               </div>
             </div>
           </div>
-          <a class="waves-effect waves-light btn-large btn-login">تسجيل الدخول</a>
+          <a class="waves-effect waves-light btn-large btn-login" href="{{url('/admin')}}">تسجيل الدخول</a>
           <a class="btn-forget" href="">نسيت كلمه المرور؟</a>
         </div>
     </form>

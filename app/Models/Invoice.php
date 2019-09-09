@@ -454,11 +454,7 @@ class Invoice extends Model
     {
         try {
 
-            $now = now()->startOfMonth();
-            $quarterAhead = now()->addMonths(-3)->firstOfMonth();
-
             $offices = Office::all();
-
             $quarterlyInvoicesPerOffice = [];
 
             // Get all the months
@@ -471,33 +467,21 @@ class Invoice extends Model
                 ]);
             }
 
-            foreach ($offices as $key => $office) {
-                $userIds = $office->getUserIds($office->Id);
-                $invoices = Invoice::selectRaw('
-                            COUNT(Id) as total_invoices,
-                            MONTH(Time) as m,
-                            DATENAME(mm, Time) as month,
-                            SUM(ProcessingTime) as total_process_time,
-                            AVG(ProcessingTime) as process_time,
-                            YEAR(Time) as year')
-                            ->whereIn('UserId', $userIds)
-                            ->whereDate('Time','>=', $quarterAhead)->whereDate('Time', '<=', $now)
-                            ->groupBy(DB::raw('MONTH(Time)'), 
-                                    DB::raw("DATENAME(mm, Time)"),
-                                    DB::raw('YEAR(Time)'))
-                            ->get();
+            $months = array_reverse($months);
+            foreach ($months as $month) {
+                foreach ($offices as $key => $office) {
+                    $procTime = $this->getProccTimeForOfficePerMonth($office->Id, $month['id'])['process_time'];
+                    $service = $this->getProccTimeForOfficePerMonth($office->Id, $month['id'])['topService'];
 
-
-                $quarterlyInvoicesPerOffice[$key] = [
-                    'officeName' => $office->Name,
-                    'invoices' => $invoices
-                ];
-                
+                    $quarterlyInvoicesPerOffice[$office->Name][$month['name']]['procTime'] = $procTime;
+                    $quarterlyInvoicesPerOffice[$office->Name][$month['name']]['topService'] = $service;
+                }
             }
 
+            
 
             return [
-                'months' => array_reverse($months),
+                'months' => $months,
                 'invoices' => $quarterlyInvoicesPerOffice
             ];
             
@@ -566,5 +550,54 @@ class Invoice extends Model
                 ->pluck('number_of_invoice')->toArray()[0]);
 
         return $number_of_invoice;
+    }
+
+    public function getProccTimeForOfficePerMonth($officeId, $month)
+    {
+        try {
+            $office = new Office();
+            $userIds = $office->getUserIds($officeId);
+            $year = now()->year;
+
+            $proccTime = Invoice::selectRaw('AVG(ProcessingTime) as process_time')->whereRaw(
+                'MONTH(Time) = ' . $month)
+            ->whereIn('UserId', $userIds)->pluck('process_time')->toArray()[0];
+
+            // Start get Service with high proc time
+            $now = now()->startOfMonth();
+            $quarterAhead = now()->addMonths(-3)->firstOfMonth();
+            
+            $invoiceIds = Invoice::select('Id')->WhereRaw('YEAR(Time) = ' . $year)
+            ->whereDate('Time','>=', $quarterAhead)->whereDate('Time', '<=', $now)
+            ->whereIn('UserId', $userIds)->pluck('Id')->toArray();
+            
+            $serviceIds = InvoiceDetail::selectRaw('ServiceId as service, COUNT(ServiceId) as scount')->whereIn('InvoiceId', $invoiceIds)
+                ->groupBy('ServiceId')->get()->toArray();
+
+            $servicesIDS = [];
+            
+            if(count($serviceIds)){
+                foreach ($serviceIds as $s_id) {
+                    array_push($servicesIDS, $s_id['scount']);
+                }
+
+                $maxServiceIndex = array_search(max($servicesIDS), $servicesIDS);
+                $topServiceArray = $serviceIds[$maxServiceIndex];
+                $highService = Service::select('Name')->Where('Id', $topServiceArray['service'])->pluck('Name')->toArray()[0];
+            }else {
+                $highService = '';
+            }
+        
+
+            // End get Service with high proc time
+            
+            return [
+                    'process_time' => $proccTime == null ? 0 : $proccTime, 
+                    'topService' => $highService == '' ? '-' : $highService];
+            
+        } catch (\Exception $ex) {
+            return response()->json(['result' => 'error', 'message' => $ex->getMessage()], 200);
+        }
+        
     }
 }

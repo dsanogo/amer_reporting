@@ -11,7 +11,7 @@
                 data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span
                     class="caret"></span>احمد حسن<img class="person hidden-sm hidden-xs" src="{{asset('public/assets/img/person-placeholder.png')}}" alt=""> </a>
             <ul class="dropdown-menu ">
-                <li><a href="#">Action</a></li>
+                <li><a href="{{url('/login')}}">Log out</a></li>
 
             </ul>
         </div>
