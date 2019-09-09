@@ -11,7 +11,7 @@
 |
 */
 
-Route::get('/', 'HomeController@index');   
+Route::get('/', 'HomeController@index');
 
 Auth::routes();
 
@@ -124,4 +124,7 @@ Route::prefix('admin')->namespace('Admin')->group(function () {
     Route::get('export-last-three-years-invoices', 'ExportController@exportLastThreeYearsInvoices')->name('admin.invoices.exportLastThreeYears');
     //pdf Invoices for the last 3 years
     Route::get('pdf-last-three-years-invoices', 'ExportController@pdfLastThreeYearsInvoices')->name('admin.invoices.pdfLastThreeYears');
+
+    Route::get('memos', 'MemoController@index')->name('admin.memos.index');
+    Route::post('memos/ajax', 'RestMemoController@postAjax');
 });
