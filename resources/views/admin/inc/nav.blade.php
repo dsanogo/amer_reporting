@@ -11,7 +11,19 @@
                 data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span
                     class="caret"></span>احمد حسن<img class="person hidden-sm hidden-xs" src="{{asset('public/assets/img/person-placeholder.png')}}" alt=""> </a>
             <ul class="dropdown-menu ">
-                <li><a href="{{url('/login')}}">Log out</a></li>
+                <li>
+                    
+                    <a class="dropdown-item" href="{{ route('logout') }}"
+                        onclick="event.preventDefault();
+                                        document.getElementById('logout-form').submit();">
+                        Log out
+                    </a>
+
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        @csrf
+                    </form>
+                        
+                </li>
 
             </ul>
         </div>
