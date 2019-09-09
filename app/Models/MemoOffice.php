@@ -19,7 +19,7 @@ class MemoOffice extends Model
      *
      * @var bool
      */
-    public $timestamps = false;
+    public $timestamps = false; 
 
     /**
      * The attributes that are mass assignable.

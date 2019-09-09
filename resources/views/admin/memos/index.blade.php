@@ -17,7 +17,7 @@
 
         <div class="col-md-12">
             <div class="col-md-4 tabel-button col-sm-12 col-xs-12 pull-right">
-                <button class="col-md-5 col-sm-6 col-xs-6 m-r-0 btn p-d-0 colorbtn pull-right">اضافة تعميم جديد</button>
+            <a href="{{ route('admin.memos.get.create') }}" class="col-md-5 col-sm-6 col-xs-6 m-r-0 btn p-d-0 colorbtn pull-right">اضافة تعميم جديد</a>
             </div>
             <div class="col-md-12 rtl tabel">
                 <table id="menos-datatables" class="table table-striped nowrap" style="width:100%">

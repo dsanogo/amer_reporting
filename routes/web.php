@@ -127,4 +127,7 @@ Route::prefix('admin')->namespace('Admin')->group(function () {
 
     Route::get('memos', 'MemoController@index')->name('admin.memos.index');
     Route::post('memos/ajax', 'RestMemoController@postAjax');
+
+    Route::get('memo/create', 'MemoController@create')->name('admin.memos.get.create');
+    Route::post('memo/store', 'MemoController@store')->name('admin.memos.post.create');
 });

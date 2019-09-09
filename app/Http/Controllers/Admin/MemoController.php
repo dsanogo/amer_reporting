@@ -35,13 +35,10 @@ class MemoController extends Controller
      */
     public function create()
     {
-        $memo_types = MemoType::all();
+        $memoTypes = MemoType::all();
         $orgs = SupervisingOrg::all();
         $offices = Office::all();
-        return view('admin.memos.create')
-            ->with('memo_types', $memo_types)
-            ->with('orgs', $orgs)
-            ->with('offices', $offices);
+        return view('admin.memos.create', compact('memoTypes', 'orgs', 'offices'));
     }
 
     /**
@@ -50,16 +47,29 @@ class MemoController extends Controller
      * @param  StoreMemo  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreMemo $request)
+    public function store(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'Origin' => 'required|integer',
+            'Number' => 'required|unique:Memos|max:20',
+            'Time' => 'required|date',
+            'MemoTypeId' => 'required|integer',
+            'SuperVisingOrgId' => 'required|integer',
+            'Brief' => 'nullable|string',
+            'offices' => 'array',
+        ]);
+
+        if ($validator->fails()) return redirect()->back()->withErrors($validator)->withInput();
+
+        $input = $request->all();
         // The incoming request is valid...
 
         // Retrieve the validated input data...
-        $validated = $request->validated();
+        // $validated = $request->validated();
 
         /**Start Transaction */
-        DB::transaction(function () use ($validated, $request) {
-            $memo = (new Memo)->create($validated);
+        DB::transaction(function () use ($input, $request) {
+            $memo = (new Memo)->create($input);
 
             if (!empty($request->offices)) {
                 foreach ($request->offices as $office_id) {
@@ -79,8 +89,7 @@ class MemoController extends Controller
         });
         /**End Transaction */
 
-        toastr()->success(__('toastr.saved_successfully'));
-        return redirect()->route('memos.index', app()->getLocale());
+        return redirect('admin.memos.index')->with(['success' => 'تم ادراج التعميم بنجاح']);
     }
 
     /**
