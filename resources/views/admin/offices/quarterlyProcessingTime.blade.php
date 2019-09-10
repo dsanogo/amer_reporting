@@ -45,7 +45,7 @@
                     <a href="{{route('admin.invoices.pdfLastThreeYears')}}" class="btn btn-primary btn-lg" >PDF</a>
                     <a class="btn btn-primary btn-lg sendmail" >Send to mail</a>
                     <a href="{{route('admin.invoices.printLastThreeYears')}}" class="btn btn-primary btn-lg printPage">Print</a>
-                    {{-- Email form  --}}
+                    
                     <form class="form-inline emailForm" action="{{route('admin.invoices.pdfLastThreeYears')}}" style="display: none">
                         <div class="form-group center-block" style="width:270px;margin: 10px 0;">
                             <input type="hidden" name="byMail" value="true">
@@ -53,12 +53,13 @@
                         </div>
                         <button type="submit" style="font-size: 15px;padding: 3px 14px;height: 35px;border-radius: 0;" class="btn btn-sm btn-primary">Send</button>
                     </form>
-                    {{-- End Emial Form --}}
+                    
                 </div>
                 <table class="table table-responsive table-striped" >
                     <tr>
                         <td rowspan="2" style="padding-top: 30px;" class="bordered">المكتب</td>
                         <td colspan="{{count($months)}}" class="bordered">متوسط زمن المعاملة</td>
+                        <td rowspan="2" style="padding-top: 30px;" class="bordered">نوع المعاملة الأكثر زمناً</td>
                     </tr>
                     <tr>
                         @foreach ($months as $month)
@@ -66,11 +67,19 @@
                         @endforeach
                     </tr>
                     @foreach ($invoices as $key => $invoice)
-                    <tr>
-                        <td>{{$invoice['officeName']}}</td>
-                        @foreach ($invoice['invoices'] as $values)
-                            <td>{{isset($values) ? $values->process_time . ' ' . $values->month : 0}}</td>
-                        @endforeach
+                    <tr>                        
+                        <td>{{$key}}</td>
+                        @foreach ($invoices[$key] as $i => $item)
+                            <td>{{$item['procTime']}}</td>
+                        @endforeach         
+                        
+                        <?php $displayed = [];?>
+                        @foreach ($invoices[$key] as $i => $item)
+                            @if (!in_array($key, $displayed))
+                                <td>{{$item['topService']}}</td>
+                            @endif
+                            <?php array_push($displayed, $key);?>
+                        @endforeach  
                     </tr>
                     @endforeach
                 </table>

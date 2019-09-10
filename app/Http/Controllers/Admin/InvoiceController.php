@@ -161,12 +161,9 @@ class InvoiceController extends Controller
     {
         try {
             $data = $this->invoiceModel->getInvoiceQuarterlyProcessTime();
-            
             $months = $data['months'];
             $invoices = $data['invoices'];
             $year = now()->year;
-            
-            
 
             return view('admin.offices.quarterlyProcessingTime')->withInvoices($invoices)->withMonths($months)->withYear($year);
         } catch (\Exception $ex) {
