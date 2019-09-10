@@ -57,14 +57,18 @@
 @yield('style')
 </head>
 <body>
-    @if (!isset($export))
+    {{-- @if (!isset($export)) --}}
     <div class="nav-aamer">
-        <div  style="width: 50%; display: inline-block" class="logo-amer col-md-2 col-sm-6 col-xs-6 pull-right"><img class="logo-f" src="{{asset('public/assets/img/logo-fafic.svg')}}" alt=""></div>
+        <div  style="width: 50%; display: inline-block" class="logo-amer col-md-2 col-sm-6 col-xs-6 pull-right">
+            @if (!isset($export)) 
+                <img class="logo-f" src="{{asset('public/assets/img/logo-fafic.svg')}}" alt="">
+            @endif
+        </div>
         <div class="col-md-2 col-sm-6 col-xs-6 pull-right" style=" width: 40%; display: inline-block">
             <p class="amaerf2">نظام المتابعة والتحكم</p>
         </div>
     </div>
-    @endif
+    {{-- @endif --}}
     
 @yield('content')
 

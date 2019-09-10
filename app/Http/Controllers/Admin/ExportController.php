@@ -40,7 +40,9 @@ class ExportController extends Controller
             $data = $this->invoiceModel->getInvoicesByServiceCategory($request);
             $invoiceDetailed = $data['invoices'];
             $total = $data['total'];
-            return Excel::download(new CategoryServices($invoiceDetailed, $total), 'invoicesPerCategory.xlsx');
+            $category = $data['category'];
+            $daterange = $data['daterange'];
+            return Excel::download(new CategoryServices($invoiceDetailed, $total, $category, $daterange), 'invoicesPerCategory.xlsx');
             
             // return view('admin.exports.print.categoryServices')->withInvoices($invoiceDetailed)->withCategories($categories)->withTotal($total)->withCategory($category)->withDaterange($daterange);
         } catch (\Exception $ex) {
@@ -186,7 +188,11 @@ class ExportController extends Controller
         try{
             $data = $this->invoiceModel->getInvoicesByServiceCategory($request);
 
-            $dataToSend = ['invoices' => $data['invoices'], 'total' => $data['total']];
+            $dataToSend = ['invoices' => $data['invoices'], 
+                            'total' => $data['total'],
+                            'category' => $data['category'],
+                            'daterange' => $data['daterange']
+                        ];
 
             $pdf = Pdf::loadView('admin.exports.print.categoryServices', $dataToSend, [], ['useOTL' => 0xFF, 'format' => 'A4',]);
 

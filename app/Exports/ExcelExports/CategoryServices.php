@@ -9,10 +9,14 @@ class CategoryServices implements FromView
 {
     public $invoices;
     public $total;
+    public $category;
+    public $daterange;
 
-    public function __construct(array $invoices, object $total) {
+    public function __construct(array $invoices, object $total, object $category, string $daterange) {
         $this->invoices = $invoices;
         $this->total = $total;
+        $this->category = $category;
+        $this->daterange = $daterange;
     }
     /**
     * @return \Illuminate\Support\Collection
@@ -22,6 +26,8 @@ class CategoryServices implements FromView
         return view('admin.exports.print.categoryServices', [
             'invoices' => $this->invoices,
             'total' => $this->total,
+            'category' => $this->category,
+            'daterange' => $this->daterange,
             'export' => true
         ]);
     }

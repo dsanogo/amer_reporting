@@ -13,12 +13,17 @@ use App\Models\MobileRequest;
 
 class DashboardController extends Controller
 {
+    public $officeModel;
+
+    public function __construct(Office $officeModel) {
+        $this->officeModel = $officeModel;
+    }
     /**
     * Display the Admin Welcome page.
     *
     */
 
-    public function index()
+    public function index(Request $request)
     {
         $data = [];
         $data['employees'] = Employee::count();
@@ -62,10 +67,11 @@ class DashboardController extends Controller
 
             }
 
-            
+            $report = $this->officeModel->getOfficesDetailsWithAverage($request);
+            $topOffices = $report['topOffices'];
             
 
-        return view('admin.index')->withData($data)->withInvoices($invoiceDetailed);
+        return view('admin.index')->withData($data)->withInvoices($invoiceDetailed)->withTopOffices($topOffices);
     }
 
     public function showInvoicesByCategory()

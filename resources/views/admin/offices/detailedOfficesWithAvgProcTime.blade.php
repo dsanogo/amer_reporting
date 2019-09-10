@@ -12,12 +12,16 @@
                 font-family: "Bahij";
             }
         }
+        .m-t-r{
+            margin-top: 50px
+        }
     </style>
 @endsection
 @section('content')
     <body>
         <!-- section one-->
         <div class="seciton-tabel">
+            <div class="col-md-12"><p class="text-center title-f1">قياس اداء المكاتب</p></div>
             <form action="{{route('admin.offices.ProcessTimeDetails')}}" method="get">
                 <div class="col-md-12">
                     <div class="col-md-4 col-sm-12 col-xs-12 tabel-input rtl pull-right">
@@ -29,8 +33,8 @@
                         </div>
                     </div>
                     <div class="col-md-4 tabel-button col-sm-12 col-xs-12 pull-right">
-                        <button class="col-md-5 col-sm-6 col-xs-6 m-r-0 btn p-d-0 colorbtn pull-right" type="submit">جلب البيانات </button>
-                        <button class="col-md-5 col-sm-6 col-xs-6 m-r-0 btn p-d-0 pull-right">ارسال النتائج </button>
+                        <button class="col-md-4 col-sm-6 col-xs-6 m-r-0 btn p-d-0 colorbtn pull-right" type="submit">بحث </button>
+                        {{-- <button class="col-md-5 col-sm-6 col-xs-6 m-r-0 btn p-d-0 pull-right">ارسال النتائج </button> --}}
                     </div>
                 </div>
             </form>
@@ -88,9 +92,10 @@
                     </table>
                 </div>
             @endif
-            <div class="col-md-5 col-sm-12 col-xs-12 pull-right rtl"><canvas id="myChart"></canvas>
+            <div class="col-md-5 col-sm-12 col-xs-12 pull-right rtl m-t-r">
+                <canvas id="myChart"></canvas>
             
-            <canvas id="myChart-w"></canvas>
+            
             
             </div>
     </div>
@@ -109,7 +114,7 @@
 @section('script')
     <script>
            var top_office_name = new Array();
-     var top_procees_time= new Array();
+           var top_procees_time= new Array();
             @foreach ($topOffices as $key => $office)
                 top_office_name.push('{{$office->office}}');
                 top_procees_time.push('{{$office->proccess_time}}');
@@ -190,84 +195,9 @@
                   }
               }
                 }
-                });
-                var ctx = document.getElementById('myChart-w');
-                var myChart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: ["office1", "office2", "office3", "office4", "office5"],
-                    datasets: [{
-                    label: 'عدد المعاملات بامليون',
-                    data: [12, 19, 3, 5, 2,],
-                    backgroundColor: '#4e81bd',
-                    borderWidth: 1
-                    }]
-                },
-                options: {
-                
-                    scales: {
-                    xAxes: [{
-                        ticks: {
-                            fontFamily: "Bahij",
-                            fontColor: "#bbc3d0",
-                            fontSize: 14,
-                            stepSize: 1,
-                            beginAtZero: true,
-                            maxRotation: 45,
-                            minRotation: 45
-                        }
-                    }],
-                    yAxes: [{
-                    id: 'FeesAmount',
-                      stacked: true,
-                      position: 'left',
-                      gridLines: {
-                        drawBorder: false
-                      },
-                      ticks: {
-                          beginAtZero: true,
-                          steps: 10,
-                          stepValue: 10,
-                          max: 50,
-                           stepSize: 10,
-                           fontColor: "rgba(51, 51, 51, 1)",
-                        //    callback: function(label, index, labels) {
-                        //        if(maxFees < 100){
-                        //             return label;
-                        //        }else if(maxFees > 1000) {
-                        //             return label/1000+'k';
-                        //        }
-                                
-                        //     }
-                      },
-                          
-                  }],xAxes: [{
-                  ticks: {
-                      fontFamily: "Bahij",
-                      fontColor: "#bbc3d0",
-                      fontSize: 14,
-                      stepSize: 1,
-                      beginAtZero: true,
-                      maxRotation: 45,
-                      minRotation: 45
-                  },
-                  barPercentage: 0.9,
-                  
-                  maxBarThickness: 30,
-                  minBarLength: 2
-                 
-              }]
-                    }, legend: {
-                  
-                  labels: {
-                      // This more specific font property overrides the global property
-                      fontColor: 'rgb(46, 148, 94)',
-                      fontFamily: "Bahij",
-                      radius:5
-                  }
-              }
-                }
-                });
+        });
+               
+              
     </script>
 @endsection
 @endif

@@ -29,9 +29,8 @@ label{
     <body>
         <!-- section one-->
         <div class="seciton-tabel">
-            <div class="col-md-12 text-right text-qu p-t-10">
-                <p style="color: red">{{$topServices->fromMobile !== '' ? $topServices->fromMobile : "No Service for this period"}} : أكثر نوع معاملة تم طلبها بنظام المحمول</p>
-                <p style="color: red">{{$topServices->fromOffice !== '' ? $topServices->fromOffice : "No Service for this period"}} : أكثر نوع معاملة تم طلبها من المكتب مباشرة</p>
+            <div class="col-md-12"><p class="text-center title-f1">هل اصدار المعاملات بالمكاتب مفضل للمتعامل أم بنظام المحمول؟</p>
+            <p class="text-right title-f1">بناءاً على معاملات آخر 3 شهور، ثبت أن المتعاملين يفضلون استخدام {{$total->sumMobileInvoices > $total->sumOfficeInvoices ? 'نظام المحمول' : 'المكاتب'}}، كما هو موضح بالجدول أسفله</p>
             </div>
 
         @if (count($invoices) == 0)

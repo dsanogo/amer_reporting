@@ -209,8 +209,10 @@ class InvoiceController extends Controller
             
             $invoiceDetailed = $data['invoices'];
             $total = $data['total'];
+            $category = $data['category'];
+            $daterange = $data['daterange'];
 
-            return view('admin.exports.print.categoryServices')->withInvoices($invoiceDetailed)->withTotal($total);
+            return view('admin.exports.print.categoryServices')->withInvoices($invoiceDetailed)->withTotal($total)->withCategory($category)->withDaterange($daterange);
         } catch (\Exception $ex) {
             return response()->json(['status' => 'error', 'data' => $ex->getMessage()], 200);
         }
