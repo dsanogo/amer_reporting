@@ -13,6 +13,7 @@ use App\Models\MemoOffice;
 use App\Http\Requests\StoreMemo;
 use App\Http\Requests\UpdateMemo;
 use Illuminate\Support\Facades\Input;
+use Validator;
 use DB;
 
 class MemoController extends Controller
@@ -47,7 +48,7 @@ class MemoController extends Controller
      * @param  StoreMemo  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function postCreate(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'Origin' => 'required|integer',

@@ -52,37 +52,30 @@ class LoginController extends Controller
     public function login(Request $request)
     {
         $rules = [
-            'email' => 'required|email',
-            'password' => 'required|min:6'
+            'username' => 'required|string',
+            'password' => 'required|min:1'
         ];
 
-        $validator = Validator::make(Input::all() , $rules);
+        $validator = Validator::make(Input::all(), $rules);
 
-        if ($validator->fails())
-        {
+        if ($validator->fails()) {
             return Redirect::to('login')->withErrors($validator) // send back all errors to the login form
-            ->withInput(Input::except('password')); // send back the input (not the password) so that we can repopulate the form
+                ->withInput(Input::except('password')); // send back the input (not the password) so that we can repopulate the form
         } else {
-            
-            $user = User::where('Email', $request->email)->where('Password', $request->password)->first();
+
+            $user = User::where('Username', $request->username)->where('Password', $request->password)->first();
 
             if ($user && $user->UserRoleId == 6) {
                 Auth::login($user, false);
-                
                 return redirect()->intended($this->redirectTo);
-            }elseif($user && $user->UserRolId !== 6) {
-                return redirect()->back()->withInput($request->only('email', 'password'))->withErrors(['role' => 'You are not authorized to access the reports. Please check with your Administrator']);
-            }
-            return redirect()->back()->withInput($request->only('email', 'password'))->withErrors(['email' => 'Email or password incorrect']);
-            
-        }       
-        
+            } elseif ($user && $user->UserRolId !== 6) return redirect()->back()->withInput($request->only('email', 'password'))->withErrors(['role' => 'You are not authorized to access the reports. Please check with your Administrator']);
+
+            return redirect()->back()->withInput($request->only('email', 'password'))->withErrors(['username' => 'Username or password incorrect']);
+        }
     }
-    
+
     public function logout()
     {
         return Redirect::to('login');
     }
-
-    
 }

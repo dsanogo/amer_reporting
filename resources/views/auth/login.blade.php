@@ -25,10 +25,10 @@
             <div class="col s12 boxs">
               <div class="row m-b-r">
                 <div class="input-field col s12 m-r-0">
-                  <input id="email" type="email" class="validate" autocomplete="off" name="email" value="{{ old('email') }}">
-                  <label for="email">اسم المستخدم</label>
+                  <input id="username" type="text" class="validate" autocomplete="off" name="username" value="{{ old('username') }}">
+                  <label for="username">اسم المستخدم</label>
                 </div>
-                   @error('email')
+                   @error('username')
                     <span class="invalid-feedback" role="alert" style="color: red">
                         <strong>{{ $message }}</strong>
                       </span>
