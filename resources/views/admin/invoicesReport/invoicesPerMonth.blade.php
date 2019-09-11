@@ -31,21 +31,10 @@
     <body>
         <!-- section one-->
         <div class="seciton-tabel">
+            <div class="col-md-12"><p class="text-center title-f1">التطور الزمني لانتاجية المكاتب</p></div>
             <form action="{{route('admin.monthlyInvoices')}}" method="get">
                 <div class="col-md-12">
                     <div class="col-md-4 col-sm-12 col-xs-12 tabel-input rtl pull-right">
-                        <!-- <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="inputPassword" class="col-md-5 col-sm-4 control-label label-tabel">المنطقة</label>
-                                {{-- <input type="password" class="form-control" id="inputPassword" placeholder="مصر">\ --}}
-                                <select name="office_id" id="" class="form-control" disabled>
-                                    <option value="">Offices</option>
-                                    {{-- @foreach ($data['offices'] as $office)
-                                        <option value="{{$office->Id}}" {{isset($_GET['office_id']) && $_GET['office_id']==$office->Id ? 'selected' : ''}}>{{ $office->Name}}</option>    
-                                    @endforeach --}}
-                                </select>                            
-                            </div>
-                        </div> -->
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label for="inputPassword"  class="col-md-5 col-sm-4 control-label label-tabel">فتره المعاملات</label>
@@ -54,8 +43,8 @@
                         </div>
                     </div>
                     <div class="col-md-4 tabel-button col-sm-12 col-xs-12 pull-right">
-                        <button class="col-md-5 col-sm-6 col-xs-6 m-r-0 btn p-d-0 colorbtn pull-right" type="submit">جلب البيانات </button>
-                        <button class="col-md-5 col-sm-6 col-xs-6 m-r-0 btn p-d-0 pull-right">ارسال النتائج </button>
+                        <button class="col-md-4 col-sm-6 col-xs-6 m-r-0 btn p-d-0 colorbtn pull-right" type="submit">بحث </button>
+                        {{-- <button class="col-md-5 col-sm-6 col-xs-6 m-r-0 btn p-d-0 pull-right">ارسال النتائج </button> --}}
                     </div>
                 </div>
             </form>

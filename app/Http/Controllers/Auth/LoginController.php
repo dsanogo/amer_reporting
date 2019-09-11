@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 
 class LoginController extends Controller
@@ -67,6 +68,8 @@ class LoginController extends Controller
 
             if ($user && $user->UserRoleId == 6) {
                 Auth::login($user, false);
+                Session::put('user', $user);
+                
                 return redirect()->intended($this->redirectTo);
             } elseif ($user && $user->UserRolId !== 6) return redirect()->back()->withInput($request->only('email', 'password'))->withErrors(['role' => 'You are not authorized to access the reports. Please check with your Administrator']);
 
@@ -76,6 +79,7 @@ class LoginController extends Controller
 
     public function logout()
     {
+        Session::forget('user');
         return Redirect::to('login');
     }
 }

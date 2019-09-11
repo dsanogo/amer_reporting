@@ -1,21 +1,29 @@
-.nav-aamer{
+.nav-aamer {
     height: 90px;
     width: 100%;
     background-color: #251e54;
 }
-tr>th{
- text-align: center !important  ; 
+
+tr>th {
+    text-align: center !important;
 }
-tr>td{
-    text-align: center ;  
+
+tr>td {
+    text-align: center;
 }
+
 @font-face {
     font-family: "Bahij";
     src: url("Bahij_TheSansArabic-Bold.ttf");
-    
-  
-    }
-   .person{
+}
+
+.title-f1 {
+    margin-top: 17px;
+    font-size: 20px;
+    padding-right: 30px;
+}
+
+.person {
     width: 40px;
     margin-left: 5px;
     border-radius: 50%;
@@ -25,80 +33,88 @@ tr>td{
     -o-border-radius: 50%;
     position: relative;
     top: -2px;
-   }
-   .sptop{
+}
+
+.sptop {
     position: relative;
     top: 6px;
-   }
-    .text-right{
-        text-align: right !important;
-    }
-    .table-responsive {
-        min-height: .01%;
-        overflow-x: inherit;
-    }
-    #myChart{
-        height: auto;
-    }
-.logo-f{
+}
 
+.text-right {
+    text-align: right !important;
+}
+
+.table-responsive {
+    min-height: .01%;
+    overflow-x: inherit;
+}
+
+#myChart {
+    height: auto;
+}
+
+.logo-f {
     width: 100%;
     margin-top: 10px;
     padding: 1px 0px 6px 0;
-}  
-body{
+}
+
+body {
     font-family: "Bahij";
 }
-.mobile{
+
+.mobile {
     color: white;
     font-size: 23px !important;
 }
-.p-d-0{
+
+.p-d-0 {
     padding: 0
 }
+
 li {
     list-style-type: none;
 }
-.nav-aamer-p2{
+
+.nav-aamer-p2 {
     width: 100%;
     height: 40px;
     background-color: #393777;
     text-align: left;
-
-
 }
-.nav-aamer-li{
+
+.nav-aamer-li {
     display: flex;
     direction: rtl;
-    padding:5px 20px 5px 20px;
+    padding: 5px 20px 5px 20px;
     color: white;
     font-size: 16px;
-
-
 }
 
-.nav-aamer-li>li>a{
+.nav-aamer-li>li>a {
     padding: 10px 10px;
     color: white;
-
 }
-.nav-aamer-li>li>a:hover{
+
+.nav-aamer-li>li>a:hover {
     padding: 7px 10px;
     color: white;
     background-color: #302e65;
     text-decoration: none;
-
 }
+
 .caret {
     display: inline-block;
     width: 0;
     margin-right: 7px;
 }
-.section-a{
+
+.section-a {
     border-radius: 20px;
     width: 100%;
 }
-.section-f1{
+
+.section-f1 {
     background-color: #393777;
     height: 55px;
     margin: 25px 20px 0 20px;
@@ -109,7 +125,8 @@ li {
     padding: 0px 40px 0px 15px;
     font-size: 17px;
 }
-.section-f1s{
+
+.section-f1s {
     background-color: #393777;
     height: 55px;
     margin: 25px 20px 0 20px;
@@ -120,27 +137,31 @@ li {
     padding: 0px 40px 0px 15px;
     font-size: 17px;
 }
-.section-f2{
+
+.section-f2 {
     direction: rtl;
     padding: 60px 55px 0 0;
 }
-.section-f3s{
-position: relative;
-padding: 10px 0 55px 0;
+
+.section-f3s {
+    position: relative;
+    padding: 10px 0 55px 0;
 }
-.user{
+
+.user {
     font-size: 70px;
     color: #302e65;
-
 }
-.user-f1{
+
+.user-f1 {
     display: inline;
     position: absolute;
     top: 25px;
     font-size: 20px;
     /* padding-right: 18px; */
 }
-.user-f2{
+
+.user-f2 {
     display: inline;
     font-size: 25px;
     /* padding-left: 21px; */
@@ -148,12 +169,13 @@ padding: 10px 0 55px 0;
     position: relative;
     bottom: 15px;
 }
-.user-f2 span{
+
+.user-f2 span {
     font-size: 20px;
     color: #302e65;
     padding: 5px;
-
 }
+
 .user-f1s {
     display: inline;
     position: absolute;
@@ -162,6 +184,7 @@ padding: 10px 0 55px 0;
     padding-right: 4px;
     /* padding-right: 18px; */
 }
+
 .user-f2s {
     display: inline;
     font-size: 25px;
@@ -170,16 +193,9 @@ padding: 10px 0 55px 0;
     position: relative;
     bottom: 0px;
     padding-right: 9px;
+}
 
-}
-.border-h{
-    height: 575px;
-    width: 97.9%;
-    border: 2px solid #ffff;
-    margin: 0px 0 20px 20px;
-    border-top: none;
-    box-shadow: 2px 4px 5px 2px #ccc;
-}.border{
+.border-h {
     height: 575px;
     width: 97.9%;
     border: 2px solid #ffff;
@@ -187,7 +203,17 @@ padding: 10px 0 55px 0;
     border-top: none;
     box-shadow: 2px 4px 5px 2px #ccc;
 }
-.aamer-input{
+
+.border {
+    height: 575px;
+    width: 97.9%;
+    border: 2px solid #ffff;
+    margin: 0px 0 20px 20px;
+    border-top: none;
+    box-shadow: 2px 4px 5px 2px #ccc;
+}
+
+.aamer-input {
     margin: 15px;
     height: 40px;
     border: none;
@@ -196,23 +222,29 @@ padding: 10px 0 55px 0;
     padding: 10px;
     font-size: 15px;
 }
-.section-2ts{
+
+.section-2ts {
     display: inline-block;
     padding: 10px;
 }
-.section-2t{
+
+.section-2t {
     display: inline-block;
     padding: 10px;
 }
-.fa-list-ul{
+
+.fa-list-ul {
     padding-left: 5px;
 }
-.active,.section-2t:hover{
+
+.active,
+.section-2t:hover {
     background-color: #302e65;
     text-decoration: none;
     cursor: pointer;
 }
-.circal{
+
+.circal {
     width: 38px;
     height: 30px;
     background: #fff;
@@ -224,36 +256,44 @@ padding: 10px 0 55px 0;
     padding-right: 11px;
     font-weight: bold;
 }
-.left{
+
+.left {
     direction: rtl
 }
-tr>th{
+
+tr>th {
     text-align: right
 }
-.waleed tr>th{
+
+.waleed tr>th {
     background-color: #383838;
     color: white
 }
-.footer-aamer{
+
+.footer-aamer {
     height: 40px;
     background: #efefef;
     float: left;
     width: 100%;
 }
-.fonts-infooter{
+
+.fonts-infooter {
     display: inline-block;
     padding: 10px;
     font-size: 14px;
     margin: 0;
 }
-.bold{
+
+.bold {
     font-weight: bold
 }
-.title-inthumbnail{
+
+.title-inthumbnail {
     padding: 10px;
     font-size: 18px;
 }
-.thumbnail-header{
+
+.thumbnail-header {
     background-color: #251e54;
     height: 40px;
     /* border-radius: 8px; */
@@ -262,58 +302,73 @@ tr>th{
     border-top-right-radius: 10px;
     border-top-left-radius: 10px;
 }
-.rtl{
+
+.rtl {
     direction: rtl
 }
-.f1{
+
+.f1 {
     color: #251e54;
     font-size: 16px;
     padding: 0 10px 5px 10px;
     margin: 0
 }
-.f1 i{
-    padding-left: 8px;
 
+.f1 i {
+    padding-left: 8px;
 }
-.thumbnail{
+
+.thumbnail {
     padding: 11px
 }
-.block{
+
+.block {
     display: block!important;
-}.none{
+}
+
+.none {
     display: none !important;
 }
-.fix{
+
+.fix {
     height: 575px;
 }
-.circal:hover{
+
+.circal:hover {
     color: white;
 }
-#Allthumbnail{
+
+#Allthumbnail {
     padding-top: 25px;
 }
-.seciton-tabel{
+
+.seciton-tabel {
     height: 800px;
 }
-.form-control{
+
+.form-control {
     height: 50px;
 }
-.tabel-input{
+
+.tabel-input {
     padding-top: 25px;
 }
-.label-tabel{
+
+.label-tabel {
     position: absolute;
     top: -11px;
     right: 36px;
     background: #fff;
     text-align: right;
 }
-.tabel-button{
-    padding-top: 30px;
+
+.tabel-button {
+    padding-top: 25px;
     padding-left: 0;
     padding-right: 0;
 }
-.btn{
+
+.btn {
     height: 40px;
     border-radius: 7px;
     background-color: #e4e4e4;
@@ -321,23 +376,33 @@ tr>th{
     font-size: 17px;
     margin: 0 5px 0 5px;
 }
-.colorbtn{
 
+.colorbtn {
     background: #251e54;
-color: white;
+    color: white;
+    height: 50px;
+    border-radius: 7px;
+    border: none;
+    font-size: 17px;
+    margin: 0 5px 0 5px;
+    margin-top: 0px;
 }
-#trfoo tr th{
+
+#trfoo tr th {
     background: #c6c6c6;
     font-weight: 100;
 }
-.end{
+
+.end {
     background: #c6c6c6;
     font-weight: bold;
     color: black
 }
-.tabel{
+
+.tabel {
     padding-top: 50px;
 }
+
 .amaerf2 {
     font-size: 29px;
     color: white;
@@ -345,7 +410,8 @@ color: white;
     text-align: right;
     font-family: "Bahij";
 }
-.left-sied{
+
+.left-sied {
     font-size: 17px;
     color: white;
     padding: 30px 0 5px 0;
@@ -353,97 +419,119 @@ color: white;
     /* direction: rtl; */
     font-family: "Bahij";
 }
-.left-sied a{
+
+.left-sied a {
     font-size: 18px;
     color: white;
     font-family: "Bahij";
 }
-.bar_chart{
+
+.bar_chart {
     font-size: 35px !important;
     /* padding-top: 10px; */
     position: relative !important;
     top: 11px!important;
     display: inline-block!important;
 }
+
 .receipt {
     font-size: 80px !important;
     padding-left: 4px;
     padding-right: 11px!important;
     color: #2e9658!important;
 }
+
 .wallet {
     font-size: 80px !important;
     padding-left: 2px;
     padding-right: 12px!important;
     color: #2e5bff!important;
 }
-.color2{
+
+.color2 {
     color: #2e9658!important;
 }
-.color3{
+
+.color3 {
     color: #2e5bff!important;
 }
-.domain{
+
+.domain {
     position: relative;
     top: 6px;
     font-size: 28px !important;
 }
-.view_module{
+
+.view_module {
     vertical-align: middle;
     font-size: 28px;
 }
-.public{
+
+.public {
     vertical-align: middle;
     font-size: 28px;
 }
-.list{
+
+.list {
     vertical-align: middle;
     font-size: 28px;
 }
-.map-amaer-s1{
+
+.map-amaer-s1 {
     height: 450px;
 }
-.locliton{
+
+.locliton {
     text-align: right;
     border-bottom: 1px solid #b5b3bf;
     font-size: 18px;
     padding-top: 15px;
     cursor: pointer !important;
-  
 }
-.C-3{
+
+.C-3 {
     font-size: 14px;
     color: #83888d;
 }
-.location_on{
+
+.location_on {
     font-size: 40px !important;
 }
-.loc-s{
+
+.loc-s {
     font-size: 16px;
 }
-.footer-log{
+
+.footer-log {
     vertical-align: top;
     margin-top: 2px;
     margin-right: 5px;
 }
-.p-l-30r{
+
+.p-l-30r {
     padding-left: 30px;
 }
-.fixaa{
+
+.fixaa {
     left: -63px;
 }
+
 .btn-primary {
     color: #fff;
     background-color: #337ab7;
     border-color: #2e6da4;
 }
+
 .colorbtn:hover {
     background: #251e54;
     color: white;
 }
+
+
 /* ///////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
-@media (max-width: 1024px) and (min-width:992px){
-    .p-l-30r{
+
+@media (max-width: 1024px) and (min-width:992px) {
+    .p-l-30r {
         padding-left: 10px;
     }
     .logo-f {
@@ -518,15 +606,13 @@ color: white;
         border-top: none;
         box-shadow: 2px 4px 5px 2px #ccc;
     }
-    .border-h{
-       
-            height: 564px;
-            width: 95.9%;
-            border: 2px solid #ffff;
-            margin: 0px 0 20px 20px;
-            border-top: none;
-            box-shadow: 2px 4px 5px 2px #ccc;
-        
+    .border-h {
+        height: 564px;
+        width: 95.9%;
+        border: 2px solid #ffff;
+        margin: 0px 0 20px 20px;
+        border-top: none;
+        box-shadow: 2px 4px 5px 2px #ccc;
     }
     .thumbnail {
         padding: 5px;
@@ -537,7 +623,7 @@ color: white;
         padding: 0 10px 5px 10px;
         margin: 0;
     }
-    .loclitons{
+    .loclitons {
         padding: 0
     }
     .loc-s {
@@ -549,11 +635,12 @@ color: white;
         font-family: "Bahij";
     }
 }
+
 @media screen and (max-width: 900px) and (min-width: 600px) {
-.m-r-0{
-    margin: 0
-}
-    .p-l-30r{
+    .m-r-0 {
+        margin: 0
+    }
+    .p-l-30r {
         padding-left: 10px;
     }
     .logo-f {
@@ -628,7 +715,6 @@ color: white;
         border-top: none;
         box-shadow: 2px 4px 5px 2px #ccc;
     }
- 
     .thumbnail {
         padding: 5px;
     }
@@ -638,7 +724,7 @@ color: white;
         padding: 0 10px 5px 10px;
         margin: 0;
     }
-    .loclitons{
+    .loclitons {
         padding: 0
     }
     .loc-s {
@@ -695,8 +781,9 @@ color: white;
         height: 84px;
     }
 }
-@media screen and (min-width: 320px) and (max-width: 479px){ 
-    .m-r-0{
+
+@media screen and (min-width: 320px) and (max-width: 479px) {
+    .m-r-0 {
         margin: 0
     }
     .nav-aamer {
@@ -728,7 +815,7 @@ color: white;
         margin: 10px 0;
         font-size: 12px;
     }
-    .open>.dropdown-menusa{
+    .open>.dropdown-menusa {
         display: block;
         display: contents;
     }
@@ -738,7 +825,7 @@ color: white;
         margin: 10px 0;
         font-size: 12px;
     }
-    .dropdown-backdrop{
+    .dropdown-backdrop {
         display: none
     }
     li {
@@ -758,10 +845,9 @@ color: white;
         border: 1px solid transparent;
         border-radius: 4px;
     }
-    .nav-aamer-li>li{
+    .nav-aamer-li>li {
         padding: 8px 8px;
         color: white;
-    
     }
     .border {
         height: auto;
@@ -856,14 +942,15 @@ color: white;
         top: -2px;
     }
     .map-amaer-s1 {
-    height: auto;
+        height: auto;
+    }
 }
-}
-@media only screen and (max-width : 320px) {
+
+@media only screen and (max-width: 320px) {
     .map-amaer-s1 {
         height: auto;
     }
-    .open>.dropdown-menusa{
+    .open>.dropdown-menusa {
         display: block;
         display: contents;
     }
@@ -884,7 +971,6 @@ color: white;
         position: relative;
         top: -2px;
     }
-
     /* Styles */
     .sptop {
         position: relative;
@@ -946,7 +1032,7 @@ color: white;
         border-top: none;
         box-shadow: 2px 4px 5px 2px #ccc;
     }
-    #myChart{
+    #myChart {
         height: 200px!important;
     }
     .user {
@@ -954,70 +1040,82 @@ color: white;
         color: #302e65;
     }
 }
+
 .badge-secondary {
     border-radius: 50%;
     font-family: "Bahij";
 }
+
 .container-map {
     text-align: right;
     font-family: "Bahij";
 }
+
 .container-map .p-title-1 {
     font-size: 20px;
-    margin: 0;font-family: "Bahij";
+    margin: 0;
+    font-family: "Bahij";
     color: rgba(57, 55, 119, 1)
-
 }
+
 .container-map .p-title-2 {
     font-size: 20px;
     color: rgba(57, 55, 119, 1);
     margin: 0;
     font-family: "Bahij";
-
 }
+
 .gm-style-iw {
-    padding: 15px 20px !important; 
+    padding: 15px 20px !important;
     width: 450px;
     font-family: "Bahij";
 }
+
 .container-map .title-Abou-El-Ghaly {
     font-size: 20px;
-  
     color: rgba(37, 30, 84, 1);
     line-height: 27px;
     font-family: "Bahij";
 }
+
 .gm-style-iw-d {
     overflow: initial !important;
     font-family: "Bahij";
 }
+
 .Waste {
     margin-top: 25px;
     font-family: "Bahij";
 }
+
 .Waste span {
     position: relative;
     top: -5px;
     font-size: 14px;
     background-color: rgba(57, 55, 119, 1)
 }
+
 .list-Waste {
     font-size: 16px;
     font-size: 19px;
     font-family: "Bahij";
 }
+
 .list-2 {
     padding: 0;
     font-family: "Bahij";
 }
+
 .list-1 {
     padding-left: 0 !important;
     color: rgba(109, 114, 120, 1);
     font-family: "Bahij";
 }
+
 .Show-more-mark-map {
     margin-top: 10px
 }
+
 .Show-more-mark-map,
 .Show-more-mark-map:hover,
 .Show-more-mark-map:active {
@@ -1025,36 +1123,43 @@ color: white;
     color: white;
     font-family: "Bahij";
 }
+
 .Show-more-mark-map {
     font-size: 22px;
     padding: 8px 20px;
     font-family: "Bahij";
 }
-.btn-wa{
+
+.btn-wa {
     background: #251e54;
     color: white;
 }
-.gm-ui-hover-effect{
+
+.gm-ui-hover-effect {
     top: 0px !important;
     right: 0px!important;
     font-size: 31px;
 }
-.sc{
+
+.sc {
     padding-left: 10px;
 }
-.sx{
+
+.sx {
     padding-left: 8px;
     /* margin-top: 7px; */
     position: relative;
     top: 5px;
 }
-.sf{
+
+.sf {
     padding-left: 8px;
     /* margin-top: 7px; */
     position: relative;
     top: 5px;
 }
-.titea{
+
+.titea {
     text-decoration: underline;
     font-size: 17px;
     margin: 10px;

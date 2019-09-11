@@ -4,7 +4,11 @@
 .gm-style-iw{
     max-width: 300px !important;
     max-height: 308px;
-}</style>
+}
+.icon-th{position: relative;
+    top: 7px;}
+
+</style>
 <body>
     <div class="container col-md-12 p-d-0 col-sm-12 col-xs-12">
         <!-- section one-->
@@ -15,10 +19,17 @@
                     <p class="section-2ts">احصائيات عامه</p>
                 </div>
                 <div class="border">
-                    <div class="col-md-8 p-d-0" style="margin-top: 20px;padding-left: 25px;">
-                        <canvas id="myChart" height="40" width="100%"></canvas>
+                    <div class="col-md-5 p-d-0" style="margin-top: 100px;padding-left: 25px;">
+                        <canvas id="myChart"  width="100%"></canvas>
+
                     </div>
-                    <div class="col-md-4 section-f2 p-d-0">
+                    <div class="col-md-4 p-d-0" style="margin-top: 130px;padding-left: 25px;">
+                            <canvas id="myChart-Offices"  width="100%"></canvas>
+    
+                        </div>
+
+                    
+                    <div class="col-md-3 section-f2 p-d-0">
                         <div class="section-f3s">
                             <i class="fas fa-user-friends user"></i>
                             <p class="user-f1s">اجمالي عدد العاملين</p>
@@ -97,8 +108,8 @@
                                 </div>
                                 <div href="#" class="thumbnail">
                                     <p class="f1"><i class="fas fa-user-friends "></i>{{ count($office->employees)}}</p>
-                                    <p class="f1"><i class="fas fa-user-friends "></i>{{ $invoices[$key]->count }}</p>
-                                    <p class="f1"><i class="fas fa-user-friends "></i> {{ $invoices[$key]->totalFees }}</p>
+                                    <p class="f1"> <i class="material-icons icon-th"> receipt </i>{{ $invoices[$key]->count }}</p>
+                                    <p class="f1"><i class="material-icons icon-th">account_balance_wallet</i> {{ $invoices[$key]->totalFees }}</p>
                                 </div>
                             </div>
                         @endforeach
@@ -352,8 +363,99 @@
           }
       });
 
-    });        
+    });
+
+
+
+    // Offices
+    var top_office_name = new Array();
+           var top_procees_time= new Array();
+            @foreach ($topOffices as $key => $office)
+                top_office_name.push('{{$office->office}}');
+                top_procees_time.push('{{$office->proccess_time}}');
+            @endforeach
+        var ctx = document.getElementById('myChart-Offices');
+                var myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: top_office_name,
+                    datasets: [{
+                    label: 'المتوسط المحدد لزمن المعاملة',
+                    data: top_procees_time,
+                    backgroundColor: '#4e81bd',
+                    borderWidth: 1
+                    }]
+                },
+                options: {
+                
+                    scales: {
+                    xAxes: [{
+                        ticks: {
+                            fontFamily: "Bahij",
+                            fontColor: "#4e81bd",
+                            fontSize: 14,
+                            stepSize: 1,
+                            beginAtZero: true,
+                            maxRotation: 45,
+                            minRotation: 45
+                        }
+                    }],
+                    yAxes: [{
+                    id: 'FeesAmount',
+                      stacked: true,
+                      position: 'left',
+                      gridLines: {
+                        drawBorder: false
+                      },
+                      ticks: {
+                          beginAtZero: true,
+                          steps: 10,
+                          stepValue: 10,
+                          max: {{$topOffices[0]->proccess_time+10}},
+                           stepSize: 10,
+                           fontColor: "rgba(51, 51, 51, 1)",
+                        //    callback: function(label, index, labels) {
+                        //        if(maxFees < 100){
+                        //             return label;
+                        //        }else if(maxFees > 1000) {
+                        //             return label/1000+'k';
+                        //        }
+                                
+                        //     }
+                      },
+                          
+                  }],xAxes: [{
+                  ticks: {
+                      fontFamily: "Bahij",
+                      fontColor: "#4e81bd",
+                      fontSize: 14,
+                      stepSize: 1,
+                      beginAtZero: true,
+                      maxRotation: 45,
+                      minRotation: 45
+                  },
+                  barPercentage: 0.9,
+                  
+                  maxBarThickness: 30,
+                  minBarLength: 2
+                 
+              }]
+                    }, legend: {
+                  
+                  labels: {
+                      // This more specific font property overrides the global property
+                      fontColor: '#4e81bd',
+                      fontFamily: "Bahij",
+                      radius:5
+                  }
+              }
+                }
+        });
+
+
+
 });
+
 </script>
 
 @endsection

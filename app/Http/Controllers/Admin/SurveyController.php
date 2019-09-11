@@ -17,9 +17,11 @@ class SurveyController extends Controller
     public function getSurveysReport(Request $request)
     {
         try {
-            $surveys = $this->surveyModel->getSurveysReport($request)['surveys'];
+            $report = $this->surveyModel->getSurveysReport($request);
+            $surveySubjects = $report['allSubjects'];
+            $surveys = $report['surveys'];
         
-            return view('admin.surveys.index')->withSurveys($surveys);
+            return view('admin.surveys.index')->withSurveys($surveys)->withSurveySubjects($surveySubjects);
 
         } catch (\Exception $ex) {
             return response()->json(['status' => 'error', 'message' => $ex->getMessage()], 200);

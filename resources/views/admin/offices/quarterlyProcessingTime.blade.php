@@ -32,6 +32,7 @@
     <body>
         <!-- section one-->
         <div class="seciton-tabel">
+            <div class="col-md-12"><p class="text-center title-f1">ما هى المكاتب التى يسوء أداؤها وتستدعى التدخل؟</p></div>
         @if (isset($invoices) && count($invoices) > 0)
             
             <div class="col-md-12 pull-right rtl tabel" >

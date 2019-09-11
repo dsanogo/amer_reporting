@@ -34,7 +34,8 @@ class SurveySubject extends Model
                 $from = '';
                 $to = '';
             }
-                   
+            
+            $allSubjects = SurveySubject::all();
             
             $surveySubjects = SurveySubject::where(function($query) use ($from, $to) 
                 {
@@ -98,10 +99,13 @@ class SurveySubject extends Model
                 $surveys['surveys'] = $data;
     
                 return [
-                    'surveys' => $surveys
+                    'surveys' => $surveys,
+                    'allSubjects' => $allSubjects
                 ];
             } else {
-                return ['surveys' => []];
+                return ['surveys' => [],
+                        'allSubjects' => $allSubjects
+                        ];
             }
             
         } catch (\Exception $ex) {

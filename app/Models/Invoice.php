@@ -60,7 +60,9 @@ class Invoice extends Model
 
             return ['invoices' => $invoiceDetailed, 
                     'categories' => $categories, 
-                    'total' => $total
+                    'total' => $total,
+                    'category' => $category,
+                    'daterange' => $request->daterange
                 ];
             
             // return view('admin.invoicesReport.categoryServices')->withInvoices($invoiceDetailed)->withCategories($categories)->withTotal($total);

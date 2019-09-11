@@ -3,13 +3,13 @@
 </style>
 <div class="nav-aamer">
     <div class="logo-amer col-md-2 col-sm-6 col-xs-6 pull-right"><img class="logo-f" src="{{asset('public/assets/img/logo-fafic.svg')}}" alt=""></div>
-    <div class="col-md-2 col-sm-6 col-xs-6 pull-right">
-        <p class="amaerf2">اللوحه الرئيسية</p>
+    <div class="col-md-4 col-sm-6 col-xs-6 pull-right">
+        <p class="amaerf2">النظام الآلى لمتابعة خدمات آمر</p>
     </div>
     <div class="col-md-4 col-sm-4 col-xs-8 left-sied">
         <div class="col-lg-5 col-md-7 col-sm-6 col-xs-6 dropdown p-l-30r text-center" style=""> <a href="#" class="dropdown-toggle"
                 data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span
-                    class="caret"></span>احمد حسن<img class="person hidden-sm hidden-xs" src="{{asset('public/assets/img/person-placeholder.png')}}" alt=""> </a>
+            class="caret"></span>{{Session::get('user')->Name}}<img class="person hidden-sm hidden-xs" src="{{asset('public/assets/img/person-placeholder.png')}}" alt=""> </a>
             <ul class="dropdown-menu ">
                 <li>
                     
@@ -69,7 +69,7 @@
                     <li><a href="{{route('admin.monthlyInvoicesProcessTime')}}">التطور الزمني لاداء الكاتب</a></li>
                     
                 </ul>
-                </li>
+                </li> 
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">تقاير الذكاء الاصطناعي<span class="caret"></span></a>
                     <ul class="dropdown-menu dropdown-menusa fixaa text-right">

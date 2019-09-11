@@ -18,6 +18,7 @@
     <body>
         <!-- section one-->
         <div class="seciton-tabel">
+                <div class="col-md-12"><p class="text-center title-f1">المعاملات خلال فترة موزعة على المكاتب</p></div>
             <form action="{{route('admin.getInvoicesByOffices')}}" method="get">
                 <div class="col-md-12">
                     <div class="col-md-4 col-sm-12 col-xs-12 tabel-input rtl pull-right">
@@ -29,8 +30,8 @@
                         </div>
                     </div>
                     <div class="col-md-4 tabel-button col-sm-12 col-xs-12 pull-right">
-                        <button class="col-md-5 col-sm-6 col-xs-6 m-r-0 btn p-d-0 colorbtn pull-right" type="submit">جلب البيانات </button>
-                        <button class="col-md-5 col-sm-6 col-xs-6 m-r-0 btn p-d-0 pull-right">ارسال النتائج </button>
+                        <button class="col-md-4 col-sm-6 col-xs-6 m-r-0 btn p-d-0 colorbtn pull-right" type="submit">بحث </button>
+                        {{-- <button class="col-md-5 col-sm-6 col-xs-6 m-r-0 btn p-d-0 pull-right">ارسال النتائج </button> --}}
                     </div>
                 </div>
             </form>

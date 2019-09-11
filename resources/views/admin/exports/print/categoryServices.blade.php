@@ -51,8 +51,10 @@
 @section('content')    
     <div class="seciton-tabel">
         @if (isset($invoices))
-            <div class="col-md-12 rtl tabel" >
+            <div class="col-md-12 rtl " >
                 <h4>المعاملات خلال فترة حسب نوع المعاملة</h4>
+                <h4>نوع المعاملة: {{$category->Name}}</h4>
+                <h4>فتره المعاملات: {{$daterange}}</h4>
                 <table class="table">
                     <thead class="waleed">
                         <tr>
