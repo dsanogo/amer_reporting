@@ -23,10 +23,12 @@
                 </div>
                 <div class="border">
                     <div class="col-md-5 p-d-0" style="margin-top: 100px;padding-left: 25px;">
+                        <p class="text-center">التطور التاريجي لاعداد المعاملات خلال العام الحالي</p>
                         <canvas id="myChart" width="100%"></canvas>
 
                     </div>
                     <div class="col-md-4 p-d-0" style="margin-top: 130px;padding-left: 25px;">
+                        <p class="text-center">افضل خمسه مراكز من حيث متوسط زمن الخدمة</p>
                         <canvas id="myChart-Offices" width="100%"></canvas>
 
                     </div>
@@ -139,7 +141,7 @@
                                 <div class="col-md-10 pull-right p-d-0 loc-s">
                                     <p class="C-1"> {{ $office->Name }}</p>
                                     <p class="C-2">اجمالي المبالغ المحصلة</p>
-                                    <p class="C-3"> د.ر{{ isset($invoices[$key]) ? $invoices[$key]->totalFees : 0}}</p>
+                                    <p class="C-3"> درهم{{ isset($invoices[$key]) ? $invoices[$key]->totalFees : 0}}</p>
                                 </div>
                             </div>
                             @endforeach
@@ -415,7 +417,7 @@
                           beginAtZero: true,
                           steps: 10,
                           stepValue: 10,
-                          max: {{ count($topOffices) > 0 ? $topOffices[0]->proccess_time+10 : 0}},
+                          max: {{ count($topOffices) > 0 ? $topOffices[4]->proccess_time+10 : 0}},
                            stepSize: 10,
                            fontColor: "rgba(51, 51, 51, 1)",
                         //    callback: function(label, index, labels) {

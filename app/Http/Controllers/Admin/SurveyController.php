@@ -20,8 +20,10 @@ class SurveyController extends Controller
             $report = $this->surveyModel->getSurveysReport($request);
             $surveySubjects = $report['allSubjects'];
             $surveys = $report['surveys'];
+            $subject = $report['subject'];
+            $totalSurveys = $report['totalSurveys'];
         
-            return view('admin.surveys.index')->withSurveys($surveys)->withSurveySubjects($surveySubjects);
+            return view('admin.surveys.index')->withSurveys($surveys)->withSurveySubjects($surveySubjects)->withSubject($subject)->withTotalSurveys($totalSurveys);
 
         } catch (\Exception $ex) {
             return response()->json(['status' => 'error', 'message' => $ex->getMessage()], 200);

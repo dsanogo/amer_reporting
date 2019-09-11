@@ -21,7 +21,7 @@ Route::prefix('admin')->namespace('Admin')->group(function () {
     Route::get('invoices-by-category', 'DashboardController@showInvoicesByCategory')->name('show.reportCategories');
     Route::get('invoices-by-offices', 'DashboardController@showInvoicesByOffices')->name('show.reportOffices');
     Route::get('invoices-by-mobile-offices', 'DashboardController@showInvoicesByMobileAndOffices')->name('show.reportMobileOffices');
-    Route::get('surveys', 'DashboardController@showSurveys')->name('show.reportSurveys');
+    Route::get('show-surveys', 'DashboardController@showSurveys')->name('show.reportSurveys');
 
     // Get all service Categories
     Route::get('categories', 'ServiceCategoryController@getCategories')->name('admin.categories');

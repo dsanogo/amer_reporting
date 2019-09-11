@@ -26,11 +26,11 @@
                                 <div class="form-group">
                                         
                                     <label for="inputPassword" class="col-md-5 col-sm-4 control-label label-tabel"> نوع المعاملة</label>
-                                    <select name="category_id" id="" class="form-control">
+                                    <select name="survey_id" id="" class="form-control">
                                         
                                         @foreach ($surveySubjects as $surveySubject)
                                         
-                                            <option value="{{$surveySubject->Id}}" {{isset($_GET['survey_id']) && $_GET['survey_id']==$category->Id ? 'selected' : ''}}>{{ $surveySubject->Description}}</option>    
+                                            <option value="{{$surveySubject->Id}}" {{isset($_GET['survey_id']) && $_GET['survey_id']==$surveySubject->Id ? 'selected' : ''}}>{{ $surveySubject->Description}}</option>    
                                         @endforeach
                                     </select>                            
                                 </div>
@@ -49,7 +49,7 @@
                 </div>
             </form>
 
-            @if (count($surveys) == 0)
+            @if (isset($surveys) && count($surveys) == 0)
                 <div class="col-md-12 rtl text-center alert alert-danger block-center" >
                     <h5>No Result found for this period</h5>
                 </div>
@@ -82,31 +82,21 @@
                         </form>
                         {{-- End Emial Form --}}
                     </div>
+                    <h3 class="text-center">{{$subject->Description}} :عدد المصوتين {{$totalSurveys}}</h3>
                     <table class="table table-striped">
                         <thead class="waleed">
                             <tr>
-                                <th>عنوان الاستطلاع</th>
-                                <th>عدد المصوتين</th>
-                                <th>جيد جداً</th>
-                                <th>جيد</th>
-                                <th>متوسط</th>
-                                <th>سىء</th>
-                                <th>سىء جداً</th>
+                                @foreach ($surveys as $survey)
+                                    <th>{{$survey['evalName']}}</th>    
+                                @endforeach
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($surveys['surveys'] as $key => $survey)
-                                <tr>
-                                    <td>{{ $survey['description'] }}</td>
-                                    <td>{{ $survey['numberOfSurveys'] }}</td>
-                                    <td>{{ $survey['excellents'] }}%</td>
-                                    <td>{{ $survey['veryGoods'] }}%</td>
-                                    <td>{{ $survey['mediums'] }}%</td>
-                                    <td>{{ $survey['bads'] }}%</td>
-                                    <td>{{ $survey['veryBads'] }}%</td>
-                                </tr>
-                            @endforeach
-                            
+                            <tr>
+                                @foreach ($surveys as $surveys)
+                                    <th>{{$survey['percentage']}}%</th>    
+                                @endforeach
+                            </tr>
                         </tbody>
                 
                     </table>

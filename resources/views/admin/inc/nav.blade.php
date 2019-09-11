@@ -9,7 +9,7 @@
     <div class="col-md-4 col-sm-4 col-xs-8 left-sied">
         <div class="col-lg-5 col-md-7 col-sm-6 col-xs-6 dropdown p-l-30r text-center" style=""> <a href="#" class="dropdown-toggle"
                 data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span
-            class="caret"></span>{{Session::get('user')->Name}}<img class="person hidden-sm hidden-xs" src="{{asset('public/assets/img/person-placeholder.png')}}" alt=""> </a>
+            class="caret"></span>{{Session::get('user') !== null ? Session::get('user')->Name : 'Anonymous'}}<img class="person hidden-sm hidden-xs" src="{{asset('public/assets/img/person-placeholder.png')}}" alt=""> </a>
             <ul class="dropdown-menu ">
                 <li>
                     
@@ -55,7 +55,7 @@
                   <li><a href="{{route('show.reportCategories')}}">المعاملات خلال فترة حسب نوع المعاملة</a></li>
                   <li><a href="{{route('admin.getInvoicesByOffices')}}">المعاملات خلال فترة موزعة على المكاتب</a></li>
                   <li><a href="{{route('admin.getMobileAndOfficeInvoices')}}">استخدام نظام المحمول للحصول على الخدمة</a></li>
-                  <li><a href="{{route('admin.getSurveysReport')}}">نتائج استطلاعات الرأى خلال فترة</a></li>
+                  <li><a href="{{route('show.reportSurveys')}}">نتائج استطلاعات الرأى خلال فترة</a></li>
                  
                 </ul>
               </li>

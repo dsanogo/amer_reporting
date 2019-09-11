@@ -71,7 +71,7 @@
                     <table class="table table-striped">
                         <thead class="waleed">
                             <tr>
-                                <th>المكتب</th>
+                                <th>مركز</th>
                                 <th>إجمالى أعداد المعاملات</th>
                                 <th>إجمالى الرسوم</th>
                             </tr>

@@ -52,7 +52,7 @@ class LoginController extends Controller
 
     public function login(Request $request)
     {
-        $UserRoleId = env('USER_ROLE_ID', 5);
+        $UserRoleId = env('USER_ROLE_ID', 6);
         $rules = [
             'username' => 'required|string',
             'password' => 'required|min:1'
@@ -81,6 +81,7 @@ class LoginController extends Controller
     public function logout()
     {
         Session::forget('user');
+        Auth::user()->logout();
         return Redirect::to('login');
     }
 }

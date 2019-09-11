@@ -47,7 +47,6 @@
               </div>
             </div>
             <button type="submit" class="waves-effect waves-light btn-large btn-login">تسجيل الدخول</button>
-            <a class="btn-forget" href="">نسيت كلمه المرور؟</a>
 
             @error('role')
             <div class="alert alert-danger">

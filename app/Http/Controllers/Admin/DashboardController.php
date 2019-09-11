@@ -7,9 +7,11 @@ use App\Http\Controllers\Controller;
 use App\Models\ServiceCategory;
 use App\Models\Employee;
 use App\Models\Invoice;
+use App\Models\InvoiceDetail;
 use Illuminate\Support\Facades\DB;
 use App\Models\Office;
 use App\Models\MobileRequest;
+use App\Models\SurveySubject;
 
 class DashboardController extends Controller
 {
@@ -27,7 +29,7 @@ class DashboardController extends Controller
     {
         $data = [];
         $data['employees'] = Employee::count();
-        $data['numberOfInvoices'] = Invoice::count();
+        $data['numberOfInvoices'] = InvoiceDetail::count();
         $data['totalFees'] = DB::table('Invoices')->sum('TotalFees');
         $data['offices'] = Office::with('employees')->paginate(10);
 
@@ -69,6 +71,7 @@ class DashboardController extends Controller
 
             $report = $this->officeModel->getOfficesDetailsWithAverage($request);
             $topOffices = $report['topOffices'];
+            $topOffices = array_reverse($topOffices);
             
 
         return view('admin.index')->withData($data)->withInvoices($invoiceDetailed)->withTopOffices($topOffices);
@@ -94,7 +97,7 @@ class DashboardController extends Controller
 
     public function showSurveys()
     {
-        $categories = ServiceCategory::select('Id', 'Name')->get();
-        return view('admin.invoicesReport.categoryServices')->withCategories($categories);
+        $surveySubjects = SurveySubject::all();
+        return view('admin.surveys.index')->withSurveySubjects($surveySubjects);
     }
 }
