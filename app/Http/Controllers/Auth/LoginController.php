@@ -66,12 +66,12 @@ class LoginController extends Controller
 
             $user = User::where('Username', $request->username)->where('Password', $request->password)->first();
 
-            if ($user && $user->UserRoleId == 6) {
+            if ($user && $user->UserRoleId == 5) {
                 Auth::login($user, false);
                 Session::put('user', $user);
                 
                 return redirect()->intended($this->redirectTo);
-            } elseif ($user && $user->UserRolId !== 6) return redirect()->back()->withInput($request->only('email', 'password'))->withErrors(['role' => 'You are not authorized to access the reports. Please check with your Administrator']);
+            } elseif ($user && $user->UserRolId !== 5) return redirect()->back()->withInput($request->only('email', 'password'))->withErrors(['role' => 'You are not authorized to access the reports. Please check with your Administrator']);
 
             return redirect()->back()->withInput($request->only('email', 'password'))->withErrors(['username' => 'Username or password incorrect']);
         }
