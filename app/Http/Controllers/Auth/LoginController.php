@@ -52,7 +52,7 @@ class LoginController extends Controller
 
     public function login(Request $request)
     {
-        $UserRoleId = Config::get('USER_ROLE_ID', 5);
+        $UserRoleId = env('USER_ROLE_ID', 5);
         $rules = [
             'username' => 'required|string',
             'password' => 'required|min:1'
@@ -71,7 +71,7 @@ class LoginController extends Controller
                 Auth::login($user, false);
                 Session::put('user', $user);
                 
-                return redirect()->intended($this->redirectTo);
+                return redirect()->to('/admin');
             } elseif ($user && $user->UserRolId !== $UserRoleId) return redirect()->back()->withInput($request->only('email', 'password'))->withErrors(['role' => 'You are not authorized to access the reports. Please check with your Administrator']);
 
             return redirect()->back()->withInput($request->only('email', 'password'))->withErrors(['username' => 'Username or password incorrect']);

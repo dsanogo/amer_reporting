@@ -1,14 +1,17 @@
 @extends('admin.inc.main')
 @section('content')
 <style>
-.gm-style-iw{
-    max-width: 300px !important;
-    max-height: 308px;
-}
-.icon-th{position: relative;
-    top: 7px;}
+    .gm-style-iw {
+        max-width: 300px !important;
+        max-height: 308px;
+    }
 
+    .icon-th {
+        position: relative;
+        top: 7px;
+    }
 </style>
+
 <body>
     <div class="container col-md-12 p-d-0 col-sm-12 col-xs-12">
         <!-- section one-->
@@ -20,15 +23,15 @@
                 </div>
                 <div class="border">
                     <div class="col-md-5 p-d-0" style="margin-top: 100px;padding-left: 25px;">
-                        <canvas id="myChart"  width="100%"></canvas>
+                        <canvas id="myChart" width="100%"></canvas>
 
                     </div>
                     <div class="col-md-4 p-d-0" style="margin-top: 130px;padding-left: 25px;">
-                            <canvas id="myChart-Offices"  width="100%"></canvas>
-    
-                        </div>
+                        <canvas id="myChart-Offices" width="100%"></canvas>
 
-                    
+                    </div>
+
+
                     <div class="col-md-3 section-f2 p-d-0">
                         <div class="section-f3s">
                             <i class="fas fa-user-friends user"></i>
@@ -84,17 +87,16 @@
                                 </tr>
                             </thead>
                             <tbody>
-
                                 @foreach ($data['offices'] as $key => $office)
-                                    <tr>
+                                <tr>
                                     <td>{{ $office->Name }}</td>
                                     <td>{{ count($office->employees)}}</td>
-                                    <td>{{ $invoices[$key]->count }}</td>    
-                                    <td>{{ $invoices[$key]->totalFees }}</td>
-                                    </tr>
+                                    <td>{{ isset($invoices[$key]) ? $invoices[$key]->count : 0 }}</td>
+                                    <td>{{ isset($invoices[$key]) ? $invoices[$key]->totalFees : 0 }}</td>
+                                </tr>
                                 @endforeach
                             </tbody>
-                            
+
                         </table>
                         <div style="text-align: center">
                             {{$data['offices']->links()}}
@@ -102,54 +104,54 @@
                     </div>
                     <div id="Allthumbnail" class="col-md-12 " style="display:none; ">
                         @foreach ($data['offices'] as $key => $office)
-                            <div class="col-xs-6 col-sm-4 col-md-2 rtl pull-right">
-                                <div class="thumbnail-header">
-                                    <p class="title-inthumbnail">{{ $office->Name }}</p>
-                                </div>
-                                <div href="#" class="thumbnail">
-                                    <p class="f1"><i class="fas fa-user-friends "></i>{{ count($office->employees)}}</p>
-                                    <p class="f1"> <i class="material-icons icon-th"> receipt </i>{{ $invoices[$key]->count }}</p>
-                                    <p class="f1"><i class="material-icons icon-th">account_balance_wallet</i> {{ $invoices[$key]->totalFees }}</p>
-                                </div>
+                        <div class="col-xs-6 col-sm-4 col-md-2 rtl pull-right">
+                            <div class="thumbnail-header">
+                                <p class="title-inthumbnail">{{ $office->Name }}</p>
                             </div>
+                            <div href="#" class="thumbnail">
+                                <p class="f1"><i class="fas fa-user-friends "></i>{{ count($office->employees)}}</p>
+                                <p class="f1"> <i class="material-icons icon-th"> receipt
+                                    </i>{{ isset($invoices[$key]) ? $invoices[$key]->count : 0 }}</p>
+                                <p class="f1"><i class="material-icons icon-th">account_balance_wallet</i>
+                                    {{ isset($invoices[$key]) ? $invoices[$key]->totalFees : 0 }}</p>
+                            </div>
+                        </div>
                         @endforeach
-                        
+
                     </div>
                     <div class="map-amaer" style="display:none">
                         <div class="col-md-12 col-sm-12 col-sm-12">
                             <input class="aamer-input col-md-2" type="text" placeholder="بحث">
                         </div>
                         <div class="col-md-10 col-sm-12 col-sm-12 map-amaer-s1">
-                         <div id="map-wa" class="map" style="height: 500px;"></div>
+                            <div id="map-wa" class="map" style="height: 500px;"></div>
 
                         </div>
                         <div class="col-md-2 loclitons col-sm-12 col-sm-12 " style="overflow-y: scroll; height: 500px;">
                             @foreach ($data['offices'] as $key => $office)
-                                <div class="locliton col-md-12 offices" 
-                                    data-location='{"lat": {{intVal($office->Latitude)}}, "lng": {{intVal($office->Longitude)}}}' 
-                                    data-nb-emp="{{count($office->employees)}}"
-                                    data-total-fees="{{$invoices[$key]->totalFees}}"
-                                    data-nb-invoices="{{$invoices[$key]->count}}"
-                                    data-office-name="{{ $office->Name }}"
-                                    id="{{$key==0 ? 'office1': ''}}"
-                                    >
-                                        <i class="material-icons col-md-2 pull-right p-d-0 location_on">location_on </i>
-                                        <div class="col-md-10 pull-right p-d-0 loc-s">
-                                            <p class="C-1"> {{ $office->Name }}</p>
-                                            <p class="C-2">اجمالي المبالغ المحصلة</p>
-                                            <p class="C-3"> د.ر{{ $invoices[$key]->totalFees }}</p>
-                                        </div>
-                                    </div>
+                            <div class="locliton col-md-12 offices"
+                                data-location='{"lat": {{intVal($office->Latitude)}}, "lng": {{intVal($office->Longitude)}}}'
+                                data-nb-emp="{{count($office->employees)}}"
+                                data-total-fees="{{ isset($invoices[$key]) ? $invoices[$key]->totalFees : 0}}"
+                                data-nb-invoices="{{ isset($invoices[$key]) ? $invoices[$key]->count : 0}}"
+                                data-office-name="{{ $office->Name }}" id="{{$key==0 ? 'office1': ''}}">
+                                <i class="material-icons col-md-2 pull-right p-d-0 location_on">location_on </i>
+                                <div class="col-md-10 pull-right p-d-0 loc-s">
+                                    <p class="C-1"> {{ $office->Name }}</p>
+                                    <p class="C-2">اجمالي المبالغ المحصلة</p>
+                                    <p class="C-3"> د.ر{{ isset($invoices[$key]) ? $invoices[$key]->totalFees : 0}}</p>
+                                </div>
+                            </div>
                             @endforeach
-                          <div class="text-center">  {{$data['offices']->links()}}</div>
+                            <div class="text-center"> {{$data['offices']->links()}}</div>
                         </div>
                     </div>
 
                 </div>
                 <!-- section there-->
-                
-            <script>
-                var oName = $('#office1').attr("data-office-name");
+
+                <script>
+                    var oName = $('#office1').attr("data-office-name");
                 var oEmp = $('#office1').attr("data-nb-emp");
                 var oFees = $('#office1').attr("data-total-fees");
                 var oInvoices = $('#office1').attr("data-nb-invoices");
@@ -196,12 +198,14 @@
                     initMap(location, officeName,  nb_emp, nb_invoices, total_fees);
                 });
                 
-    </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCzr3YDrX_cRaBd887pXKu3wBRta57959g&callback=initMap" async defer></script>
-@endsection
-@section('script')
-<script>
-   $(document).ready(function () {
+                </script>
+                <script
+                    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCzr3YDrX_cRaBd887pXKu3wBRta57959g&callback=initMap"
+                    async defer></script>
+                @endsection
+                @section('script')
+                <script>
+                    $(document).ready(function () {
         var url = "{{route('admin.getInvoicesPerMonth')}}";
         var maxFees = 0;
         var maxInvoices = 0;
@@ -411,7 +415,7 @@
                           beginAtZero: true,
                           steps: 10,
                           stepValue: 10,
-                          max: {{$topOffices[0]->proccess_time+10}},
+                          max: {{ count($topOffices) > 0 ? $topOffices[0]->proccess_time+10 : 0}},
                            stepSize: 10,
                            fontColor: "rgba(51, 51, 51, 1)",
                         //    callback: function(label, index, labels) {
@@ -456,6 +460,6 @@
 
 });
 
-</script>
+                </script>
 
-@endsection
+                @endsection
