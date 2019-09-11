@@ -7,7 +7,7 @@
                 <table class="table table-striped">
                     <thead class="waleed">
                         <tr>
-                            <th style=" background-color: #383838 !important;color:#ffffff !important" class="ta-header">المكتب</th>
+                            <th style=" background-color: #383838 !important;color:#ffffff !important" class="ta-header">المراكز</th>
                             <th style=" background-color: #383838 !important;color:#ffffff !important" class="ta-header">أعداد المعاملات من نظام المحمول</th>
                             <th style=" background-color: #383838 !important;color:#ffffff !important" class="ta-header">أعداد المعاملات بالمكاتب</th>
                         </tr>

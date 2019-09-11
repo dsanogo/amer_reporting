@@ -49,7 +49,7 @@
                             {{ session()->get('success') }}
                         </div>
                     @endif
-                    <a href="{{route('admin.invoices.exportLastThreeYears', ['daterange' => $date_range])}}" class="btn btn-primary btn-lg">Excel</a>
+                    {{-- <a href="{{route('admin.invoices.exportLastThreeYears', ['daterange' => $date_range])}}" class="btn btn-primary btn-lg">Excel</a> --}}
                     <a href="{{route('admin.invoices.pdfLastThreeYears', ['daterange' => $date_range])}}" class="btn btn-primary btn-lg" >PDF</a>
                     <a class="btn btn-primary btn-lg sendmail" >Send to mail</a>
                     <a href="{{route('admin.invoices.printLastThreeYears', ['daterange' => $date_range])}}" class="btn btn-primary btn-lg printPage">Print</a>

@@ -23,11 +23,11 @@ class InvoiceController extends Controller
        try {
             $data = $this->invoiceModel->getInvoicesByServiceCategory($request);
 
-            $invoiceDetailed = $data['invoices'];
+            $services = $data['services'];
             $categories = $data['categories'];
             $total = $data['total'];
             
-        return view('admin.invoicesReport.categoryServices')->withInvoices($invoiceDetailed)->withCategories($categories)->withTotal($total);
+        return view('admin.invoicesReport.categoryServices')->withServices($services)->withCategories($categories)->withTotal($total);
         } catch (\Exception $ex) {
             return response()->json(['status' => 'error', 'data' => $ex->getMessage()], 200);
         }
@@ -42,6 +42,7 @@ class InvoiceController extends Controller
         try {
             
             $data = $this->invoiceModel->getInvoicesForOffices($request);
+            
             $invoiceDetailed = $data['invoices'];
             $offices = $data['offices'];
             $total = $data['total'];

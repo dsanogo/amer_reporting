@@ -60,7 +60,7 @@
                                 {{ session()->get('success') }}
                             </div>
                         @endif
-                        <a href="{{route('admin.exportMobileAndOfficeInvoices', ['daterange' => $date_range])}}" class="btn btn-primary btn-lg">Excel</a>
+                        {{-- <a href="{{route('admin.exportMobileAndOfficeInvoices', ['daterange' => $date_range])}}" class="btn btn-primary btn-lg">Excel</a> --}}
                         <a href="{{route('admin.pdfMobileAndOfficeInvoices', ['daterange' => $date_range])}}" class="btn btn-primary btn-lg" >PDF</a>
                         <a class="btn btn-primary btn-lg sendmail" >Send to mail</a>
                         <a href="{{route('admin.printMobileAndOfficeInvoices', ['daterange' => $date_range])}}" class="btn btn-primary btn-lg printPage">Print</a>
@@ -79,7 +79,7 @@
                     <table class="table table-striped">
                         <thead class="waleed">
                             <tr>
-                                <th>المكتب</th>
+                                <th>المراكز</th>
                                 <th>أعداد المعاملات من نظام المحمول</th>
                                 <th>أعداد المعاملات بالمكاتب</th>
                             </tr>

@@ -27,7 +27,7 @@
     <body>
         <!-- section one-->
         <div class="seciton-tabel">
-            <div class="col-md-12"><p class="text-center title-f1">احصائيات مقارنة انتاجية المكاتب</p></div>
+            <div class="col-md-12"><p class="text-center title-f1">احصائيات مقارنة انتاجية المراكز</p></div>
             <form action="{{route('admin.offices.details')}}" method="get">
                 <div class="col-md-12">
                     <div class="col-md-4 col-sm-12 col-xs-12 tabel-input rtl pull-right">
@@ -63,7 +63,7 @@
                                 {{ session()->get('success') }}
                             </div>
                         @endif
-                        <a href="{{route('admin.offices.exportDetails', ['daterange' => $date_range])}}" class="btn btn-primary btn-lg">Excel</a>
+                        {{-- <a href="{{route('admin.offices.exportDetails', ['daterange' => $date_range])}}" class="btn btn-primary btn-lg">Excel</a> --}}
                         <a href="{{route('admin.offices.pdfDetails', ['daterange' => $date_range])}}" class="btn btn-primary btn-lg" >PDF</a>
                         <a class="btn btn-primary btn-lg sendmail" >Send to mail</a>
                         <a href="{{route('admin.offices.printDetails', ['daterange' => $date_range])}}" class="btn btn-primary btn-lg printPage">Print</a>

@@ -1,7 +1,7 @@
 
 <!-- section there-->
 <div class="footer-aamer">
-    <p class="pull-right fonts-infooter bold "><img class="footer-log" src="{{asset('public/assets/img/unicom-logo.png')}}" alt=""> تم التطوير بواسطة</p>
+    <p class="pull-right fonts-infooter bold "> تم التطوير بواسطة<img class="footer-log" src="{{asset('public/assets/img/unicom-logo.png')}}" alt=""> <img src="{{asset('public/assets/img/attechllc-logo.png')}}" alt=""></p>
     <p class="pull-left fonts-infooter bold">2019 &copy; جميع الحقوق محفوظة للهيئه الاتحادية
         للهويه والجنسيه</p>
 </div>

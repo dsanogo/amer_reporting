@@ -25,12 +25,12 @@
                         <div class="col-md-6">
                                 <div class="form-group">
                                         
-                                    <label for="inputPassword" class="col-md-5 col-sm-4 control-label label-tabel"> نوع المعاملة</label>
+                                    <label for="inputPassword" class="col-md-5 col-sm-4 control-label label-tabel">  الاستطلاعات</label>
                                     <select name="survey_id" id="" class="form-control">
                                         
                                         @foreach ($surveySubjects as $surveySubject)
                                         
-                                            <option value="{{$surveySubject->Id}}" {{isset($_GET['survey_id']) && $_GET['survey_id']==$surveySubject->Id ? 'selected' : ''}}>{{ $surveySubject->Description}}</option>    
+                                            <option value="{{$surveySubject->Id}}" {{isset($_GET['survey_id']) && $_GET['survey_id']==$surveySubject->Id ? 'selected' : ''}}>{{ $surveySubject->Name}}</option>    
                                         @endforeach
                                     </select>                            
                                 </div>
@@ -67,7 +67,7 @@
                                 {{ session()->get('success') }}
                             </div>
                         @endif
-                        <a href="{{route('admin.exportSurveysReport', ['daterange' => $date_range])}}" class="btn btn-primary btn-lg">Excel</a>
+                        {{-- <a href="{{route('admin.exportSurveysReport', ['daterange' => $date_range])}}" class="btn btn-primary btn-lg">Excel</a> --}}
                         <a href="{{route('admin.pdfSurveysReport', ['daterange' => $date_range])}}" class="btn btn-primary btn-lg" >PDF</a>
                         <a class="btn btn-primary btn-lg sendmail" >Send to mail</a>
                         <a href="{{route('admin.printSurveysReport', ['daterange' => $date_range])}}" class="btn btn-primary btn-lg printPage">Print</a>

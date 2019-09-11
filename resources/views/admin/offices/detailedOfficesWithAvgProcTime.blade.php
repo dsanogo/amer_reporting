@@ -21,7 +21,7 @@
     <body>
         <!-- section one-->
         <div class="seciton-tabel">
-            <div class="col-md-12"><p class="text-center title-f1">قياس اداء المكاتب</p></div>
+            <div class="col-md-12"><p class="text-center title-f1">قياس اداء المراكز</p></div>
             <form action="{{route('admin.offices.ProcessTimeDetails')}}" method="get">
                 <div class="col-md-12">
                     <div class="col-md-4 col-sm-12 col-xs-12 tabel-input rtl pull-right">
@@ -56,7 +56,7 @@
                                 {{ session()->get('success') }}
                             </div>
                         @endif
-                        <a href="{{route('admin.offices.exportProcessTimeDetails', ['daterange' => $date_range])}}" class="btn btn-primary btn-lg">Excel</a>
+                        {{-- <a href="{{route('admin.offices.exportProcessTimeDetails', ['daterange' => $date_range])}}" class="btn btn-primary btn-lg">Excel</a> --}}
                         <a href="{{route('admin.offices.pdfProcessTimeDetails', ['daterange' => $date_range])}}" class="btn btn-primary btn-lg" >PDF</a>
                         <a class="btn btn-primary btn-lg sendmail" >Send to mail</a>
                         <a href="{{route('admin.offices.printProcessTimeDetails', ['daterange' => $date_range])}}" class="btn btn-primary btn-lg printPage">Print</a>

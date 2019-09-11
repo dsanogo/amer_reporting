@@ -22,43 +22,61 @@ class Invoice extends Model
 
         $category = ServiceCategory::findOrFail($request->category_id);
         $categories = ServiceCategory::select('Id', 'Name')->get();
-        $sumOfTotalFees = 0;
-        $sumOfInvoices = 0;
+        
         try {
             $invoiceDetailed = [];
         
             // Get all the services for this category
             $categoryServices = $category->services;
+            $catInvoiceIds = [];
 
-            foreach ($categoryServices as $service) {
-                $serviceTotalFees = 0;
-                //Get the service Invoice
-                $serviceInvoiceDetails = InvoiceDetail::select('ServiceId', 'InvoiceId')->where('ServiceId', $service->Id)->get();
+            foreach ($categoryServices as $key => $service) {
 
-                // Get Total Fees for the service
-                foreach ($serviceInvoiceDetails as $serviceDetail) {
-                    $serviceInvoice = Invoice::select('TotalFees')->whereDate('Time','>=', $from)->whereDate('Time', '<=', $to)->where('Id', $serviceDetail->InvoiceId)->first();
-                    
-                    if($serviceInvoice){
-                        $serviceTotalFees += $serviceInvoice->TotalFees;
-                        $sumOfTotalFees += $serviceInvoice->TotalFees;
-                        $serviceName = 'service' . $service->Id;
-                        $sumOfInvoices += 1;
-                        
-                        $invoiceDetailed['services'][$serviceName] = $service;
-                        $invoiceDetailed['services'][$serviceName]['invoiceCount'] = count($serviceInvoiceDetails);
-                        $invoiceDetailed['services'][$serviceName]['invoicetotalFees'] = $serviceTotalFees;
-                    }                    
+                $countServiceInvoiceDetails = InvoiceDetail::select('ServiceId')->whereIn('ServiceId', [$service->Id])->count();
+                $serviceInvoiceIds = InvoiceDetail::select('InvoiceId')->whereIn('ServiceId', [$service->Id])->pluck('InvoiceId')->toArray();
+                
+
+                if(count($serviceInvoiceIds) > 0) {
+
+                    foreach ($serviceInvoiceIds as $s_id) {
+                        array_push($catInvoiceIds, $s_id);
+                        // if(!in_array($s_id, $catInvoiceIds)){
+                            
+                        // }
+                    }
+
+                    $servicetotalFees = Invoice::selectRaw('SUM(TotalFees) as total_fees')->whereIn('Id', $serviceInvoiceIds)
+                                        ->whereDate('Time','>=', $from)->whereDate('Time', '<=', $to)
+                                        ->pluck('total_fees')->toArray()[0];
+
+                        if($key == 5){
+                            dd($servicetotalFees);
+                        }
+                }else {
+                    $servicetotalFees = 0;
                 }
+                
+                $invoiceDetailed[$key]['service_name'] = $service->Name;
+                $invoiceDetailed[$key]['count_invoices'] = intVal($countServiceInvoiceDetails);
+                $invoiceDetailed[$key]['totalFees'] = $servicetotalFees == null ? 0 : intVal($servicetotalFees);
+               
+            }
+            $cateTotalFees = 0;
+
+            foreach ($invoiceDetailed as $key => $value) {
+                $cateTotalFees += $value['totalFees'];
             }
 
-            $invoiceDetailed['services'] = $category->services;
+
+            $catTotalInvoiceDetails = InvoiceDetail::whereIn('InvoiceId', $catInvoiceIds)->count();
+
             $total = (object)[
-                'totalFees' => $sumOfTotalFees,
-                'totalInvoices' => $sumOfInvoices
+                'totalFees' => $cateTotalFees == null ? 0 : $cateTotalFees,
+                'totalInvoices' => $catTotalInvoiceDetails
             ];
 
-            return ['invoices' => $invoiceDetailed, 
+            return [
+                    'services' => $invoiceDetailed, 
                     'categories' => $categories, 
                     'total' => $total,
                     'category' => $category,
@@ -84,61 +102,48 @@ class Invoice extends Model
                 $to = '';
             }
 
-            $invoiceDetailed = [];
-            $offices = $offices = Office::select('Id', 'Name')->get();
-            $invoices = Invoice::select('TotalFees', 'MobileRequestId')
-            ->where(function($query) use ($from, $to) {
-                if($from !== '' && $to !== '') {
-                    $query->whereDate('Time','>=', $from)->whereDate('Time', '<=', $to);
-                }
-            })->get();
-            $sumOfTotalFees = 0;
-            $sumOfInvoices = 0;
-            
-            
-            foreach ($offices as $office) {
-                $officeTotalFees = 0;
-                $invoiceCount = 0;
+            $countOfTotalFees = Invoice::selectRaw('SUM(TotalFees) as total_fees')->pluck('total_fees')->toArray()[0];
+            $countOfInvoices = Invoice::count();
+            $countInvoiceServices = InvoiceDetail::count();
+            $officesDeails = [];
 
-                foreach ($invoices as $invoice) {
-                    
-                    // Get the office Id of the Invoice
-                    $officeId = MobileRequest::select('OfficeId')->where('Id', $invoice->MobileRequestId)->first();
+            $offices = Office::select('Id', 'Name', 'Latitude', 'Longitude')->get();
 
-                    if($officeId){
-                        $officeName = 'office' . $office->Id;
+            foreach ($offices as $key => $office) {
+                $userIds = $office->getUserIds($office->Id);
+                $officeEmployees = Employee::where('OfficeId', $office->Id)->count();
+                $totalFees = Invoice::selectRaw('SUM(TotalFees) as total_fees')->whereIn('UserId', $userIds)->pluck('total_fees')->toArray()[0];
 
-                        if($office->Id == $officeId->OfficeId){
-                            $officeTotalFees += $invoice->TotalFees;
-                            $invoiceCount += 1;
-                            $sumOfTotalFees += $invoice->TotalFees;
-                            $sumOfInvoices += 1;
-                        }                
-                        
-                        $invoiceDetailed[$officeName] = (object)[
-                            'office' => $office->Name,
-                            'totalFees' => $officeTotalFees,
-                            'count' => $invoiceCount
-                        ];
-                    }
-                    
-                }
+                
+                $officeInvoices = Invoice::select('Id')->whereIn('UserId', $userIds)
+                ->where(function($query) use ($from, $to) {
+                        if($from !== '' && $to !== '') {
+                            $query->whereDate('Time','>=', $from)->whereDate('Time', '<=', $to);
+                        }
+                    })->pluck('Id')->toArray();
 
+                $serviceCount = InvoiceDetail::whereIn('InvoiceId', $officeInvoices)->count();
+
+                $officesDeails[$key]['office_name'] = $office->Name;
+                $officesDeails[$key]['total_fees'] = $totalFees == null ? 0 : $totalFees;
+                $officesDeails[$key]['n_invoices'] = count($officeInvoices);
+                $officesDeails[$key]['n_serviceCount'] = $serviceCount;
+                $officesDeails[$key]['n_employees'] = $officeEmployees;
+                $officesDeails[$key]['lat'] = $office->Latitude;
+                $officesDeails[$key]['long'] = $office->Longitude;
             }
 
             $total = (object)[
-                'totalFees' => $sumOfTotalFees,
-                'totalInvoices' => $sumOfInvoices
+                'totalFees' => $countOfTotalFees,
+                'totalInvoices' => $countOfInvoices,
+                'totalInvoiceDatails' => $countInvoiceServices
             ];
             
             return [
-                'invoices' => $invoiceDetailed,
+                'invoices' => $officesDeails,
                 'offices' => $offices,
                 'total' => $total
             ];
-
-            // return view('admin.invoicesReport.offices')->withInvoices($invoiceDetailed)->withOffices($offices)->withTotal($total);
-            // return response()->json(['status' => 'success', 'data' => $invoiceDetailed], 200);
         } catch (\Exception $ex) {
             return response()->json(['status' => 'error', 'data' => $ex->getMessage()], 200);
         }

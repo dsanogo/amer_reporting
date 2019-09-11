@@ -18,7 +18,7 @@
     <body>
         <!-- section one-->
         <div class="seciton-tabel">
-            <div class="col-md-12"><p class="text-center title-f1">التطور الزمني لاداء الكاتب</p></div>
+            <div class="col-md-12"><p class="text-center title-f1">التطور الزمني لاداء المراكز</p></div>
             <form action="{{route('admin.monthlyInvoicesProcessTime')}}" method="get">
                 <div class="col-md-12">
                     <div class="col-md-8 col-sm-12 col-xs-12 tabel-input rtl pull-right">
@@ -66,7 +66,7 @@
                                 {{ session()->get('success') }}
                             </div>
                         @endif
-                        <a href="{{route('admin.exportMonthlyInvoicesProcessTime', ['office_id'=> $office_id, 'daterange' => $date_range])}}" class="btn btn-primary btn-lg">Excel</a>
+                        {{-- <a href="{{route('admin.exportMonthlyInvoicesProcessTime', ['office_id'=> $office_id, 'daterange' => $date_range])}}" class="btn btn-primary btn-lg">Excel</a> --}}
                         <a href="{{route('admin.pdfMonthlyInvoicesProcessTime', ['office_id'=> $office_id, 'daterange' => $date_range])}}" class="btn btn-primary btn-lg" >PDF</a>
                         <a class="btn btn-primary btn-lg sendmail" >Send to mail</a>
                         <a href="{{route('admin.printMonthlyInvoicesProcessTime', ['office_id'=> $office_id, 'daterange' => $date_range])}}" class="btn btn-primary btn-lg printPage">Print</a>

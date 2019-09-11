@@ -29,8 +29,8 @@ label{
     <body>
         <!-- section one-->
         <div class="seciton-tabel">
-            <div class="col-md-12"><p class="text-center title-f1">هل اصدار المعاملات بالمكاتب مفضل للمتعامل أم بنظام المحمول؟</p>
-            <p class="text-right title-f1">بناءاً على معاملات آخر 3 شهور، ثبت أن المتعاملين يفضلون استخدام {{$total->sumMobileInvoices > $total->sumOfficeInvoices ? 'نظام المحمول' : 'المكاتب'}}، كما هو موضح بالجدول أسفله</p>
+            <div class="col-md-12"><p class="text-center title-f1">هل اصدار المعاملات بالمراكز مفضل للمتعامل أم بنظام المحمول؟</p>
+            <p class="text-right title-f1">بناءاً على معاملات آخر 3 شهور، ثبت أن المتعاملين يفضلون استخدام {{$total->sumMobileInvoices > $total->sumOfficeInvoices ? 'نظام المحمول' : 'المراكز'}}، كما هو موضح بالجدول أسفله</p>
             </div>
 
         @if (count($invoices) == 0)
@@ -50,7 +50,7 @@ label{
                                 {{ session()->get('success') }}
                             </div>
                         @endif
-                        <a href="{{route('admin.exportMobileAndOfficeInvoicesQuarterly', ['daterange' => $date_range])}}" class="btn btn-primary btn-lg">Excel</a>
+                        {{-- <a href="{{route('admin.exportMobileAndOfficeInvoicesQuarterly', ['daterange' => $date_range])}}" class="btn btn-primary btn-lg">Excel</a> --}}
                         <a href="{{route('admin.pdfMobileAndOfficeInvoicesQuarterly', ['daterange' => $date_range])}}" class="btn btn-primary btn-lg" >PDF</a>
                         <a class="btn btn-primary btn-lg sendmail" >Send to mail</a>
                         <a href="{{route('admin.printMobileAndOfficeInvoicesQuarterly', ['daterange' => $date_range])}}" class="btn btn-primary btn-lg printPage">Print</a>
@@ -68,7 +68,7 @@ label{
                     <table class="table table-striped">
                         <thead class="waleed">
                             <tr>
-                                <th>المكتب</th>
+                                <th>المراكز</th>
                                 <th>أعداد المعاملات من نظام المحمول</th>
                                 <th>أعداد المعاملات بالمكاتب</th>
                             </tr>

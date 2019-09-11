@@ -18,7 +18,7 @@
     <body>
         <!-- section one-->
         <div class="seciton-tabel">
-                <div class="col-md-12"><p class="text-center title-f1">المعاملات خلال فترة موزعة على المكاتب</p></div>
+                <div class="col-md-12"><p class="text-center title-f1">المعاملات خلال فترة موزعة على المراكز</p></div>
             <form action="{{route('admin.getInvoicesByOffices')}}" method="get">
                 <div class="col-md-12">
                     <div class="col-md-4 col-sm-12 col-xs-12 tabel-input rtl pull-right">
@@ -53,7 +53,7 @@
                                 {{ session()->get('success') }}
                             </div>
                         @endif
-                        <a href="{{route('admin.exportInvoicesByOffices', ['daterange' => $date_range])}}" class="btn btn-primary btn-lg">Excel</a>
+                        {{-- <a href="{{route('admin.exportInvoicesByOffices', ['daterange' => $date_range])}}" class="btn btn-primary btn-lg">Excel</a> --}}
                         <a href="{{route('admin.pdfInvoicesByOffices', ['daterange' => $date_range])}}" class="btn btn-primary btn-lg" >PDF</a>
                         <a class="btn btn-primary btn-lg sendmail" >Send to mail</a>
                         <a href="{{route('admin.printInvoicesByOffices', ['daterange' => $date_range])}}" class="btn btn-primary btn-lg printPage">Print</a>
@@ -72,24 +72,28 @@
                         <thead class="waleed">
                             <tr>
                                 <th>مركز</th>
+                                <th>إجمالى أعداد فاتوره</th>
                                 <th>إجمالى أعداد المعاملات</th>
                                 <th>إجمالى الرسوم</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($invoices as $invoice)
+
                             <tr>
-                                <td>{{ $invoice->office}}</td>
-                                <td>{{ isset($invoice->count) ? $invoice->count : 0 }}</td>    
-                                <td>{{ isset($invoice->totalFees) ? $invoice->totalFees : 0 }}</td>
+                                <td>{{ $invoice['office_name']}}</td>
+                                <td>{{ $invoice['n_invoices']}}</td>    
+                                <td>{{ $invoice['n_serviceCount']}}</td>
+                                <td>{{ $invoice['total_fees']}}</td>
                             </tr>
                             @endforeach
                             
                         </tbody>
                     
                         <tr id="trfoo">
-                            <th class="end">Total</th>
+                            <th class="end">الاجمالي</th>
                             <th class="end">{{ $total->totalInvoices }}</th>
+                            <th class="end">{{ $total->totalInvoiceDatails }}</th>
                             <th class="end">{{ $total->totalFees }}</th>
                         </tr>
                     </table>

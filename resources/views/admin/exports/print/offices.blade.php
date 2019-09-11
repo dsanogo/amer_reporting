@@ -6,11 +6,11 @@
     <div class="seciton-tabel">
         @if (isset($invoices))
             <div class="col-md-12 rtl tabel" >
-                <h4>المعاملات خلال فترة موزعة على المكاتب</h4>
+                <h4>المعاملات خلال فترة موزعة على المراكز</h4>
                 <table class="table table-striped">
                     <thead class="waleed">
                         <tr>
-                            <th style=" background-color: #383838 !important;color:#ffffff !important" class="ta-header">المكتب</th>
+                            <th style=" background-color: #383838 !important;color:#ffffff !important" class="ta-header">المراكز</th>
                             <th style=" background-color: #383838 !important;color:#ffffff !important" class="ta-header">إجمالى أعداد المعاملات</th>
                             <th style=" background-color: #383838 !important;color:#ffffff !important" class="ta-header">إجمالى الرسوم</th>
                         </tr>

@@ -46,7 +46,15 @@
                     </div>
                 </div>
             </form>
-            @if (isset($invoices) && count($invoices) > 0)
+
+            
+
+            @if (isset($services) && count($services) == 0)
+                <div class="col-md-12 rtl text-center alert alert-danger block-center" >
+                    <h5>No Result found</h5>
+                </div>
+            @endif
+            @if (isset($services) && count($services) > 0)
 
             <?php 
                 $cat_id = $_GET['category_id'];
@@ -59,7 +67,7 @@
                                 {{ session()->get('success') }}
                             </div>
                         @endif
-                        <a href="{{route('admin.exportInvoicesByCategory', ['category_id'=> $cat_id, 'daterange' => $date_range])}}" class="btn btn-primary btn-lg">Excel</a>
+                        {{-- <a href="{{route('admin.exportInvoicesByCategory', ['category_id'=> $cat_id, 'daterange' => $date_range])}}" class="btn btn-primary btn-lg">Excel</a> --}}
                         <a href="{{route('admin.pdfInvoicesByCategory',['category_id'=> $cat_id, 'daterange' => $date_range])}}" class="btn btn-primary btn-lg" >PDF</a>
                         <a class="btn btn-primary btn-lg sendmail">Send to mail</a>
                         <a href="{{route('admin.printInvoicesByCategory',['category_id'=> $cat_id, 'daterange' => $date_range])}}" class="btn btn-primary btn-lg printPage">Print</a>
@@ -85,11 +93,13 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($invoices['services'] as $service)
+
+
+                            @foreach ($services as $service)
                             <tr>
-                                <td>{{ $service->Name}}</td>
-                                <td>{{ isset($service->invoiceCount) ? $service->invoiceCount : 0 }}</td>
-                                <td>{{ isset($service->invoicetotalFees) ? $service->invoicetotalFees : 0 }}</td>
+                                <td>{{ $service['service_name']}}</td>
+                                <td>{{ $service['count_invoices']}}</td>
+                                <td>{{ $service['totalFees'] }}</td>
                             </tr>
                             @endforeach
                             

@@ -89,33 +89,31 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($data['offices'] as $key => $office)
+                                @foreach ($invoices as $office)
                                 <tr>
-                                    <td>{{ $office->Name }}</td>
-                                    <td>{{ count($office->employees)}}</td>
-                                    <td>{{ isset($invoices[$key]) ? $invoices[$key]->count : 0 }}</td>
-                                    <td>{{ isset($invoices[$key]) ? $invoices[$key]->totalFees : 0 }}</td>
+                                    <td>{{ $office['office_name'] }}</td>
+                                    <td>{{ $office['n_employees'] }}</td>
+                                    <td>{{ $office['n_serviceCount'] }}</td>
+                                    <td>{{ $office['total_fees'] }}</td>
                                 </tr>
                                 @endforeach
                             </tbody>
 
                         </table>
-                        <div style="text-align: center">
-                            {{$data['offices']->links()}}
-                        </div>
+                        
                     </div>
                     <div id="Allthumbnail" class="col-md-12 " style="display:none; ">
-                        @foreach ($data['offices'] as $key => $office)
+                        @foreach ($invoices as $office)
                         <div class="col-xs-6 col-sm-4 col-md-2 rtl pull-right">
                             <div class="thumbnail-header">
-                                <p class="title-inthumbnail">{{ $office->Name }}</p>
+                                <p class="title-inthumbnail">{{ $office['office_name'] }}</p>
                             </div>
                             <div href="#" class="thumbnail">
-                                <p class="f1"><i class="fas fa-user-friends "></i>{{ count($office->employees)}}</p>
+                                <p class="f1"><i class="fas fa-user-friends "></i>{{ $office['n_employees'] }}</p>
                                 <p class="f1"> <i class="material-icons icon-th"> receipt
-                                    </i>{{ isset($invoices[$key]) ? $invoices[$key]->count : 0 }}</p>
+                                    </i>{{ $office['n_serviceCount'] }}</p>
                                 <p class="f1"><i class="material-icons icon-th">account_balance_wallet</i>
-                                    {{ isset($invoices[$key]) ? $invoices[$key]->totalFees : 0 }}</p>
+                                    {{ $office['total_fees'] }}</p>
                             </div>
                         </div>
                         @endforeach
@@ -130,22 +128,22 @@
 
                         </div>
                         <div class="col-md-2 loclitons col-sm-12 col-sm-12 " style="overflow-y: scroll; height: 500px;">
-                            @foreach ($data['offices'] as $key => $office)
+                            @foreach ($invoices as $key => $office)
                             <div class="locliton col-md-12 offices"
-                                data-location='{"lat": {{intVal($office->Latitude)}}, "lng": {{intVal($office->Longitude)}}}'
-                                data-nb-emp="{{count($office->employees)}}"
-                                data-total-fees="{{ isset($invoices[$key]) ? $invoices[$key]->totalFees : 0}}"
-                                data-nb-invoices="{{ isset($invoices[$key]) ? $invoices[$key]->count : 0}}"
-                                data-office-name="{{ $office->Name }}" id="{{$key==0 ? 'office1': ''}}">
+                                data-location='{"lat": {{intVal($office['lat'])}}, "lng": {{intVal($office['long'])}}}'
+                                data-nb-emp="{{ $office['n_employees'] }}"
+                                data-total-fees="{{ $office['total_fees'] }}"
+                                data-nb-invoices="{{$office['n_serviceCount']}}"
+                                data-office-name="{{ $office['office_name'] }}" id="{{$key==0 ? 'office1': ''}}">
                                 <i class="material-icons col-md-2 pull-right p-d-0 location_on">location_on </i>
                                 <div class="col-md-10 pull-right p-d-0 loc-s">
-                                    <p class="C-1"> {{ $office->Name }}</p>
+                                    <p class="C-1"> {{ $office['office_name'] }}</p>
                                     <p class="C-2">اجمالي المبالغ المحصلة</p>
-                                    <p class="C-3"> درهم{{ isset($invoices[$key]) ? $invoices[$key]->totalFees : 0}}</p>
+                                    <p class="C-3"> درهم{{ $office['total_fees']}}</p>
                                 </div>
                             </div>
                             @endforeach
-                            <div class="text-center"> {{$data['offices']->links()}}</div>
+                            
                         </div>
                     </div>
 

@@ -32,9 +32,9 @@
     <body>
         <!-- section one-->
         <div class="seciton-tabel">
-            <div class="col-md-12"><p class="text-center title-f1">ما هى المكاتب التى يسوء أداؤها وتستدعى التدخل؟</p></div>
+            <div class="col-md-12"><p class="text-center title-f1">ما هى المراكز التى يسوء أداؤها وتستدعى التدخل؟</p></div>
         @if (isset($invoices) && count($invoices) > 0)
-            
+            <p class="text-right title-f1">بناءاً على أداء آخر 3 شهور،المراكز الموضحة فى الجدول أسفله يسوء أداؤها</p>
             <div class="col-md-12 pull-right rtl tabel" >
                 <div class="text-center" style="margin: 5px;">
                     @if(session()->has('success'))
@@ -42,7 +42,7 @@
                             {{ session()->get('success') }}
                         </div>
                     @endif
-                    <a href="{{route('admin.invoices.exportLastThreeYears')}}" class="btn btn-primary btn-lg">Excel</a>
+                    {{-- <a href="{{route('admin.invoices.exportLastThreeYears')}}" class="btn btn-primary btn-lg">Excel</a> --}}
                     <a href="{{route('admin.invoices.pdfLastThreeYears')}}" class="btn btn-primary btn-lg" >PDF</a>
                     <a class="btn btn-primary btn-lg sendmail" >Send to mail</a>
                     <a href="{{route('admin.invoices.printLastThreeYears')}}" class="btn btn-primary btn-lg printPage">Print</a>
@@ -58,9 +58,8 @@
                 </div>
                 <table class="table table-responsive table-striped" >
                     <tr>
-                        <td rowspan="2" style="padding-top: 30px;" class="bordered">المكتب</td>
+                        <td rowspan="2" style="padding-top: 30px;" class="bordered">المراكز</td>
                         <td colspan="{{count($months)}}" class="bordered">متوسط زمن المعاملة</td>
-                        <td rowspan="2" style="padding-top: 30px;" class="bordered">نوع المعاملة الأكثر زمناً</td>
                     </tr>
                     <tr>
                         @foreach ($months as $month)
@@ -73,14 +72,6 @@
                         @foreach ($invoices[$key] as $i => $item)
                             <td>{{$item['procTime']}}</td>
                         @endforeach         
-                        
-                        <?php $displayed = [];?>
-                        @foreach ($invoices[$key] as $i => $item)
-                            @if (!in_array($key, $displayed))
-                                <td>{{$item['topService']}}</td>
-                            @endif
-                            <?php array_push($displayed, $key);?>
-                        @endforeach  
                     </tr>
                     @endforeach
                 </table>

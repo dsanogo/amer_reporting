@@ -3,11 +3,11 @@
     <div class="seciton-tabel">
             @if (isset($invoices))
             <div class="col-md-6 col-sm-12 col-xs-12 pull-right rtl tabel" >
-                <h4>قياس اداء المكاتب</h4>
+                <h4>قياس اداء المراكز</h4>
                 <table class="table table-striped">
                     <thead class="waleed">
                         <tr>
-                            <th style=" background-color: #383838 !important;color:#ffffff !important" class="ta-header">المكتب</th>
+                            <th style=" background-color: #383838 !important;color:#ffffff !important" class="ta-header">المراكز</th>
                             <th style=" background-color: #383838 !important;color:#ffffff !important" class="ta-header">عدد العاملين</th>
                             <th style=" background-color: #383838 !important;color:#ffffff !important" class="ta-header">متوسط زمن المعاملة بالدقيقة</th>
                         </tr>

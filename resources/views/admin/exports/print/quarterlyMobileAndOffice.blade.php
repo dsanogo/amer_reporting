@@ -2,15 +2,15 @@
 @section('content')    
     <div class="seciton-tabel">
         @if (isset($invoices))
-            <h4 style="text-align: right">اصدار المعاملات بالمكاتب مفضل للمتعامل أم بنظام المحمول</h4>
+            <h4 style="text-align: right">اصدار المعاملات بالمراكز مفضل للمتعامل أم بنظام المحمول</h4>
             <div class="col-md-12 text-right text-qu p-t-10">
                 <p>{{$topServices->fromMobile !== '' ? $topServices->fromMobile : "No Service for this period"}} : أكثر نوع معاملة تم طلبها بنظام المحمول</p>
-                <p>{{$topServices->fromOffice !== '' ? $topServices->fromOffice : "No Service for this period"}} : أكثر نوع معاملة تم طلبها من المكتب مباشرة</p>
+                <p>{{$topServices->fromOffice !== '' ? $topServices->fromOffice : "No Service for this period"}} : أكثر نوع معاملة تم طلبها من المراكز مباشرة</p>
             </div>
             <table class="table table-striped">
                 <thead class="waleed">
                     <tr>
-                        <th style=" background-color: #383838 !important;color:#ffffff !important" class="ta-header">المكتب</th>
+                        <th style=" background-color: #383838 !important;color:#ffffff !important" class="ta-header">المراكز</th>
                         <th style=" background-color: #383838 !important;color:#ffffff !important" class="ta-header">أعداد المعاملات من نظام المحمول</th>
                         <th style=" background-color: #383838 !important;color:#ffffff !important" class="ta-header">أعداد المعاملات بالمكاتب</th>
                     </tr>

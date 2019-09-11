@@ -40,15 +40,16 @@ class SurveySubject extends Model
 
             $survey_id = $request->survey_id;
 
-            // ->whereDate('Time','>=', $from)->whereDate('Time', '<=', $to)
-
             // get total Surveys for the subject
             $totalSurveys = UserSurvey::where('SubjectId', $survey_id)->count();
 
             if($totalSurveys > 0) {
                 $surveys = UserSurvey::selectRaw('
                     EvaluationId, COUNT(EvaluationId) as n_evals
-                ')->where('SubjectId', $survey_id)->groupBy('EvaluationId')->get();
+                ')
+                ->where('SubjectId', $survey_id)
+                ->whereDate('CreationTime','>=', $from)->whereDate('CreationTime', '<=', $to)
+                ->groupBy('EvaluationId')->get();
 
                 foreach ($surveys as $key => $survey) {
                     $evalName = SurveyEvaluation::select('Description')->where('Id', $survey->EvaluationId)->pluck('Description')->toArray()[0];
