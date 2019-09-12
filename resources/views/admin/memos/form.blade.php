@@ -25,6 +25,7 @@
         <dl class="dropdown">
             <dt>
                 <a>
+                    @if ($memo->Id)
                     @if(count($memoOfficesIds) > 0)
                     <p class="multiSel">
                         @foreach ($offices as $office)
@@ -32,6 +33,9 @@
                         @endforeach
                         <span class="hida" style="display: none;">-- برجاء الاختيار --</span>
                     </p>
+                    @else
+                    <p class="multiSel"><span class="hida">-- برجاء الاختيار --</span></p>
+                    @endif
                     @else
                     <p class="multiSel"><span class="hida">-- برجاء الاختيار --</span></p>
                     @endif
@@ -101,7 +105,7 @@
 </div>
 
 @if($memo->Id)
-<input name="id" id="id" type="hidden" value="{{$memo->Id}}">
+<input name="Id" id="id" type="hidden" value="{{$memo->Id}}">
 @endif
 
 <div class="form-group col-md-12">

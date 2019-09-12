@@ -65,7 +65,7 @@ class MemoController extends Controller
 
         if ($validator->fails()) return redirect()->back()->withErrors($validator)->withInput();
 
-        $input = $request->all();
+        $input = $request->except(['offices', 'filenames', '_token']);
         // The incoming request is valid...
 
         // Retrieve the validated input data...
@@ -79,7 +79,7 @@ class MemoController extends Controller
 
             if (!empty($request->offices)) {
                 foreach ($request->offices as $office_id) {
-                    (new MemoOffice)->create(['MemoId' => $memo->Id, 'OfficeId' => $office_id]);
+                    if($office_id != 0) (new MemoOffice)->create(['MemoId' => $memo->Id, 'OfficeId' => $office_id]);
                 }
             }
 
@@ -152,12 +152,15 @@ class MemoController extends Controller
 
         if ($validator->fails()) return redirect()->back()->withErrors($validator)->withInput();
 
-        $input = $request->all();
+        $input = $request->except(['Id', 'offices', 'filenames', '_token']);
 
         /**Start Transaction */
         DB::transaction(function () use ($input, $request) {
-            $memo = Memo::findOrFail($id);
-            $memo->update($validated);
+
+            $memo = Memo::where('Id', $request->Id)->first();
+            $input['Origin'] = $memo->Origin;
+            $input['SuperVisingOrgId'] = $memo->SuperVisingOrgId;
+            $memo->update($input);
 
 
             if (!empty($request->offices)) {
@@ -167,15 +170,14 @@ class MemoController extends Controller
                 }
             }
 
-            if (Input::file('PhotoId')) {
-                File::where('File', $memo->PhotoId)->delete();
-                $file = Input::file('PhotoId');
-                $path = $file->getRealPath();
-                $photo = file_get_contents($path);
-                $base64 = base64_encode($photo);
-                $file = (new File)->create(['File' => $base64]);
-                $memo->PhotoId = $file->Id;
-                $memo->save();
+            if ($request->hasfile('filenames')) {
+                foreach ($request->file('filenames') as $file) {
+                    $name = Carbon::now()->format('YmdHs') . Str::random(5) . $memo->Id;
+                    $file->move(public_path() . '/uploads/memos/', $name . '.' . $file->getClientOriginalExtension());
+                    // $path = $file->getRealPath();
+                    // $photo = file/64_encode($photo);
+                    $file = (new MemoAttachment)->create(['Name' => $name, 'Path' => $name . '.' . $file->getClientOriginalExtension(), 'MemoId'=> $memo->Id]);
+                }
             }
         });
         /**End Transaction */

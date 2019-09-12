@@ -58,9 +58,9 @@
                   <li><a href="{{route('show.reportSurveys')}}">نتائج استطلاعات الرأى خلال فترة</a></li>
                  
                 </ul>
-              </li>
-          
-              <li class="dropdown">
+            </li>
+            
+            <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">احصائيات وقياس الاداء<span class="caret"></span></a>
                 <ul class="dropdown-menu dropdown-menusa fixaa text-right">
                     <li><a href="{{route('admin.offices.details')}}">احصائيات مقارنة انتاجية المراكز</a></li>
@@ -69,15 +69,16 @@
                     <li><a href="{{route('admin.monthlyInvoicesProcessTime')}}">التطور الزمني لاداء الكاتب</a></li>
                     
                 </ul>
-                </li> 
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">تقاير الذكاء الاصطناعي<span class="caret"></span></a>
+            </li> 
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">تقاير الذكاء الاصطناعي<span class="caret"></span></a>
                     <ul class="dropdown-menu dropdown-menusa fixaa text-right">
                         <li><a href="{{route('admin.quarterlyInvoicesProcessTime')}}">ما هى المراكز التى يسوء أداؤها وتستدعى التدخل؟</a></li>
                         <li><a href="{{route('admin.getMobileAndOfficeInvoicesQuarterly')}}">هل اصدار المعاملات بالمراكز مفضل للمتعامل أم بنظام المحمول؟</a></li>
                         <li><a href="{{route('admin.invoices.getLastThreeYears')}}">ما هى مواسم زيادة وقلة أعداد المعاملات؟</a></li>
                     </ul>
-                </li>
+            </li>
+            <li><a href="{{route('admin.memos.index')}}"> التعميمات</a></li>
         </ul>
     </div>
 </div>
