@@ -64,11 +64,11 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($invoices['services'] as $service)
+                        @foreach ($invoices as $service)
                         <tr>
-                            <td>{{ $service->Name}}</td>
-                            <td>{{ isset($service->invoiceCount) ? $service->invoiceCount : 0 }}</td>
-                            <td>{{ isset($service->invoicetotalFees) ? $service->invoicetotalFees : 0 }}</td>
+                            <td>{{ $service['service_name']}}</td>
+                            <td>{{ $service['count_invoices']}}</td>
+                            <td>{{ $service['totalFees'] }}</td>
                         </tr>
                         @endforeach
                         

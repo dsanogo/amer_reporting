@@ -50,6 +50,7 @@
                 </div>
             @endif
             @if (isset($invoices) && count($invoices) >0)
+
                 <?php 
                     $date_range = isset($_GET['daterange']) ? $_GET['daterange'] : '';
                 ?>
@@ -85,11 +86,11 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($invoices as $key => $invoice)
+                            @foreach ($invoices as $key => $office)
                             <tr>
-                                <td>{{ $invoice->office}}</td>
-                                <td>{{ $invoice->mobileInvoices}}</td>
-                                <td>{{ $invoice->officeInvoices}}</td>
+                                <td>{{ $office['office_name']}}</td>
+                                <td>{{ $office['nb_mobile_invoices']}}</td>
+                                <td>{{ $office['nb_office_invoices']}}</td>
                             </tr>
                             @endforeach
                             

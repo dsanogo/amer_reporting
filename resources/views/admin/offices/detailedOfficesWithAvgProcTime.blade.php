@@ -80,11 +80,11 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($data['offices'] as $key => $office)
+                            @foreach ($invoices as $office)
                             <tr> 
-                                <td>{{ $office->Name }}</td>
-                                <td>{{ count($office->employees)}}</td>
-                                <td>{{ $invoices[$key]->processTime }}</td>   
+                                <td>{{ $office['office'] }}</td>
+                                <td>{{ $office['nb_employee'] }}</td>
+                                <td>{{ $office['proc_time'] }}</td>
                             </tr>
                             @endforeach
                             
@@ -116,8 +116,8 @@
            var top_office_name = new Array();
            var top_procees_time= new Array();
             @foreach ($topOffices as $key => $office)
-                top_office_name.push('{{$office->office}}');
-                top_procees_time.push('{{$office->proccess_time}}');
+                top_office_name.push('{{$office["office"]}}');
+                top_procees_time.push('{{$office["proc_time"]}}');
             @endforeach
         var ctx = document.getElementById('myChart');
                 var myChart = new Chart(ctx, {
@@ -156,7 +156,7 @@
                           beginAtZero: true,
                           steps: 10,
                           stepValue: 10,
-                          max: {{$topOffices[0]->proccess_time+10}},
+                          max: {{$topOffices[0]['proc_time']+10}},
                            stepSize: 10,
                            fontColor: "rgba(51, 51, 51, 1)",
                         //    callback: function(label, index, labels) {

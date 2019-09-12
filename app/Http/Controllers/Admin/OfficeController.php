@@ -28,12 +28,11 @@ class OfficeController extends Controller
     {
         try {
             $report = $this->officeModel->getOfficesDetails($request);
-            $data = $report['data'];
             $invoiceDetailed = $report['invoices'];
             $total = $report['total'];
             $topOffices = $report['topOffices'];
 
-            return view('admin.offices.detailedOffices')->withData($data)->withInvoices($invoiceDetailed)->withTotal($total)->withtopOffices($topOffices);
+            return view('admin.offices.detailedOffices')->withInvoices($invoiceDetailed)->withTotal($total)->withtopOffices($topOffices);
         } catch (\Exception $ex) {
             return response()->json(['error' => $ex->getMessage()], 200);
         }
@@ -44,11 +43,10 @@ class OfficeController extends Controller
         try {
             
             $report = $this->officeModel->getOfficesDetailsWithAverage($request);
-            $data = $report['data'];
             $invoiceDetailed = $report['invoices'];
             $topOffices = $report['topOffices'];
 
-            return view('admin.offices.detailedOfficesWithAvgProcTime')->withData($data)->withInvoices($invoiceDetailed)->withtopOffices($topOffices);
+            return view('admin.offices.detailedOfficesWithAvgProcTime')->withInvoices($invoiceDetailed)->withtopOffices($topOffices);
         } catch (\Exception $ex) {
             return response()->json(['error' => $ex->getMessage()], 200);
         }
@@ -58,11 +56,10 @@ class OfficeController extends Controller
     {
         try {
             $report = $this->officeModel->getOfficesDetailsWithAverage($request);
-            $data = $report['data'];
             $invoiceDetailed = $report['invoices'];
             $topOffices = $report['topOffices'];
             
-            return view('admin.exports.print.detailedOfficesWithAvgProcTime')->withData($data)->withInvoices($invoiceDetailed)->withtopOffices($topOffices);
+            return view('admin.exports.print.detailedOfficesWithAvgProcTime')->withInvoices($invoiceDetailed)->withtopOffices($topOffices);
         } catch (\Exception $ex) {
             return response()->json(['error' => $ex->getMessage()], 200);
         }
@@ -72,12 +69,12 @@ class OfficeController extends Controller
     {
         try {
             $report = $this->officeModel->getOfficesDetails($request);
-            $data = $report['data'];
+
             $invoiceDetailed = $report['invoices'];
             $total = $report['total'];
             $topOffices = $report['topOffices'];
             
-            return view('admin.exports.print.detailedOffices')->withData($data)->withInvoices($invoiceDetailed)->withTotal($total)->withtopOffices($topOffices);
+            return view('admin.exports.print.detailedOffices')->withInvoices($invoiceDetailed)->withTotal($total)->withtopOffices($topOffices);
         } catch (\Exception $ex) {
             return response()->json(['error' => $ex->getMessage()], 200);
         }

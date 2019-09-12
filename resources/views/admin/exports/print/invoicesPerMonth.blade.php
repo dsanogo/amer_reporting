@@ -12,13 +12,12 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($invoices as $invoice)
+                        @foreach ($invoices as $month)
                         <tr>
-                            <td>{{ $invoice->month . ' ' . $invoice->year }}</td>
-                            <td>{{ $invoice->total_invoices }}</td>   
+                            <td>{{$month['month']}}</td>
+                            <td>{{$month['nb_invoices']}}</td>
                         </tr>
                         @endforeach
-                        
                     </tbody>
                 
                     <tr id="trfoo">

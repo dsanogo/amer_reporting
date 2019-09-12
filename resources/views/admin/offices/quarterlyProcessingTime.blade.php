@@ -67,11 +67,13 @@
                         @endforeach
                     </tr>
                     @foreach ($invoices as $key => $invoice)
-                    <tr>                        
-                        <td>{{$key}}</td>
-                        @foreach ($invoices[$key] as $i => $item)
-                            <td>{{$item['procTime']}}</td>
-                        @endforeach         
+                    <tr style="background: {{isset($invoice['flag']) && $invoice['flag']=='red' ? 'red' : ''}}">
+                        
+                        <td>{{$invoices[$key][0]['office_name']}}</td>   
+                        <td>{{$invoices[$key][0]['procTime']}}</td>   
+                        <td>{{$invoices[$key][1]['procTime']}}</td>    
+                        <td>{{$invoices[$key][2]['procTime']}}</td> 
+                            
                     </tr>
                     @endforeach
                 </table>

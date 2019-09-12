@@ -87,11 +87,11 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($data['offices'] as $key => $office)
+                            @foreach ($invoices as $office)
                             <tr>
-                                <td>{{ $office->Name }}</td>
-                                <td>{{ count($office->employees)}}</td>
-                                <td>{{ $invoices[$key]->count }}</td>   
+                                <td>{{ $office['office_name'] }}</td>
+                                <td>{{ $office['nb_employee'] }}</td>
+                                <td>{{ $office['nb_invoices'] }}</td>
                             </tr>
                             @endforeach
                             
@@ -121,8 +121,8 @@
      var top_office_name = new Array();
      var top_office_count= new Array();
             @foreach ($topOffices as $key => $office)
-                top_office_name.push('{{$office->office}}');
-                top_office_count.push('{{$office->count}}');
+                top_office_name.push("{{$office['office_name']}}");
+                top_office_count.push('{{$office["nb_invoices"]}}');
             @endforeach
     
         $(function() {
@@ -175,8 +175,8 @@
                           beginAtZero: true,
                           steps: 2,
                           stepValue: 2,
-                          max: 20,
-                           stepSize: 2,
+                          max: {{isset($invoices[0]) ? $invoices[0]['nb_invoices'] : 20}} + 20,
+                           stepSize: {{isset($invoices[4]) ? $invoices[4]['nb_invoices'] : 2}},
                            fontColor: "rgba(51, 51, 51, 1)",
                         //    callback: function(label, index, labels) {
                         //        if(maxFees < 100){
