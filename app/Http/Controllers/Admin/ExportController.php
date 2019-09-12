@@ -427,6 +427,7 @@ class ExportController extends Controller
                 'data' => $report['data'],
                 'years' => $report['years'],
                 'yearsCount' => $report['yearsCount'],
+                'trendMonths' => $report['trendMonths']
                 ];
    
             $pdf = Pdf::loadView('admin.exports.print.lastThreeYearsInvoices', $dataToSend, [], ['useOTL' => 0xFF, 'format' => 'A4',]);

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\District;
 use App\Models\ServiceCategory;
 use App\Models\Employee;
 use App\Models\Invoice;
@@ -68,5 +69,11 @@ class DashboardController extends Controller
     {
         $surveySubjects = SurveySubject::all();
         return view('admin.surveys.index')->withSurveySubjects($surveySubjects);
+    }
+
+    public function showOfficesDetails()
+    {
+        $disctricts = District::all();
+        return view('admin.offices.detailedOffices')->withDistricts($disctricts);
     }
 }

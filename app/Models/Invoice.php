@@ -566,22 +566,52 @@ class Invoice extends Model
                 ]);
             }
 
-            foreach ($months as $month) {
+            foreach ($months as $mk => $month) {
 
-                foreach ($years as $year) {
-                    $data[$month['name']][$year]['invoice'] = $this->getInvoicesPerMonthInYear($month['id'], $year);
+                foreach ($years as $yk => $year) {
+                    $data[$mk][$yk]['invoice'] = $this->getInvoicesPerMonthInYear($month['id'], $year);
+                    $data[$mk][$yk]['month'] = $month['name'];
                 }
             }
 
             $yearsCount = [];
+            $avgYCount=  [];
             foreach ($years as $year) {
+                array_push($avgYCount, ceil($this->getTotalInvicePerYear($year)/12));
                 array_push($yearsCount, $this->getTotalInvicePerYear($year));
+            }
+           
+            foreach ($data as $key => $year) {
+
+                $index1 = $data[$key][0]['invoice'];
+                $index2 = $data[$key][1]['invoice'];
+                $index3 = $data[$key][2]['invoice'];
+
+                $firstCheck = $index1 >= $avgYCount[0];
+                $secCheck = $index2 >= $avgYCount[1];
+                $thirdCheck = $index3 >= $avgYCount[2];
+                
+                if($firstCheck && $secCheck && $thirdCheck){
+                    $data[$key]['flag'] = 'green';
+                }else {
+                    $data[$key]['flag'] = 'red';
+                }
+                
+            }
+
+            $trendMonths = [];
+
+            foreach ($data as $key => $month) {
+                if($month['flag'] == 'green'){
+                    array_push($trendMonths, $data[$key][0]['month']);
+                }
             }
 
             return [
                 'data' => $data,
                 'years' => $years,
-                'yearsCount' => $yearsCount
+                'yearsCount' => $yearsCount,
+                'trendMonths' => $trendMonths
             ];
 
         } catch (\Exception $ex) {

@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="{{asset('public/assets/css/bootstrap.min.css')}}" rel="stylesheet">
     <link href="{{asset('public/assets/css/aamer.css')}}" rel="stylesheet">
-    <title>Amer Reporting System</title>
+    <title>Amer Reporting System - Printed By: {{Session::get('user') !== null ? Session::get('user')->Name : 'Guest'}}</title>
  <style>
  @media print {
 

@@ -177,7 +177,8 @@ class InvoiceController extends Controller
             $data = $report['data'];
             $years = $report['years'];
             $yearsCount = $report['yearsCount'];
-            return view('admin.invoicesReport.lastThreeYearsInvoices')->withData($data)->withYears($years)->withYearsCount($yearsCount);
+            $trendMonths = $report['trendMonths'];
+            return view('admin.invoicesReport.lastThreeYearsInvoices')->withData($data)->withYears($years)->withYearsCount($yearsCount)->withTrendMonths($trendMonths);
 
         } catch (\Exception $ex) {
             return response()->json(['status' => 'error', 'message' => $ex->getMessage()], 200);
@@ -192,8 +193,9 @@ class InvoiceController extends Controller
             $data = $report['data'];
             $years = $report['years'];
             $yearsCount = $report['yearsCount'];
-            
-            return view('admin.exports.print.lastThreeYearsInvoices')->withData($data)->withYears($years)->withYearsCount($yearsCount);
+            $trendMonths = $report['trendMonths'];
+
+            return view('admin.exports.print.lastThreeYearsInvoices')->withData($data)->withYears($years)->withYearsCount($yearsCount)->withTrendMonths($trendMonths);;
 
         } catch (\Exception $ex) {
             return response()->json(['status' => 'error', 'message' => $ex->getMessage()], 200);
