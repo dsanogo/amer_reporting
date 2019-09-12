@@ -3,6 +3,11 @@
     <div class="seciton-tabel">
         @if ($data)
             <h4 style="text-align: right; padding: 0px !important;width: 100%">مواسم زيادة وقلة أعداد المعاملات</h4>
+                <p  class="text-right title-f1">تزيد المعاملات خلال شهور:
+                    @foreach ($trendMonths as $item)
+                        {{$item . ' '}}
+                    @endforeach
+                </p>
             <div class="col-md-12 rtl tabel" style="padding: 10px !important;width: 100%" >
                 <div class="col-md-12 pull-right rtl tabel" style="padding: 0px !important;width: 100%">
                     <table class="table table-responsive table-striped" style="width: 100%">
@@ -15,14 +20,14 @@
                                 <td class="bordered ta-header" style=" background-color: #383838 !important;color:#ffffff !important">{{$year}}</td>
                             @endforeach
                         </tr>
-                        @foreach ($data as $key => $value)
-                            <tr>
-                                <td>{{$key}}</td>
-                                @foreach ($data[$key] as $values)
-                                    <td>{{$values['invoice']}}</td>
-                                @endforeach
+                        @foreach ($data as $key => $invoice)
+                            <tr style="color:{{isset($invoice['flag']) && $invoice['flag']=='green' ? '#ffffff !important' : ''}} ;background: {{isset($invoice['flag']) && $invoice['flag']=='green' ? '#008000 !important' : ''}}">
+                                <td style="color:{{isset($invoice['flag']) && $invoice['flag']=='green' ? '#ffffff !important' : ''}} ;background: {{isset($invoice['flag']) && $invoice['flag']=='green' ? '#008000 !important' : ''}}">{{$data[$key][0]['month']}}</td>   
+                                <td style="color:{{isset($invoice['flag']) && $invoice['flag']=='green' ? '#ffffff !important' : ''}} ;background: {{isset($invoice['flag']) && $invoice['flag']=='green' ? '#008000 !important' : ''}}">{{$data[$key][0]['invoice']}}</td>
+                                <td style="color:{{isset($invoice['flag']) && $invoice['flag']=='green' ? '#ffffff !important' : ''}} ;background: {{isset($invoice['flag']) && $invoice['flag']=='green' ? '#008000 !important' : ''}}">{{$data[$key][1]['invoice']}}</td>    
+                                <td style="color:{{isset($invoice['flag']) && $invoice['flag']=='green' ? '#ffffff !important' : ''}} ;background: {{isset($invoice['flag']) && $invoice['flag']=='green' ? '#008000 !important' : ''}}">{{$data[$key][2]['invoice']}}</td> 
                             </tr>
-                        @endforeach
+                         @endforeach
                         <tr class="colored">
                             <td style=" background-color: #c6c6c6 !important;color:black !important; font-size: 18px !important; font-size: 15px; padding: 5px">الإجماليات</td>
                             @foreach ($yearsCount as $total)

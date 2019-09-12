@@ -77,6 +77,8 @@ Route::prefix('admin')->namespace('Admin')->group(function () {
     // PDF all the serveySubjects and their corresponding  ratings
     Route::get('pdf-surveys', 'ExportController@pdfSurveysReport')->name('admin.pdfSurveysReport');
 
+    //show offices details page
+    Route::get('/show/offices-details', 'DashboardController@showOfficesDetails')->name('admin.offices.details.show');
     //Get Offices Details
     Route::get('offices-details', 'OfficeController@getOfficesDetails')->name('admin.offices.details');
     //Print Offices Details

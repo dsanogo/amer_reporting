@@ -13,11 +13,11 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($data['offices'] as $key => $office)
+                        @foreach ($invoices as $key => $office)
                         <tr>
-                            <td>{{ $office->Name }}</td>
-                            <td>{{ count($office->employees)}}</td>
-                            <td>{{ $invoices[$key]->count }}</td>   
+                            <td>{{ $office['office_name'] }}</td>
+                            <td>{{ $office['nb_employee']}}</td>
+                            <td>{{ $office['nb_invoices']}}</td>
                         </tr>
                         @endforeach
                         

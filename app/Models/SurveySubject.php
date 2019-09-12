@@ -54,7 +54,7 @@ class SurveySubject extends Model
                 foreach ($surveys as $key => $survey) {
                     $evalName = SurveyEvaluation::select('Description')->where('Id', $survey->EvaluationId)->pluck('Description')->toArray()[0];
                     $subjectSurveys[$key]['evalName'] = $evalName;
-                    $subjectSurveys[$key]['percentage'] = number_format(($survey->n_evals / $totalSurveys)*100, 3, '.', '');
+                    $subjectSurveys[$key]['percentage'] = number_format(($survey->n_evals / $totalSurveys)*100, 2, '.', '');
                 }
             }
 

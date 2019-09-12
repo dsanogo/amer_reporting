@@ -32,7 +32,13 @@
     <body>
         <!-- section one-->
         <div class="seciton-tabel">
-            <div class="col-md-12"><p class="text-center title-f1">ما هى مواسم زيادة وقلة أعداد المعاملات؟</p></div>
+            <div class="col-md-12"><p class="text-center title-f1">ما هى مواسم زيادة وقلة أعداد المعاملات؟</p>
+                <p  class="text-right title-f1">تزيد المعاملات خلال شهور:
+                    @foreach ($trendMonths as $item)
+                        {{$item . ' '}}
+                    @endforeach
+                </p>
+            </div>
         @if (count($data) == 0)
             <div class="col-md-12 rtl text-center alert alert-danger block-center" >
                 <h5>No Result found for this period</h5>
@@ -74,12 +80,13 @@
                             <td class="bordered">{{$year}}</td>
                         @endforeach
                     </tr>
-                    @foreach ($data as $key => $value)
-                    <tr>
-                        <td>{{$key}}</td>
-                        @foreach ($data[$key] as $values)
-                            <td>{{$values['invoice']}}</td>
-                        @endforeach
+
+                    @foreach ($data as $key => $invoice)
+                    <tr style="color:{{isset($invoice['flag']) && $invoice['flag']=='green' ? 'white' : ''}} ;background: {{isset($invoice['flag']) && $invoice['flag']=='green' ? 'green' : ''}}">
+                        <td>{{$data[$key][0]['month']}}</td>   
+                        <td>{{$data[$key][0]['invoice']}}</td>
+                        <td>{{$data[$key][1]['invoice']}}</td>    
+                        <td>{{$data[$key][2]['invoice']}}</td> 
                     </tr>
                     @endforeach
                     <tr class="colored">

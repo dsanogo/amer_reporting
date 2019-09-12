@@ -30,8 +30,17 @@
             <div class="col-md-12"><p class="text-center title-f1">احصائيات مقارنة انتاجية المراكز</p></div>
             <form action="{{route('admin.offices.details')}}" method="get">
                 <div class="col-md-12">
-                    <div class="col-md-4 col-sm-12 col-xs-12 tabel-input rtl pull-right">
-                        <div class="col-md-12">
+                    <div class="col-md-8 col-sm-12 col-xs-12 tabel-input rtl pull-right">
+                    <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="inputPassword" class="col-md-5 col-sm-4 control-label label-tabel">المنطقة</label>
+
+                                <select name="office_id" id="" class="form-control" >
+                                    <option value=""></option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
                             <div class="form-group">
                                 <label for="inputPassword"  class="col-md-5 col-sm-4 control-label label-tabel">فتره المعاملات</label>
                                 <input type="text" id="daterange" name="daterange" value="{{isset($_GET['daterange']) ? $_GET['daterange'] : ''}}" class="form-control" id="inputPassword" placeholder="التاريخ">
@@ -81,17 +90,17 @@
                     <table class="table table-striped">
                         <thead class="waleed">
                             <tr>
-                                <th>المكتب</th>
+                                <th>المراكز</th>
                                 <th>عدد العاملين</th>
                                 <th>عدد المعاملات</th> 
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($data['offices'] as $key => $office)
+                            @foreach ($invoices as $office)
                             <tr>
-                                <td>{{ $office->Name }}</td>
-                                <td>{{ count($office->employees)}}</td>
-                                <td>{{ $invoices[$key]->count }}</td>   
+                                <td>{{ $office['office_name'] }}</td>
+                                <td>{{ $office['nb_employee'] }}</td>
+                                <td>{{ $office['nb_invoices'] }}</td>
                             </tr>
                             @endforeach
                             
@@ -109,6 +118,7 @@
     <div class="col-md-6 col-sm-12 col-xs-12 pull-right rtl">
 
     <canvas id="myChart"></canvas>
+        <p class="text-center title">نسب انتاجية المراكز بالمناطق</p>
     <canvas id="pie"></canvas>
     </div>
         </div>
@@ -121,8 +131,10 @@
      var top_office_name = new Array();
      var top_office_count= new Array();
             @foreach ($topOffices as $key => $office)
-                top_office_name.push('{{$office->office}}');
-                top_office_count.push('{{$office->count}}');
+            @if ($office['nb_invoices'] > 0)
+                top_office_name.push("{{$office['office_name']}}");
+                top_office_count.push('{{$office["nb_invoices"]}}');
+            @endif
             @endforeach
     
         $(function() {
@@ -138,7 +150,7 @@
                 data: {
                     labels:top_office_name,
                     datasets: [{
-                    label: 'عدد المعاملات بامليون',
+                    label: 'أعلى خمسة مراكز فى أعداد المعاملات',
                     data: top_office_count,
                     backgroundColor: [
                         "#356eb3",
@@ -175,8 +187,8 @@
                           beginAtZero: true,
                           steps: 2,
                           stepValue: 2,
-                          max: 20,
-                           stepSize: 2,
+                          max: {{isset($invoices[0]) ? $invoices[0]['nb_invoices'] : 20}} + 20,
+                           stepSize: {{isset($invoices[4]) ? $invoices[4]['nb_invoices'] : 2}},
                            fontColor: "rgba(51, 51, 51, 1)",
                         //    callback: function(label, index, labels) {
                         //        if(maxFees < 100){
@@ -210,6 +222,7 @@
                       // This more specific font property overrides the global property
                       fontColor: '#356eb3',
                       fontFamily: "Bahij",
+                      fontSize: 18,
                       radius:5
                   }
               }

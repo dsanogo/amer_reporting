@@ -88,13 +88,12 @@ class InvoiceController extends Controller
         try {
 
             $data = $this->invoiceModel->getQuarterInvoicesByMobileRequestByOffice();
-            
+        
             $invoiceDetailed= $data['invoices'];
             $offices= $data['offices'];
             $total= $data['total'];
-            $topServices= $data['topServices'];
             
-            return view('admin.invoicesReport.quarterlyMobileAndOffice')->withInvoices($invoiceDetailed)->withOffices($offices)->withTotal($total)->withTopServices($topServices);
+            return view('admin.invoicesReport.quarterlyMobileAndOffice')->withInvoices($invoiceDetailed)->withOffices($offices)->withTotal($total);
         } catch (\Exception $ex) {
             return response()->json(['status' => 'error', 'data' => $ex->getMessage()], 200);
         }
@@ -108,9 +107,8 @@ class InvoiceController extends Controller
            $invoiceDetailed= $data['invoices'];
            $offices= $data['offices'];
            $total= $data['total'];
-           $topServices= $data['topServices'];
            
-            return view('admin.exports.print.quarterlyMobileAndOffice')->withInvoices($invoiceDetailed)->withOffices($offices)->withTotal($total)->withTopServices($topServices);
+            return view('admin.exports.print.quarterlyMobileAndOffice')->withInvoices($invoiceDetailed)->withOffices($offices)->withTotal($total);
             // return response()->json(['status' => 'success', 'data' => $invoiceDetailed], 200);
         } catch (\Exception $ex) {
             return response()->json(['status' => 'error', 'data' => $ex->getMessage()], 200);
@@ -179,7 +177,8 @@ class InvoiceController extends Controller
             $data = $report['data'];
             $years = $report['years'];
             $yearsCount = $report['yearsCount'];
-            return view('admin.invoicesReport.lastThreeYearsInvoices')->withData($data)->withYears($years)->withYearsCount($yearsCount);
+            $trendMonths = $report['trendMonths'];
+            return view('admin.invoicesReport.lastThreeYearsInvoices')->withData($data)->withYears($years)->withYearsCount($yearsCount)->withTrendMonths($trendMonths);
 
         } catch (\Exception $ex) {
             return response()->json(['status' => 'error', 'message' => $ex->getMessage()], 200);
@@ -194,8 +193,9 @@ class InvoiceController extends Controller
             $data = $report['data'];
             $years = $report['years'];
             $yearsCount = $report['yearsCount'];
-            
-            return view('admin.exports.print.lastThreeYearsInvoices')->withData($data)->withYears($years)->withYearsCount($yearsCount);
+            $trendMonths = $report['trendMonths'];
+
+            return view('admin.exports.print.lastThreeYearsInvoices')->withData($data)->withYears($years)->withYearsCount($yearsCount)->withTrendMonths($trendMonths);;
 
         } catch (\Exception $ex) {
             return response()->json(['status' => 'error', 'message' => $ex->getMessage()], 200);
@@ -208,7 +208,7 @@ class InvoiceController extends Controller
         try{
             $data = $this->invoiceModel->getInvoicesByServiceCategory($request);
             
-            $invoiceDetailed = $data['invoices'];
+            $invoiceDetailed = $data['services'];
             $total = $data['total'];
             $category = $data['category'];
             $daterange = $data['daterange'];

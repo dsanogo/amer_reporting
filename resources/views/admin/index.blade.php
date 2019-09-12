@@ -10,6 +10,30 @@
         position: relative;
         top: 7px;
     }
+    input[type=search]{
+        -moz-appearance: none;/* older firefox */
+        -webkit-appearance: none; /* safari, chrome, edge and ie mobile */
+        appearance: none; /* rest */
+        /* border:2px solid black; */
+        width: 300px;
+        }
+    div.dataTables_wrapper div.dataTables_filter input {
+        margin-left: 0.5em;
+        display: inline-block;
+       
+        height: 45px;
+        width: 300px;
+        
+    }
+    div.dataTables_wrapper div.dataTables_filter label {
+        font-weight: normal;
+        white-space: nowrap;
+        text-align: left;
+        padding-right: 40px;
+    }
+#myTable_wrapper{
+    padding-top:10px;
+}
 </style>
 
 <body>
@@ -23,7 +47,7 @@
                 </div>
                 <div class="border">
                     <div class="col-md-5 p-d-0" style="margin-top: 100px;padding-left: 25px;">
-                        <p class="text-center">التطور التاريجي لاعداد المعاملات خلال العام الحالي</p>
+                        <p class="text-center">التطور التاريخي لاعداد المعاملات خلال العام الحالي</p>
                         <canvas id="myChart" width="100%"></canvas>
 
                     </div>
@@ -75,10 +99,10 @@
                 <div class="border border-h">
 
                     <div class="table-responsive col-md-12 col-sm-12 col-sm-12 left">
-                        <div class="col-md-12">
+                        <!-- <div class="col-md-12">
                             <input class="aamer-input col-md-2" type="text" placeholder="بحث">
-                        </div>
-                        <table class="table table-bordered table-striped" id="">
+                        </div> -->
+                        <table class="table table-bordered table-striped" id="myTable">
                             <thead>
                                 <tr>
                                     <th>اسم المركز</th>
@@ -151,6 +175,18 @@
                 <!-- section there-->
 
                 <script>
+                
+
+
+$(document).ready( function () {
+    $('#myTable').DataTable({
+    language: {
+        search: "البحث: ",
+        searchPlaceholder: "البحث"
+    },
+    lengthChange: false
+} );
+} );
                     var oName = $('#office1').attr("data-office-name");
                 var oEmp = $('#office1').attr("data-nb-emp");
                 var oFees = $('#office1').attr("data-total-fees");
@@ -304,8 +340,8 @@
                           beginAtZero: true,
                           steps: 10,
                           stepValue: 10,
-                          max:  maxFees + 10000,
-                           stepSize: 10000,
+                        //   max:  maxFees + 10000,
+                           stepSize: 50000,
                            fontColor: "#2e5bff",
                            callback: function(label, index, labels) {
                                if(maxFees < 100){
@@ -329,8 +365,8 @@
                         beginAtZero: true,
                         steps: 10,
                         stepValue: 10,
-                        max: maxInvoices + 10,
-                        stepSize: 10,
+                        // max: maxInvoices + 10,
+                        stepSize: 50,
                         fontColor: "#2e9658",
                        
                       },
@@ -359,7 +395,8 @@
                   
                   labels: {
                       // This more specific font property overrides the global property
-                      fontColor: 'rgb(46, 148, 94)',
+
+                      fontColor: 'black',
                       fontFamily: "Bahij",
                       radius:5
                   }
@@ -375,8 +412,10 @@
     var top_office_name = new Array();
            var top_procees_time= new Array();
             @foreach ($topOffices as $key => $office)
-                top_office_name.push('{{$office->office}}');
-                top_procees_time.push('{{$office->proccess_time}}');
+                @if ($office['proc_time'] > 0)
+                    top_office_name.push('{{$office["office"]}}');
+                    top_procees_time.push('{{$office["proc_time"]}}');
+                @endif
             @endforeach
         var ctx = document.getElementById('myChart-Offices');
                 var myChart = new Chart(ctx, {
@@ -415,12 +454,11 @@
                           beginAtZero: true,
                           steps: 10,
                           stepValue: 10,
-                          max: {{ count($topOffices) > 0 ? $topOffices[4]->proccess_time+10 : 0}},
+                         {{--max: {{ count($topOffices) > 0 ? $topOffices[4]->proccess_time+10 : 0}},--}}
                            stepSize: 10,
                            fontColor: "rgba(51, 51, 51, 1)",
                         //    callback: function(label, index, labels) {
                         //        if(maxFees < 100){
-                        //             return label;
                         //        }else if(maxFees > 1000) {
                         //             return label/1000+'k';
                         //        }
@@ -438,7 +476,7 @@
                       maxRotation: 45,
                       minRotation: 45
                   },
-                  barPercentage: 0.9,
+                  barPercentage: 0.8,
                   
                   maxBarThickness: 30,
                   minBarLength: 2

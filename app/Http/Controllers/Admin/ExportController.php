@@ -156,7 +156,6 @@ class ExportController extends Controller
             $invoiceDetailed = $data['invoices'];
             $offices = $data['offices'];
             $total = $data['total'];
-            $topServices = $data['topServices'];
             
             return Excel::download(new QuarterlyMobileAndOffice($invoiceDetailed, $offices, $total, $topServices), 'quarterlyMobileAndOffice.xlsx');
             
@@ -188,7 +187,7 @@ class ExportController extends Controller
         try{
             $data = $this->invoiceModel->getInvoicesByServiceCategory($request);
 
-            $dataToSend = ['invoices' => $data['invoices'], 
+            $dataToSend = ['invoices' => $data['services'], 
                             'total' => $data['total'],
                             'category' => $data['category'],
                             'daterange' => $data['daterange']
@@ -198,6 +197,11 @@ class ExportController extends Controller
 
             if(isset($request->byMail)){
                 $userEmail = $request->email; 
+
+                if($userEmail == ''){
+                    return redirect()->back();
+                }
+                
                 Mail::send(new SendPDF($pdf->output(), $userEmail));
                 return redirect()->back()->with('success', 'Email successfully sent with attachment');
             }
@@ -261,9 +265,14 @@ class ExportController extends Controller
     public function pdfSurveysReport(Request $request)
     {
         try {
-            $surveys = $this->surveyModel->getSurveysReport($request)['surveys'];
+            $report = $this->surveyModel->getSurveysReport($request);
+
+            $surveys = $report['surveys']; 
+
             $dataToSend = [
-                'surveys' => $surveys
+                'surveys' => $surveys,
+                'subject' => $report['subject'],
+                'totalSurveys' => $report['totalSurveys']
                 ];
     
             $pdf = Pdf::loadView('admin.exports.print.surveys', $dataToSend, [], ['useOTL' => 0xFF, 'format' => 'A4',]);
@@ -287,7 +296,6 @@ class ExportController extends Controller
             $report = $this->officeModel->getOfficesDetails($request);
 
             $dataToSend = [
-                'data' => $report['data'],
                 'invoices' => $report['invoices'],
                 'total' => $report['total'],
                 'topOffices' => $report['topOffices']
@@ -339,7 +347,6 @@ class ExportController extends Controller
             $report = $this->officeModel->getOfficesDetailsWithAverage($request);
 
             $dataToSend = [
-                'data' => $report['data'],
                 'invoices' => $report['invoices'],
                 'topOffices' => $report['topOffices']
                 ];
@@ -393,7 +400,6 @@ class ExportController extends Controller
             'invoices' => $data['invoices'],
             'offices' => $data['offices'],
             'total' => $data['total'],
-            'topServices' => $data['topServices']
             ];
 
             $pdf = Pdf::loadView('admin.exports.print.quarterlyMobileAndOffice', $dataToSend, [], ['useOTL' => 0xFF, 'format' => 'A4',]);
@@ -421,6 +427,7 @@ class ExportController extends Controller
                 'data' => $report['data'],
                 'years' => $report['years'],
                 'yearsCount' => $report['yearsCount'],
+                'trendMonths' => $report['trendMonths']
                 ];
    
             $pdf = Pdf::loadView('admin.exports.print.lastThreeYearsInvoices', $dataToSend, [], ['useOTL' => 0xFF, 'format' => 'A4',]);
