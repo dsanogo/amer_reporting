@@ -130,4 +130,6 @@ Route::prefix('admin')->namespace('Admin')->group(function () {
 
     Route::get('memo/create', 'MemoController@create')->name('admin.memos.get.create');
     Route::post('memo/store', 'MemoController@postCreate')->name('admin.memos.post.create');
+    Route::get('memo/edit/{id}', 'MemoController@getEdit')->name('admin.memos.get.edit');
+    Route::post('memo/edit', 'MemoController@postEdit')->name('admin.memos.post.edit');
 });

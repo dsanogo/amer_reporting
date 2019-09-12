@@ -127,6 +127,30 @@
     .invalid-feedback {
         color: red;
     }
+
+    .daterangepicker{
+        z-index: 1000000;
+    }
+
+    .add-btn {
+        height: 40px;
+        border-radius: 7px;
+        background-color: #3c763d;
+        border: none;
+        font-size: 17px;
+        margin: 0 5px 0 5px;
+    }
+
+    .input-group-btn:last-child>.btn {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+        border-top-left-radius: 7 !important;
+        border-bottom-left-radius: 7 !important;
+    }
+
+    .input-group-btn:last-child>.btn{
+        margin-right: -1px;
+    }
 </style>
 
 @endsection
@@ -141,8 +165,7 @@
     </div>
     <div class="row">
         <div class="col-md-6 pull-right">
-            <form id="memos-form" action="{{ route('admin.memos.post.create') }}" method="POST" class="form"
-                id="create-form" enctype="multipart/form-data">
+            <form id="memos-form" action="{{ route('admin.memos.post.create') }}" method="POST" class="form" enctype="multipart/form-data">
                 @csrf
                 @include('admin.memos.form')
             </form>
@@ -166,11 +189,10 @@
         $('input[name="Time"]').daterangepicker({
             singleDatePicker: true,
             showDropdowns: true,
-            minYear: 1901,
-            maxYear: parseInt(moment().format('YYYY'),10)
-        }, function(start, end, label) {
-            var years = moment().diff(start, 'years');
-            alert("You are " + years + " years old!");
+            minYear: 2019,
+            locale: {
+                format: 'YYYY-MM-DD'
+            }
         });
 
 
@@ -182,13 +204,10 @@
 
         });
 
-        $("body").on("click",".btn-danger",function(){ 
-
-        $(this).parents(".hdtuto control-group lst").remove();
-
+        $("body #memos-form").on("click",".btn-danger",function(){ 
+            $(this).parents().eq(0).prev().attr('name', '');
+            $(this).parents().eq(0).parent().remove();
         });
-
-
 
         var currenttitle = $(".hida").text();
 

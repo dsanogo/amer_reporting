@@ -28,7 +28,7 @@
                             <th>تاريخ التعميم</th>
                             <th>النوع</th>
                             <th>صادر من</th>
-                            <th>نبذه مختصره</th>
+                            <th>نص التعميم</th>
                             <th>الاجراءات</th>
                         </tr>
                     </thead>
@@ -129,7 +129,9 @@
                         'render': function (data, type, row) {
                             //console.log(data);
                             if (row.Brief === null) return 'لايوجد';
-                            else return row.Brief;
+                            let str = row.Brief;
+                            if (str.length > 180) str = str.slice(0, 180) + ' ...';
+                            return str;
                         }
                     },
                     {
@@ -140,7 +142,7 @@
                         'render': function (data, type, row) {
                             let name = row.Number === null ? 'لايوجد' : row.Number;
                             let html = '';
-                            html += '<a class="edit" href="shop-data/view/' + row.Id + '"> <i class="material-icons edit-row">edit</i> </a>';
+                            html += '<a class="edit" href="{!! URL::to("/admin/memo/edit") !!}/' + row.Id + '"> <i class="material-icons edit-row">edit</i> </a>';
                             return html;
                         }
                     },

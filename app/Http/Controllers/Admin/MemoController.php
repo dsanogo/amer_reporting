@@ -39,10 +39,11 @@ class MemoController extends Controller
      */
     public function create()
     {
+        $memo = new Memo();
         $memoTypes = MemoType::all();
         $orgs = SupervisingOrg::all();
         $offices = Office::all();
-        return view('admin.memos.create', compact('memoTypes', 'orgs', 'offices'));
+        return view('admin.memos.create', compact('memo', 'memoTypes', 'orgs', 'offices'));
     }
 
     /**
@@ -59,6 +60,7 @@ class MemoController extends Controller
             'MemoTypeId' => 'required|integer',
             'Brief' => 'nullable|string',
             'offices' => 'array',
+            'filenames.*' => 'mimes:jpeg,bmp,png,gif,svg,pdf'
         ]);
 
         if ($validator->fails()) return redirect()->back()->withErrors($validator)->withInput();
@@ -107,10 +109,9 @@ class MemoController extends Controller
         $memo = Memo::with('memoType')->with('org')->findOrFail($id);
         // dd($memo->attachment);
         $memo_offices_ids = MemoOffice::where('MemoId', $id)->get();
-        $offices = Office::whereIn('Id', $memo_offices_ids->pluck('OfficeId'))->get();
-        return view('admin.memos.show')
-            ->with('memo', $memo)
-            ->with('offices', $offices);
+        $officesForMemos = Office::whereIn('Id', $memo_offices_ids->pluck('OfficeId'))->get();
+        $offices = Office::all();
+        return view('admin.memos.show', compact('memo', 'officesForMemos', 'offices'));
     }
 
     /**
@@ -119,19 +120,16 @@ class MemoController extends Controller
      * @param  Int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(int $id)
+    public function getEdit(int $id)
     {
         $memo = Memo::findOrFail($id);
-        $memo_types = MemoType::all();
+        $memoTypes = MemoType::all();
         $orgs = SupervisingOrg::all();
         $offices = Office::all();
-        $memo_offices_ids = MemoOffice::where('MemoId', $id)->pluck('OfficeId')->toArray();
-        return view('admin.memos.edit')
-            ->with('memo', $memo)
-            ->with('memo_types', $memo_types)
-            ->with('orgs', $orgs)
-            ->with('offices', $offices)
-            ->with('memo_offices_ids', $memo_offices_ids);
+        $memoOfficesIds = MemoOffice::where('MemoId', $id)->pluck('OfficeId')->toArray();
+        $memoAttachments = MemoAttachment::where('MemoId', $id)->get();
+        // dd($memoOfficesIds);
+        return view('admin.memos.edit', compact('memo', 'memoTypes', 'orgs', 'offices', 'memoOfficesIds', 'memoAttachments'));
     }
 
     /**
@@ -141,15 +139,23 @@ class MemoController extends Controller
      * @param  Int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateMemo $request, int $id)
+    public function postEdit(Request $request)
     {
-        // The incoming request is valid...
+        $validator = Validator::make($request->all(), [
+            'Number' => 'required|unique:Memos|max:20',
+            'Time' => 'required|date',
+            'MemoTypeId' => 'required|integer',
+            'Brief' => 'nullable|string',
+            'offices' => 'array',
+            'filenames.*' => 'mimes:jpeg,bmp,png,gif,svg,pdf'
+        ]);
 
-        // Retrieve the validated input data...
-        $validated = $request->validated();
+        if ($validator->fails()) return redirect()->back()->withErrors($validator)->withInput();
+
+        $input = $request->all();
 
         /**Start Transaction */
-        DB::transaction(function () use ($validated, $request, $id) {
+        DB::transaction(function () use ($input, $request) {
             $memo = Memo::findOrFail($id);
             $memo->update($validated);
 
@@ -174,8 +180,7 @@ class MemoController extends Controller
         });
         /**End Transaction */
 
-        toastr()->success(__('toastr.updated_successfully'));
-        return redirect()->route('memos.index', app()->getLocale());
+        return redirect()->route('admin.memos.index')->with(['success' => 'تم حفظ التعديلات']);
     }
 
     /**
