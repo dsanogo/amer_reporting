@@ -131,8 +131,10 @@
      var top_office_name = new Array();
      var top_office_count= new Array();
             @foreach ($topOffices as $key => $office)
+            @if ($office->count > 0)
                 top_office_name.push('{{$office->office}}');
                 top_office_count.push('{{$office->count}}');
+                @endif
             @endforeach
     
         $(function() {
