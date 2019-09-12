@@ -117,7 +117,7 @@ Route::prefix('admin')->namespace('Admin')->group(function () {
 
     //Get Invoices Quarterly And their Process Time
     Route::get('quarterly-invoices-per-process-time', 'InvoiceController@getInvoiceQuarterlyProcessTime')->name('admin.quarterlyInvoicesProcessTime');
-
+ 
     //Get Invoices for the last 3 years
     Route::get('last-three-years-invoices', 'InvoiceController@getLastThreeYearsInvoices')->name('admin.invoices.getLastThreeYears');
     //Print Invoices for the last 3 years
