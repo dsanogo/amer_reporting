@@ -23,7 +23,7 @@
                 </div>
                 <div class="border">
                     <div class="col-md-5 p-d-0" style="margin-top: 100px;padding-left: 25px;">
-                        <p class="text-center">التطور التاريجي لاعداد المعاملات خلال العام الحالي</p>
+                        <p class="text-center">التطور التاريخي لاعداد المعاملات خلال العام الحالي</p>
                         <canvas id="myChart" width="100%"></canvas>
 
                     </div>
@@ -438,7 +438,7 @@
                       maxRotation: 45,
                       minRotation: 45
                   },
-                  barPercentage: 0.9,
+                  barPercentage: 0.8,
                   
                   maxBarThickness: 30,
                   minBarLength: 2
