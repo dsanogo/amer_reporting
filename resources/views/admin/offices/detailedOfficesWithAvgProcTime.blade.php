@@ -125,12 +125,10 @@
            var top_office_name = new Array();
            var top_procees_time= new Array();
             @foreach ($topOffices as $key => $office)
-            @if ($office->proccess_time > 0)
-                top_office_name.push('{{$office->office}}');
-                top_procees_time.push('{{$office->proccess_time}}');
-                @endif
+            @if ($office["proc_time"] > 0)
                 top_office_name.push('{{$office["office"]}}');
-                top_procees_time.push('{{$office["proc_time"]}}');
+               top_procees_time.push('{{$office["proc_time"]}}');
+                @endif
             @endforeach
         var ctx = document.getElementById('myChart');
                 var myChart = new Chart(ctx, {
