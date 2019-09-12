@@ -197,6 +197,11 @@ class ExportController extends Controller
 
             if(isset($request->byMail)){
                 $userEmail = $request->email; 
+
+                if($userEmail == ''){
+                    return redirect()->back();
+                }
+                
                 Mail::send(new SendPDF($pdf->output(), $userEmail));
                 return redirect()->back()->with('success', 'Email successfully sent with attachment');
             }
