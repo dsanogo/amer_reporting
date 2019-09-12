@@ -30,9 +30,104 @@
         display: inline-block;
         margin: 0 5px;
     }
+
+    #memos-form .dropdown {
+        z-index: 1000000;
+    }
+
+    #memos-form .dropdown a {
+        color: black;
+        font-size: 18px;
+        font-weight: initial;
+    }
+
+    #memos-form .dropdown dd,
+    #memos-form .dropdown dt {
+        margin: 0px;
+        padding: 0px;
+    }
+
+    #memos-form .dropdown ul {
+        margin: -1px 0 0 0;
+    }
+
+    #memos-form .dropdown dd {
+        position: relative;
+    }
+
+    #memos-form .dropdown a,
+    #memos-form .dropdown a:visited {
+        text-decoration: none;
+        outline: none;
+    }
+
+    #memos-form .dropdown dt a {
+        cursor: pointer;
+        background-color: rgb(221, 221, 221);
+        display: block;
+        padding: 0 18px 0 0;
+        min-height: 40px;
+        line-height: 24px;
+        overflow: hidden;
+        border: 1px solid rgba(25, 25, 25, 0.32);
+        border-radius: 5px;
+    }
+
+    #memos-form .dropdown dt a span,
+    .multiSel span {
+        cursor: pointer;
+        display: inline-block;
+        padding: 7px 3px 2px 0;
+    }
+
+    #memos-form .dropdown dd ul {
+        background-color: rgb(221, 221, 221);
+        border: 1px solid rgba(25, 25, 25, 0.32);
+        color: black;
+        display: none;
+        padding: 2px 15px 2px 5px;
+        position: absolute;
+        top: 2px;
+        width: 500px;
+        list-style: none;
+        height: 300px;
+        overflow: auto;
+    }
+
+    #memos-form .dropdown span.value {
+        display: none;
+    }
+
+    #memos-form .dropdown dd ul li a {
+        padding: 5px;
+        display: block;
+    }
+
+    #memos-form .dropdown dd ul li span {
+        padding: 0 10px 0 10px;
+        font-size: 18px;
+    }
+
+    #memos-form .dropdown dd ul li a:hover {
+        background-color: #fff;
+    }
+
+    #memos-form .dropdown button {
+        background-color: #6BBE92;
+        width: 302px;
+        border: 0;
+        padding: 10px 0;
+        margin: 5px 0;
+        text-align: center;
+        color: #fff;
+        font-weight: bold;
+    }
+
+    .is-invalid label,
+    .invalid-feedback {
+        color: red;
+    }
 </style>
-
-
 
 @endsection
 @section('content')
@@ -46,8 +141,8 @@
     </div>
     <div class="row">
         <div class="col-md-6 pull-right">
-            <form action="{{ route('admin.memos.post.create') }}" method="POST" class="form" id="create-form"
-                enctype="multipart/form-data">
+            <form id="memos-form" action="{{ route('admin.memos.post.create') }}" method="POST" class="form"
+                id="create-form" enctype="multipart/form-data">
                 @csrf
                 @include('admin.memos.form')
             </form>
@@ -60,7 +155,87 @@
 @section('script')
 <script>
     $(document).ready(function () {
-            
+        /*
+        Dropdown with Multiple checkbox select with jQuery - May 27, 2013
+        (c) 2013 @ElmahdiMahmoud
+        license: https://www.opensource.org/licenses/mit-license.php
+        2019-09-14
+        */
+        // $('.input-group.date').datepicker({format: "yyyy-mm-dd"}); 
+
+        $('input[name="Time"]').daterangepicker({
+            singleDatePicker: true,
+            showDropdowns: true,
+            minYear: 1901,
+            maxYear: parseInt(moment().format('YYYY'),10)
+        }, function(start, end, label) {
+            var years = moment().diff(start, 'years');
+            alert("You are " + years + " years old!");
+        });
+
+
+        $(".btn-success").click(function(){ 
+
+        var lsthmtl = $(".clone").html();
+
+        $(".increment").after(lsthmtl);
+
+        });
+
+        $("body").on("click",".btn-danger",function(){ 
+
+        $(this).parents(".hdtuto control-group lst").remove();
+
+        });
+
+
+
+        var currenttitle = $(".hida").text();
+
+        $(".dropdown dt a").on('click', function() {
+            $(".dropdown dd ul").slideToggle('fast');
+        });
+
+        $(".dropdown dd ul li a").on('click', function() {
+            $(".dropdown dd ul").hide();
+        });
+
+        function getSelectedValue(id) {
+            return $("#" + id).find("dt a span.value").html();
+        }
+
+        $(document).bind('click', function(e) {
+            var $clicked = $(e.target);
+            if (!$clicked.parents().hasClass("dropdown")) $(".dropdown dd ul").hide();
+        });
+
+        $("#select-all").click(function(){
+            $("input[type=checkbox]").prop('checked', $(this).prop('checked'));
+        });
+
+        $('.mutliSelect input[type="checkbox"]').on('click', function() {
+
+            var title = $(this).next().text() + ",";
+
+            if ($(this).is(':checked')) {
+                var html = '<span title="' + title + '">' + title + '</span>';
+                $('.multiSel').show();
+                $('.multiSel').append(html);
+                $(".hida").hide();
+            } else {
+                $('span[title="' + title + '"]').remove();
+                var ret = $(".hida");
+                $('.dropdown dt a').append(ret);
+            }
+
+            if ($("#memos-form input:checkbox:checked").length < 1)
+            {
+                $(".hida").text(currenttitle);
+                $(".hida").show();
+                $('.multiSel').hide();
+            }
+    
+        });
     });
 </script>
 @endsection

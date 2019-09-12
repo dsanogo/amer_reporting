@@ -16,6 +16,7 @@
     <div class="seciton-tabel">
 
         <div class="col-md-12">
+                @include('admin.inc.flash-message')
             <div class="col-md-4 tabel-button col-sm-12 col-xs-12 pull-right">
             <a href="{{ route('admin.memos.get.create') }}" class="col-md-5 col-sm-6 col-xs-6 m-r-0 btn p-d-0 colorbtn pull-right">اضافة تعميم جديد</a>
             </div>

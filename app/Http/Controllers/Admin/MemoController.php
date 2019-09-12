@@ -12,9 +12,12 @@ use App\Models\Office;
 use App\Models\MemoOffice;
 use App\Http\Requests\StoreMemo;
 use App\Http\Requests\UpdateMemo;
+use App\Models\MemoAttachment;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Input;
 use Validator;
 use DB;
+use Illuminate\Support\Str;
 
 class MemoController extends Controller
 {
@@ -51,11 +54,9 @@ class MemoController extends Controller
     public function postCreate(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'Origin' => 'required|integer',
             'Number' => 'required|unique:Memos|max:20',
             'Time' => 'required|date',
             'MemoTypeId' => 'required|integer',
-            'SuperVisingOrgId' => 'required|integer',
             'Brief' => 'nullable|string',
             'offices' => 'array',
         ]);
@@ -70,6 +71,8 @@ class MemoController extends Controller
 
         /**Start Transaction */
         DB::transaction(function () use ($input, $request) {
+            $input['Origin'] = 2;
+            $input['SuperVisingOrgId'] = 1;
             $memo = (new Memo)->create($input);
 
             if (!empty($request->offices)) {
@@ -78,19 +81,19 @@ class MemoController extends Controller
                 }
             }
 
-            if (Input::file('PhotoId')) {
-                $file = Input::file('PhotoId');
-                $path = $file->getRealPath();
-                $photo = file_get_contents($path);
-                $base64 = base64_encode($photo);
-                $file = (new File)->create(['File' => $base64]);
-                $memo->PhotoId = $file->Id;
-                $memo->save();
+            if ($request->hasfile('filenames')) {
+                foreach ($request->file('filenames') as $file) {
+                    $name = Carbon::now()->format('YmdHs') . Str::random(5) . $memo->Id;
+                    $file->move(public_path() . '/uploads/memos/', $name . '.' . $file->getClientOriginalExtension());
+                    // $path = $file->getRealPath();
+                    // $photo = file/64_encode($photo);
+                    $file = (new MemoAttachment)->create(['Name' => $name, 'Path' => $name . '.' . $file->getClientOriginalExtension(), 'MemoId'=> $memo->Id]);
+                }
             }
         });
         /**End Transaction */
 
-        return redirect('admin.memos.index')->with(['success' => 'تم ادراج التعميم بنجاح']);
+        return redirect()->route('admin.memos.index')->with(['success' => 'تم ادراج التعميم بنجاح']);
     }
 
     /**
