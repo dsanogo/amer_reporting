@@ -24,8 +24,17 @@
             <div class="col-md-12"><p class="text-center title-f1">قياس اداء المراكز</p></div>
             <form action="{{route('admin.offices.ProcessTimeDetails')}}" method="get">
                 <div class="col-md-12">
-                    <div class="col-md-4 col-sm-12 col-xs-12 tabel-input rtl pull-right">
-                        <div class="col-md-12">
+                    <div class="col-md-8 col-sm-12 col-xs-12 tabel-input rtl pull-right">
+                    <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="inputPassword" class="col-md-5 col-sm-4 control-label label-tabel">المنطقة</label>
+
+                                <select name="office_id" id="" class="form-control" >
+                                    <option value=""></option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
                             <div class="form-group">
                                 <label for="inputPassword"  class="col-md-5 col-sm-4 control-label label-tabel">فتره المعاملات</label>
                                 <input type="text" id="daterange" name="daterange" value="{{isset($_GET['daterange']) ? $_GET['daterange'] : ''}}" class="form-control" id="inputPassword" placeholder="التاريخ">
@@ -74,7 +83,7 @@
                     <table class="table table-striped">
                         <thead class="waleed">
                             <tr>
-                                <th>المكتب</th>
+                                <th>المراكز</th>
                                 <th>عدد العاملين</th>
                                 <th>متوسط زمن المعاملة بالدقيقة</th>
                             </tr>
@@ -116,6 +125,10 @@
            var top_office_name = new Array();
            var top_procees_time= new Array();
             @foreach ($topOffices as $key => $office)
+            @if ($office->proccess_time > 0)
+                top_office_name.push('{{$office->office}}');
+                top_procees_time.push('{{$office->proccess_time}}');
+                @endif
                 top_office_name.push('{{$office["office"]}}');
                 top_procees_time.push('{{$office["proc_time"]}}');
             @endforeach
@@ -125,7 +138,7 @@
                 data: {
                     labels: top_office_name,
                     datasets: [{
-                    label: 'المتوسط المحدد لزمن المعاملة',
+                    label: 'أفضل خمسة مراكز فى الانتاجية',
                     data: top_procees_time,
                     backgroundColor: '#4e81bd',
                     borderWidth: 1
@@ -191,6 +204,7 @@
                       // This more specific font property overrides the global property
                       fontColor: '#4e81bd',
                       fontFamily: "Bahij",
+                      fontSize: 16,
                       radius:5
                   }
               }

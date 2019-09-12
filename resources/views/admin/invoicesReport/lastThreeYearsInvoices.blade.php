@@ -32,7 +32,9 @@
     <body>
         <!-- section one-->
         <div class="seciton-tabel">
-            <div class="col-md-12"><p class="text-center title-f1">ما هى مواسم زيادة وقلة أعداد المعاملات؟</p></div>
+            <div class="col-md-12"><p class="text-center title-f1">ما هى مواسم زيادة وقلة أعداد المعاملات؟</p>
+                <p  class="text-right title-f1">تزيد المعاملات خلال شهور: يناير وفبراير</p>
+            </div>
         @if (count($data) == 0)
             <div class="col-md-12 rtl text-center alert alert-danger block-center" >
                 <h5>No Result found for this period</h5>

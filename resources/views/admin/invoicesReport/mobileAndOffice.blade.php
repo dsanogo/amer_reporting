@@ -21,17 +21,17 @@
             <div class="col-md-12"><p class="text-center title-f1">استخدام نظام المحمول للحصول على الخدمة</p></div>
             <form action="{{route('admin.getMobileAndOfficeInvoices')}}" method="get">
                 <div class="col-md-12">
-                    <div class="col-md-4 col-sm-12 col-xs-12 tabel-input rtl pull-right">
-                        <!-- <div class="col-md-6">
+                    <div class="col-md-8 col-sm-12 col-xs-12 tabel-input rtl pull-right">
+                        <div class="col-md-6">
                             <div class="form-group">
-                                <label for="inputPassword" class="col-md-5 col-sm-4 control-label label-tabel">الجنسية</label>
-                                {{-- <input type="password" class="form-control" id="inputPassword" placeholder="مصر">\ --}}
-                                <select name="office_id" id="" class="form-control" disabled>
+                                <label for="inputPassword" class="col-md-5 col-sm-4 control-label label-tabel">المنطقة</label>
+                               
+                                <select name="office_id" id="" class="form-control" >
                                     <option value=""></option>
                                 </select>                            
                             </div>
-                        </div> -->
-                        <div class="col-md-12">
+                        </div>
+                        <div class="col-md-6">
                             <div class="form-group">
                                 <label for="inputPassword"  class="col-md-5 col-sm-4 control-label label-tabel">فتره المعاملات</label>
                                 <input type="text" id="daterange" name="daterange" value="{{isset($_GET['daterange']) ? $_GET['daterange'] : ''}}" class="form-control" id="inputPassword" placeholder="التاريخ">
@@ -82,7 +82,7 @@
                             <tr>
                                 <th>المراكز</th>
                                 <th>أعداد المعاملات من نظام المحمول</th>
-                                <th>أعداد المعاملات بالمكاتب</th>
+                                <th>أعداد المعاملات بالمراكز</th>
                             </tr>
                         </thead>
                         <tbody>

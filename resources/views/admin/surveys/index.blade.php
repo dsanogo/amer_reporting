@@ -37,7 +37,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="inputPassword"  class="col-md-5 col-sm-4 control-label label-tabel">فتره المعاملات</label>
+                                <label for="inputPassword"  class="col-md-5 col-sm-4 control-label label-tabel">فترة استطلاعات الرأى</label>
                                 <input type="text" id="daterange" name="daterange" value="{{isset($_GET['daterange']) ? $_GET['daterange'] : ''}}" class="form-control" id="inputPassword" placeholder="التاريخ">
                             </div>
                         </div>

@@ -25,7 +25,7 @@
             <div class="col s12 boxs">
               <div class="row m-b-r">
                 <div class="input-field col s12 m-r-0">
-                  <input id="username" type="text" class="validate" autocomplete="off" name="username" value="{{ old('username') }}">
+                  <input id="username" type="text" class="validate" name="username" value="{{ old('username') }}" autocomplete="off">
                   <label for="username">اسم المستخدم</label>
                 </div>
                    @error('username')
@@ -36,7 +36,7 @@
               </div>
               <div class="row m-b-r">
                 <div class="input-field col s12">
-                  <input id="password" type="password" class="validate" name="password">
+                  <input id="password" type="password" class="validate" name="password" autocomplete="off">
                   <label for="password">كلمه المرور</label>
                 </div>
                 @error('password')

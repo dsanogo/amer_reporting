@@ -23,7 +23,7 @@
                 </div>
                 <div class="border">
                     <div class="col-md-5 p-d-0" style="margin-top: 100px;padding-left: 25px;">
-                        <p class="text-center">التطور التاريجي لاعداد المعاملات خلال العام الحالي</p>
+                        <p class="text-center">التطور التاريخي لاعداد المعاملات خلال العام الحالي</p>
                         <canvas id="myChart" width="100%"></canvas>
 
                     </div>
@@ -304,8 +304,8 @@
                           beginAtZero: true,
                           steps: 10,
                           stepValue: 10,
-                          max:  maxFees + 10000,
-                           stepSize: 10000,
+                        //   max:  maxFees + 10000,
+                           stepSize: 50000,
                            fontColor: "#2e5bff",
                            callback: function(label, index, labels) {
                                if(maxFees < 100){
@@ -329,8 +329,8 @@
                         beginAtZero: true,
                         steps: 10,
                         stepValue: 10,
-                        max: maxInvoices + 10,
-                        stepSize: 10,
+                        // max: maxInvoices + 10,
+                        stepSize: 50,
                         fontColor: "#2e9658",
                        
                       },
@@ -359,7 +359,8 @@
                   
                   labels: {
                       // This more specific font property overrides the global property
-                      fontColor: 'rgb(46, 148, 94)',
+
+                      fontColor: 'black',
                       fontFamily: "Bahij",
                       radius:5
                   }
@@ -375,6 +376,10 @@
     var top_office_name = new Array();
            var top_procees_time= new Array();
             @foreach ($topOffices as $key => $office)
+            @if ($office->proccess_time > 0)
+                top_office_name.push('{{$office->office}}');
+                top_procees_time.push('{{$office->proccess_time}}');
+            @endif
                 top_office_name.push('{{$office["office"]}}');
                 top_procees_time.push('{{$office["proc_time"]}}');
             @endforeach
@@ -415,7 +420,7 @@
                           beginAtZero: true,
                           steps: 10,
                           stepValue: 10,
-                          max: {{ count($topOffices) > 0 ? $topOffices[4]['proc_time']+10 : 0}},
+                        //   max: {{ count($topOffices) > 0 ? $topOffices[4]->proccess_time+10 : 0}},
                            stepSize: 10,
                            fontColor: "rgba(51, 51, 51, 1)",
                         //    callback: function(label, index, labels) {
@@ -438,7 +443,7 @@
                       maxRotation: 45,
                       minRotation: 45
                   },
-                  barPercentage: 0.9,
+                  barPercentage: 0.8,
                   
                   maxBarThickness: 30,
                   minBarLength: 2
