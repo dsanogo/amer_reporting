@@ -10,6 +10,30 @@
         position: relative;
         top: 7px;
     }
+    input[type=search]{
+        -moz-appearance: none;/* older firefox */
+        -webkit-appearance: none; /* safari, chrome, edge and ie mobile */
+        appearance: none; /* rest */
+        /* border:2px solid black; */
+        width: 300px;
+        }
+    div.dataTables_wrapper div.dataTables_filter input {
+        margin-left: 0.5em;
+        display: inline-block;
+       
+        height: 45px;
+        width: 300px;
+        
+    }
+    div.dataTables_wrapper div.dataTables_filter label {
+        font-weight: normal;
+        white-space: nowrap;
+        text-align: left;
+        padding-right: 40px;
+    }
+#myTable_wrapper{
+    padding-top:10px;
+}
 </style>
 
 <body>
@@ -75,10 +99,10 @@
                 <div class="border border-h">
 
                     <div class="table-responsive col-md-12 col-sm-12 col-sm-12 left">
-                        <div class="col-md-12">
+                        <!-- <div class="col-md-12">
                             <input class="aamer-input col-md-2" type="text" placeholder="بحث">
-                        </div>
-                        <table class="table table-bordered table-striped" id="">
+                        </div> -->
+                        <table class="table table-bordered table-striped" id="myTable">
                             <thead>
                                 <tr>
                                     <th>اسم المركز</th>
@@ -151,6 +175,18 @@
                 <!-- section there-->
 
                 <script>
+                
+
+
+$(document).ready( function () {
+    $('#myTable').DataTable({
+    language: {
+        search: "البحث: ",
+        searchPlaceholder: "البحث"
+    },
+    lengthChange: false
+} );
+} );
                     var oName = $('#office1').attr("data-office-name");
                 var oEmp = $('#office1').attr("data-nb-emp");
                 var oFees = $('#office1').attr("data-total-fees");

@@ -208,7 +208,7 @@ li {
     height: 575px;
     width: 97.9%;
     border: 2px solid #ffff;
-    margin: 0px 0 20px 20px;
+    margin: 0px 20px 20px 20px;
     border-top: none;
     box-shadow: 2px 4px 5px 2px #ccc;
 }
@@ -602,7 +602,7 @@ tr>th {
         height: 368px;
         width: 95.9%;
         border: 2px solid #ffff;
-        margin: 0px 0 20px 20px;
+        margin: 0px 20px 20px 20px;
         border-top: none;
         box-shadow: 2px 4px 5px 2px #ccc;
     }
