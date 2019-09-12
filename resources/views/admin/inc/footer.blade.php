@@ -7,15 +7,15 @@
 </div>
 
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="{{asset('public/assets/js/jquery1.2.min.js')}}"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="{{asset('public/assets/js/bootstrap.min.js')}}"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+<script src="{{asset('public/assets/js/chart.js')}}"></script>
 <script src="{{asset('public/assets/js/aamer.js')}}"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/v/bs/dt-1.10.18/datatables.min.js"></script>
+<script type="text/javascript" src="{{asset('public/assets/js/jquery.last.min.js')}}"></script>
+<script type="text/javascript" src="{{asset('public/assets/js/moment.min.js')}}"></script>
+<script type="text/javascript" src="{{asset('public/assets/js/daterangepicker.min.js')}}"></script>
+<script type="text/javascript" src="{{asset('public/assets/js/datatables.min.js')}}"></script>
 <script src="{{asset('public/assets/js/jquery.printPage.js')}}"></script>
 <script>
     $(document).ready(function() {

@@ -12,14 +12,37 @@
     <link href="{{asset('public/assets/css/bootstrap.min.css')}}" rel="stylesheet">
     <link href="{{asset('public/assets/css/aamer.css')}}" rel="stylesheet">
 
-    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+    <link href="{{asset('public/assets/css/font-awesome.min.css')}}" rel="stylesheet"
         integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <script src="https://kit.fontawesome.com/9306c8c5d1.js"></script>
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs/dt-1.10.18/datatables.min.css"/>
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+    <script src="{{asset('public/assets/js/9306c8c5d1.js')}}"></script>
+    <link rel="stylesheet" type="text/css" href="{{asset('public/assets/css/datatables.min.css')}}"/>
+    <link rel="stylesheet" type="text/css" href="{{asset('public/assets/css/daterangepicker.css')}}" />
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    
+    <script src="{{asset('public/assets/js/jquery.min.js')}}"></script>
+        <style>
+        /* fallback */
+                @font-face {
+                font-family: 'Material Icons';
+                font-style: normal;
+                font-weight: 400;
+                src: url("{{asset('public/assets/css/flUhRq6tzZclQEJ-Vdg-IuiaDsNc.woff2')}}") format('woff2');
+                }
+
+                .material-icons {
+                font-family: 'Material Icons';
+                font-weight: normal;
+                font-style: normal;
+                font-size: 24px;
+                line-height: 1;
+                letter-spacing: normal;
+                text-transform: none;
+                display: inline-block;
+                white-space: nowrap;
+                word-wrap: normal;
+                direction: ltr;
+                -webkit-font-feature-settings: 'liga';
+                -webkit-font-smoothing: antialiased;
+                }
+        </style>
     @yield('style')
 </head>
