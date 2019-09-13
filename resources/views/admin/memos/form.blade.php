@@ -86,19 +86,23 @@
         </div>
         <div class="invalid-feedback">{{ $errors->first('filenames') }}</div>
     </div>
-    
+
     @if ($memo->Id)
     @if (count($memoAttachments) > 0)
-    
+
         @foreach ($memoAttachments as $memoAttachments)
         <div class="gallery">
             <a target="_blank" href="{{ URL::to("public/uploads/memos") . '/' . $memoAttachments->Path }}">
-                <img src="{{ URL::to("public/uploads/memos") . '/' . $memoAttachments->Path }}" alt="Cinque Terre" width="600" height="400">
+                @if (pathinfo($memoAttachments->Path, PATHINFO_EXTENSION) == 'pdf')
+                <img src="{{ asset('public/assets/img/pdf.png') }}" alt="{{ $memoAttachments->Name }}" width="600" height="400">
+                @else
+                <img src="{{ URL::to("public/uploads/memos") . '/' . $memoAttachments->Path }}" alt="{{ $memoAttachments->Name }}" width="600" height="400">
+                @endif
             </a>
             <div class="desc">{{ $memoAttachments->Name }}</div>
         </div>
         @endforeach
-    
+
     @endif
     @endif
 
