@@ -163,13 +163,15 @@
 
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-6 pull-right">
+    <div class="col-md-12">
+        <div class="col-md-3"></div>
+        <div class=" col-md-6 ">
             <form id="memos-form" action="{{ route('admin.memos.post.create') }}" method="POST" class="form" enctype="multipart/form-data">
                 @csrf
                 @include('admin.memos.form')
             </form>
         </div>
+        
     </div>
 </div>
 

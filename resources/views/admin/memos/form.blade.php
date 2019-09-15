@@ -1,3 +1,8 @@
+<style>
+.add-btn{
+    margin-right: 10px !important;
+}
+</style>
 <div class="form-row">
     <div class="form-group col-md-12 {{ $errors->has('Number') ? 'is-invalid' : '' }}">
         <label>رقم التعميم</label>

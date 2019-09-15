@@ -47,6 +47,12 @@
    
 
 </style>
+<style>
+@page {
+	header: page-header;
+	footer: page-footer;
+}
+</style>  
 @endsection
 @section('content')    
     <div class="seciton-tabel">
@@ -81,6 +87,13 @@
                     </tr>
                 </table>
             </div>
+            <?php $mytime = Carbon\Carbon::now(); ?>
+            <htmlpagefooter name="page-footer">
+            <div class="col-md-12">
+          <span  style="display:inline-block"> رقم الصفحة  {PAGENO}</span>
+          <span   style="text-align: center!important;"> الوقت والتاريخ  {{$mytime}} </span>
+          </div>
+            </htmlpagefooter>
         @endif
     </div>
 @endsection

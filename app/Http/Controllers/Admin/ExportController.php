@@ -192,8 +192,13 @@ class ExportController extends Controller
                             'category' => $data['category'],
                             'daterange' => $data['daterange']
                         ];
+            $config = ['instanceConfigurator' => function($mpdf) {
+                $mpdf->SetWatermarkText('DRAFT');
+                $mpdf->showWatermarkText = true;
+                $mpdf->setFooter('{PAGENO}');
+            }];
 
-            $pdf = Pdf::loadView('admin.exports.print.categoryServices', $dataToSend, [], ['useOTL' => 0xFF, 'format' => 'A4',]);
+            $pdf = Pdf::loadView('admin.exports.print.categoryServices', $dataToSend,$config, ['useOTL' => 0xFF, 'format' => 'A4',]);
 
             if(isset($request->byMail)){
                 $userEmail = $request->email; 
@@ -213,17 +218,23 @@ class ExportController extends Controller
         }   
     }
 
-    public function pdfInvoicesForOffices(Request $request)
+    public function pdfInvoicesForOffices(Request $request) 
     {
         try {
             $data = $this->invoiceModel->getInvoicesForOffices($request);
             
             $dataToSend = [
                         'invoices' => $data['invoices'], 
+                        
                         'total' => $data['total']
                         ];
+            $config = ['instanceConfigurator' => function($mpdf) {
+                $mpdf->SetWatermarkText('DRAFT');
+                $mpdf->showWatermarkText = true;
+                $mpdf->setFooter('{PAGENO}');
+            }];
             
-            $pdf = Pdf::loadView('admin.exports.print.offices', $dataToSend, [], ['useOTL' => 0xFF, 'format' => 'A4',]);
+            $pdf = Pdf::loadView('admin.exports.print.offices', $dataToSend,$config , ['useOTL' => 0xFF, 'format' => 'A4',]);
 
             if(isset($request->byMail)){
                 $userEmail = $request->email; 
@@ -247,8 +258,14 @@ class ExportController extends Controller
                 'offices' =>  $data['offices'], 
                 'total' => $data['total']
                 ];
+            $config = ['instanceConfigurator' => function($mpdf) {
+                $mpdf->SetWatermarkText('DRAFT');
+                $mpdf->showWatermarkText = true;
+                $mpdf->setFooter('{PAGENO}');
+            }];
+                
     
-            $pdf = Pdf::loadView('admin.exports.print.mobileAndOffice', $dataToSend, [], ['useOTL' => 0xFF, 'format' => 'A4',]);
+            $pdf = Pdf::loadView('admin.exports.print.mobileAndOffice', $dataToSend, $config, ['useOTL' => 0xFF, 'format' => 'A4',]);
 
             if(isset($request->byMail)){
                 $userEmail = $request->email; 
@@ -274,8 +291,13 @@ class ExportController extends Controller
                 'subject' => $report['subject'],
                 'totalSurveys' => $report['totalSurveys']
                 ];
+            $config = ['instanceConfigurator' => function($mpdf) {
+                $mpdf->SetWatermarkText('DRAFT');
+                $mpdf->showWatermarkText = true;
+                $mpdf->setFooter('{PAGENO}');
+            }];
     
-            $pdf = Pdf::loadView('admin.exports.print.surveys', $dataToSend, [], ['useOTL' => 0xFF, 'format' => 'A4',]);
+            $pdf = Pdf::loadView('admin.exports.print.surveys', $dataToSend, $config, ['useOTL' => 0xFF, 'format' => 'A4',]);
 
             if(isset($request->byMail)){
                 $userEmail = $request->email; 
@@ -300,8 +322,13 @@ class ExportController extends Controller
                 'total' => $report['total'],
                 'topOffices' => $report['topOffices']
                 ];
+            $config = ['instanceConfigurator' => function($mpdf) {
+                $mpdf->SetWatermarkText('DRAFT');
+                $mpdf->showWatermarkText = true;
+                $mpdf->setFooter('{PAGENO}');
+            }];
 
-            $pdf = Pdf::loadView('admin.exports.print.detailedOffices', $dataToSend, [], ['useOTL' => 0xFF, 'format' => 'A4',]);
+            $pdf = Pdf::loadView('admin.exports.print.detailedOffices', $dataToSend, $config, ['useOTL' => 0xFF, 'format' => 'A4',]);
 
             if(isset($request->byMail)){
                 $userEmail = $request->email; 
@@ -325,8 +352,13 @@ class ExportController extends Controller
                 'invoices' => $data['monthlyInvoices'],
                 'totalInvoices' => $data['totalInvoices']
                 ];
+            $config = ['instanceConfigurator' => function($mpdf) {
+                $mpdf->SetWatermarkText('DRAFT');
+                $mpdf->showWatermarkText = true;
+                $mpdf->setFooter('{PAGENO}');
+            }];
     
-            $pdf = Pdf::loadView('admin.exports.print.invoicesPerMonth', $dataToSend, [], ['useOTL' => 0xFF, 'format' => 'A4',]);
+            $pdf = Pdf::loadView('admin.exports.print.invoicesPerMonth', $dataToSend, $config, ['useOTL' => 0xFF, 'format' => 'A4',]);
 
             if(isset($request->byMail)){
                 $userEmail = $request->email; 
@@ -350,8 +382,13 @@ class ExportController extends Controller
                 'invoices' => $report['invoices'],
                 'topOffices' => $report['topOffices']
                 ];
+            $config = ['instanceConfigurator' => function($mpdf) {
+                $mpdf->SetWatermarkText('DRAFT');
+                $mpdf->showWatermarkText = true;
+                $mpdf->setFooter('{PAGENO}');
+            }];
     
-            $pdf = Pdf::loadView('admin.exports.print.detailedOfficesWithAvgProcTime', $dataToSend, [], ['useOTL' => 0xFF, 'format' => 'A4',]);
+            $pdf = Pdf::loadView('admin.exports.print.detailedOfficesWithAvgProcTime', $dataToSend,$config, ['useOTL' => 0xFF, 'format' => 'A4',]);
 
             if(isset($request->byMail)){
                 $userEmail = $request->email; 
@@ -375,8 +412,13 @@ class ExportController extends Controller
                 'invoices' => $data['monthlyInvoices'],
                 'offices' => $data['offices']
                 ];
+            $config = ['instanceConfigurator' => function($mpdf) {
+                $mpdf->SetWatermarkText('DRAFT');
+                $mpdf->showWatermarkText = true;
+                $mpdf->setFooter('{PAGENO}');
+            }];
     
-            $pdf = Pdf::loadView('admin.exports.print.invoicesPerMonthlyProcessTime', $dataToSend, [], ['useOTL' => 0xFF, 'format' => 'A4',]);
+            $pdf = Pdf::loadView('admin.exports.print.invoicesPerMonthlyProcessTime', $dataToSend, $config, ['useOTL' => 0xFF, 'format' => 'A4',]);
 
             if(isset($request->byMail)){
                 $userEmail = $request->email; 
@@ -401,8 +443,13 @@ class ExportController extends Controller
             'offices' => $data['offices'],
             'total' => $data['total'],
             ];
+            $config = ['instanceConfigurator' => function($mpdf) {
+                $mpdf->SetWatermarkText('DRAFT');
+                $mpdf->showWatermarkText = true;
+                $mpdf->setFooter('{PAGENO}');
+            }];
 
-            $pdf = Pdf::loadView('admin.exports.print.quarterlyMobileAndOffice', $dataToSend, [], ['useOTL' => 0xFF, 'format' => 'A4',]);
+            $pdf = Pdf::loadView('admin.exports.print.quarterlyMobileAndOffice', $dataToSend, $config, ['useOTL' => 0xFF, 'format' => 'A4',]);
 
             if(isset($request->byMail)){
                 $userEmail = $request->email; 
@@ -429,8 +476,13 @@ class ExportController extends Controller
                 'yearsCount' => $report['yearsCount'],
                 'trendMonths' => $report['trendMonths']
                 ];
+                $config = ['instanceConfigurator' => function($mpdf) {
+                    $mpdf->SetWatermarkText('DRAFT');
+                    $mpdf->showWatermarkText = true;
+                    $mpdf->setFooter('{PAGENO}');
+                }];
    
-            $pdf = Pdf::loadView('admin.exports.print.lastThreeYearsInvoices', $dataToSend, [], ['useOTL' => 0xFF, 'format' => 'A4',]);
+            $pdf = Pdf::loadView('admin.exports.print.lastThreeYearsInvoices', $dataToSend, $config, ['useOTL' => 0xFF, 'format' => 'A4',]);
 
             if(isset($request->byMail)){
                 $userEmail = $request->email; 

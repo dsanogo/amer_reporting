@@ -1,5 +1,11 @@
 @extends('admin.exports.print.header')
 @section('content')
+<style>
+@page {
+	header: page-header;
+	footer: page-footer;
+}
+</style>  
     <div class="seciton-tabel">
         @if ($data)
             <h4 style="text-align: right; padding: 0px !important;width: 100%">مواسم زيادة وقلة أعداد المعاملات</h4>
@@ -39,6 +45,13 @@
             </div>
         @endif
     </div>
+    <?php $mytime = Carbon\Carbon::now(); ?>
+            <htmlpagefooter name="page-footer">
+            <div class="col-md-12">
+          <span  style="display:inline-block"> رقم الصفحة  {PAGENO}</span>
+          <span   style="text-align: center!important;"> الوقت والتاريخ  {{$mytime}} </span>
+          </div>
+            </htmlpagefooter>
 @endsection
         
 
