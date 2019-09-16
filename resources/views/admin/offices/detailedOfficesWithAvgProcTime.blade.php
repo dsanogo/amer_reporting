@@ -29,9 +29,11 @@
                             <div class="form-group">
                                 <label for="inputPassword" class="col-md-5 col-sm-4 control-label label-tabel">المنطقة</label>
 
-                                <select name="office_id" id="" class="form-control" >
-                                    <option value=""></option>
-                                </select>
+                                <select name="district_id" id="" class="form-control" >
+                                    @foreach ($districts as $district)
+                                        <option value="{{$district->Id}}" {{isset($_GET['district_id']) && $_GET['district_id']==$district->Id ? 'selected' : ''}}>{{$district->Name}}</option>    
+                                    @endforeach
+                                </select>    
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -48,14 +50,15 @@
                 </div>
             </form>
 
-            @if (count($invoices) == 0)
+            @if (isset($invoices) && count($invoices) == 0)
                 <div class="col-md-12 rtl text-center alert alert-danger block-center" >
                     <h5>No Result found for this period</h5>
                 </div>
             @endif
 
             @if (isset($invoices) && count($invoices) > 0)
-                <?php 
+                <?php
+                    $district_id = isset($_GET['district_id']) ? $_GET['district_id'] : '';
                     $date_range = isset($_GET['daterange']) ? $_GET['daterange'] : '';
                 ?>
                 <div class="col-md-6 col-sm-12 col-xs-12 pull-right rtl tabel" >
@@ -66,14 +69,15 @@
                             </div>
                         @endif
                         {{-- <a href="{{route('admin.offices.exportProcessTimeDetails', ['daterange' => $date_range])}}" class="btn btn-primary btn-lg">Excel</a> --}}
-                        <a href="{{route('admin.offices.pdfProcessTimeDetails', ['daterange' => $date_range])}}" class="btn btn-primary btn-lg" >PDF</a>
+                        <a href="{{route('admin.offices.pdfProcessTimeDetails', ['district_id' => $district_id, 'daterange' => $date_range])}}" class="btn btn-primary btn-lg" >PDF</a>
                         <a class="btn btn-primary btn-lg sendmail" >Send to mail</a>
-                        <a href="{{route('admin.offices.printProcessTimeDetails', ['daterange' => $date_range])}}" class="btn btn-primary btn-lg printPage">Print</a>
+                        <a href="{{route('admin.offices.printProcessTimeDetails', ['district_id' => $district_id, 'daterange' => $date_range])}}" class="btn btn-primary btn-lg printPage">Print</a>
                         {{-- Email form  --}}
                         <form class="form-inline emailForm" action="{{route('admin.offices.pdfProcessTimeDetails')}}" style="display: none">
                             <div class="form-group center-block" style="width:270px;margin: 10px 0;">
                                 <input type="hidden" name="byMail" value="true">
                                 <input type="hidden" name="daterange" value="{{$date_range}}">
+                                <input type="hidden" name="district_id" value="{{$district_id}}">
                                 <input type="email" style="width: 270px;height: 35px;" class="form-group form-control" id="email" name="email" placeholder="Enter email">
                             </div>
                             <button type="submit" style="font-size: 15px;padding: 3px 14px;height: 35px;border-radius: 0;" class="btn btn-sm btn-primary">Send</button>
@@ -118,7 +122,7 @@
             });
         </script>
 @endsection
-@if (count($invoices) > 0)
+@if (isset($invoices) && count($invoices) > 0)
     
 @section('script')
     <script>

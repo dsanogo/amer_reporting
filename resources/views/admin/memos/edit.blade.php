@@ -172,6 +172,9 @@
         padding: 15px;
         text-align: center;
     }
+    .btn-danger{
+        margin-right: 10px !important;
+    }
 </style>
 
 @endsection
@@ -184,7 +187,8 @@
 
         </div>
     </div>
-    <div class="row">
+    <div class="col-md-12">
+        <div class="col-md-3 pull-right"></div>
         <div class="col-md-6 pull-right">
             <form id="memos-form" action="{{ route('admin.memos.post.edit') }}" method="POST" class="form"
                 enctype="multipart/form-data">

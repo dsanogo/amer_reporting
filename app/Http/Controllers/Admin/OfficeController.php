@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\District;
 use App\Models\Office;
 use Illuminate\Http\Request;
 
@@ -31,8 +32,9 @@ class OfficeController extends Controller
             $invoiceDetailed = $report['invoices'];
             $total = $report['total'];
             $topOffices = $report['topOffices'];
+            $districts = District::all();
 
-            return view('admin.offices.detailedOffices')->withInvoices($invoiceDetailed)->withTotal($total)->withtopOffices($topOffices);
+            return view('admin.offices.detailedOffices')->withInvoices($invoiceDetailed)->withTotal($total)->withtopOffices($topOffices)->withDistricts($districts);
         } catch (\Exception $ex) {
             return response()->json(['error' => $ex->getMessage()], 200);
         }
@@ -45,8 +47,9 @@ class OfficeController extends Controller
             $report = $this->officeModel->getOfficesDetailsWithAverage($request);
             $invoiceDetailed = $report['invoices'];
             $topOffices = $report['topOffices'];
+            $districts = District::all();
 
-            return view('admin.offices.detailedOfficesWithAvgProcTime')->withInvoices($invoiceDetailed)->withtopOffices($topOffices);
+            return view('admin.offices.detailedOfficesWithAvgProcTime')->withInvoices($invoiceDetailed)->withtopOffices($topOffices)->withDistricts($districts);
         } catch (\Exception $ex) {
             return response()->json(['error' => $ex->getMessage()], 200);
         }
@@ -58,8 +61,9 @@ class OfficeController extends Controller
             $report = $this->officeModel->getOfficesDetailsWithAverage($request);
             $invoiceDetailed = $report['invoices'];
             $topOffices = $report['topOffices'];
+            $district = $report['district'];
             
-            return view('admin.exports.print.detailedOfficesWithAvgProcTime')->withInvoices($invoiceDetailed)->withtopOffices($topOffices);
+            return view('admin.exports.print.detailedOfficesWithAvgProcTime')->withInvoices($invoiceDetailed)->withtopOffices($topOffices)->withDistrict($district);
         } catch (\Exception $ex) {
             return response()->json(['error' => $ex->getMessage()], 200);
         }
@@ -73,8 +77,9 @@ class OfficeController extends Controller
             $invoiceDetailed = $report['invoices'];
             $total = $report['total'];
             $topOffices = $report['topOffices'];
-            
-            return view('admin.exports.print.detailedOffices')->withInvoices($invoiceDetailed)->withTotal($total)->withtopOffices($topOffices);
+            $districts = District::all();
+
+            return view('admin.exports.print.detailedOffices')->withInvoices($invoiceDetailed)->withTotal($total)->withtopOffices($topOffices)->withDistricts($districts);
         } catch (\Exception $ex) {
             return response()->json(['error' => $ex->getMessage()], 200);
         }

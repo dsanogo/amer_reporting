@@ -28,21 +28,21 @@ class DashboardController extends Controller
     *
     */
 
-    public function index(Request $request)
+    public function index()
     {
         $data = [];
         $data['employees'] = Employee::count();
         $data['numberOfInvoices'] = InvoiceDetail::count();
         $data['totalFees'] = DB::table('Invoices')->sum('TotalFees');
-        $data['offices'] = Office::with('employees')->paginate(10);
+        $data['offices'] = Office::with('employees')->get();
 
-        $officesDetails = $this->invoiceModel->getInvoicesForOffices($request);
-        $report = $this->officeModel->getOfficesDetailsWithAverage($request);
+        $officesDetails = $this->invoiceModel->getOfficesReport();
+        
+        $report = $this->officeModel->getOfficesWithAverage();
+        
         $invoiceDetailed = $officesDetails['invoices'];
-
         $topOffices = $report['topOffices'];
         $topOffices = array_reverse($topOffices);
-            
 
         return view('admin.index')->withData($data)->withInvoices($invoiceDetailed)->withTopOffices($topOffices);
     }
@@ -73,7 +73,42 @@ class DashboardController extends Controller
 
     public function showOfficesDetails()
     {
-        $disctricts = District::all();
-        return view('admin.offices.detailedOffices')->withDistricts($disctricts);
+        $districts = $this->allDistricts();
+        return view('admin.offices.detailedOffices')->withDistricts($districts);
+    }
+
+    public function showInvoicesByDistrict()
+    {
+        $districts = $this->allDistricts();
+
+        return view('admin.invoicesReport.offices')->withDistricts($districts);
+    }
+
+    public function showMobileAndOfficesInvices()
+    {
+        $districts = $this->allDistricts();
+        return view('admin.invoicesReport.mobileAndOffice')->withDistricts($districts);
+    }
+
+    public function showInvoiceMonthly()
+    {
+        return view('admin.invoicesReport.invoicesPerMonth');
+    }
+
+    public function showOfficesDetailsWithAverage()
+    {
+        $districts = $this->allDistricts();
+        return view('admin.offices.detailedOfficesWithAvgProcTime')->withDistricts($districts);
+    }
+
+    public function showInvoiceMonthlyProcessTime()
+    {
+        $districts = $this->allDistricts();
+        return view('admin.invoicesReport.invoicesPerMonthlyProcessTime')->withDistricts($districts);
+    }
+
+    public function allDistricts()
+    {
+        return District::all();
     }
 }

@@ -15,6 +15,7 @@ use App\Exports\ExcelExports\Surveys;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Mail\SendPDF;
+use App\Models\District;
 use App\Models\Invoice;
 use App\Models\Office;
 use App\Models\SurveySubject;
@@ -225,7 +226,7 @@ class ExportController extends Controller
             
             $dataToSend = [
                         'invoices' => $data['invoices'], 
-                        
+                        'districts' => District::all(),
                         'total' => $data['total']
                         ];
             $config = ['instanceConfigurator' => function($mpdf) {
@@ -495,6 +496,35 @@ class ExportController extends Controller
         } catch (\Exception $ex) {
             return response()->json(['status' => 'error', 'message' => $ex->getMessage()], 200);
         }
+    }
+
+    public function pdfInvoiceQuarterlyProcessTime(Request $request)
+    {
+        $data = $this->invoiceModel->getInvoiceQuarterlyProcessTime();
+        $months = $data['months'];
+        $invoices = $data['invoices'];
+        $year = now()->year;
+
+        $dataToSend = [
+            'invoices' => $invoices,
+            'months' => $months,
+            'year' => $year
+            ];
+            $config = ['instanceConfigurator' => function($mpdf) {
+                $mpdf->SetWatermarkText('DRAFT');
+                $mpdf->showWatermarkText = true;
+                $mpdf->setFooter('{PAGENO}');
+            }];
+
+        $pdf = Pdf::loadView('admin.exports.print.quarterlyProcessingTime', $dataToSend, $config, ['useOTL' => 0xFF, 'format' => 'A4',]);
+
+        if(isset($request->byMail)){
+            $userEmail = $request->email; 
+            Mail::send(new SendPDF($pdf->output(), $userEmail));
+            return redirect()->back()->with('success', 'Email successfully sent with attachment');;
+        }
+
+        return $pdf->stream('quarterlyProcessingTime.pdf');
     }
 
 }
