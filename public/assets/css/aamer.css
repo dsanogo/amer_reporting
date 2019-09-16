@@ -11,7 +11,9 @@ tr>th {
 tr>td {
     text-align: center;
 }
-
+.navbar-collapse.in {
+    overflow-y: initial;
+}
 @font-face {
     font-family: "Bahij";
     src: url("Bahij_TheSansArabic-Bold.ttf");

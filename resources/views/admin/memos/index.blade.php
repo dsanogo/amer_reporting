@@ -8,6 +8,27 @@
         border-radius: 4px;
         display: flex;
     }
+    input[type=search]{
+        -moz-appearance: none;/* older firefox */
+        -webkit-appearance: none; /* safari, chrome, edge and ie mobile */
+        appearance: none; /* rest */
+        /* border:2px solid black; */
+        width: 300px;
+        }
+    div.dataTables_wrapper div.dataTables_filter input {
+        margin-left: 0.5em;
+        display: inline-block;
+       
+        height: 45px;
+        width: 300px;
+        
+    }
+    div.dataTables_wrapper div.dataTables_filter label {
+        font-weight: normal;
+        white-space: nowrap;
+        text-align: left;
+        padding-right: 40px;
+    }
 </style>
 @endsection
 @section('content')
@@ -16,8 +37,9 @@
     <div class="seciton-tabel">
 
         <div class="col-md-12">
+                @include('admin.inc.flash-message')
             <div class="col-md-4 tabel-button col-sm-12 col-xs-12 pull-right">
-            <a href="{{ route('admin.memos.get.create') }}" class="col-md-5 col-sm-6 col-xs-6 m-r-0 btn p-d-0 colorbtn pull-right">اضافة تعميم جديد</a>
+            <a href="{{ route('admin.memos.get.create') }}" class="col-md-5 col-sm-6 col-xs-6 m-r-0 btn p-d-0 colorbtn pull-right" style='padding-top: 11px;'>اضافة تعميم جديد</a>
             </div>
             <div class="col-md-12 rtl tabel">
                 <table id="menos-datatables" class="table table-striped nowrap" style="width:100%">
@@ -27,7 +49,7 @@
                             <th>تاريخ التعميم</th>
                             <th>النوع</th>
                             <th>صادر من</th>
-                            <th>نبذه مختصره</th>
+                            <th>نص التعميم</th>
                             <th>الاجراءات</th>
                         </tr>
                     </thead>
@@ -55,13 +77,17 @@
 <script>
     $(document).ready(function () {
             let table = $('#menos-datatables').DataTable({
+                
                 "language": {
+                    "search": "البحث: ",
+                    "searchPlaceholder": "البحث",
                     "paginate": {
                         "previous": "السابق",
                         "next": "التالي",
                         "first": "الاول",
                         "last": "الاخير",
                     }
+                    
                 },
                 'scrollX':true,
                 'scrollCollapse':true,
@@ -128,7 +154,9 @@
                         'render': function (data, type, row) {
                             //console.log(data);
                             if (row.Brief === null) return 'لايوجد';
-                            else return row.Brief;
+                            let str = row.Brief;
+                            if (str.length > 180) str = str.slice(0, 180) + ' ...';
+                            return str;
                         }
                     },
                     {
@@ -139,7 +167,7 @@
                         'render': function (data, type, row) {
                             let name = row.Number === null ? 'لايوجد' : row.Number;
                             let html = '';
-                            html += '<a class="edit" href="shop-data/view/' + row.Id + '"> <i class="material-icons edit-row">edit</i> </a>';
+                            html += '<a class="edit" href="{!! URL::to("/admin/memo/edit") !!}/' + row.Id + '"> <i class="material-icons edit-row">edit</i> </a>';
                             return html;
                         }
                     },

@@ -34,6 +34,10 @@
 #myTable_wrapper{
     padding-top:10px;
 }
+#myChart-Offices{
+    height: 390px !important;
+}
+
 </style>
 
 <body>
@@ -51,7 +55,7 @@
                         <canvas id="myChart" width="100%"></canvas>
 
                     </div>
-                    <div class="col-md-4 p-d-0" style="margin-top: 130px;padding-left: 25px;">
+                    <div class="col-md-4 p-d-0" style="margin-top: 90px;padding-left: 25px;">
                         <p class="text-center">افضل خمسه مراكز من حيث متوسط زمن الخدمة</p>
                         <canvas id="myChart-Offices" width="100%"></canvas>
 
@@ -162,7 +166,7 @@
                                 <i class="material-icons col-md-2 pull-right p-d-0 location_on">location_on </i>
                                 <div class="col-md-10 pull-right p-d-0 loc-s">
                                     <p class="C-1"> {{ $office['office_name'] }}</p>
-                                    <p class="C-2">اجمالي المبالغ المحصلة</p>
+                                    <p class="C-3">{{ $data['numberOfInvoices']}}معاملة </p>
                                     <p class="C-3"> درهم{{ $office['total_fees']}}</p>
                                 </div>
                             </div>
@@ -423,7 +427,7 @@ $(document).ready( function () {
                 data: {
                     labels: top_office_name,
                     datasets: [{
-                    label: 'المتوسط المحدد لزمن المعاملة',
+                    label: 'المتوسط المحدد لزمن المعاملة بالدقيقة',
                     data: top_procees_time,
                     backgroundColor: '#4e81bd',
                     borderWidth: 1

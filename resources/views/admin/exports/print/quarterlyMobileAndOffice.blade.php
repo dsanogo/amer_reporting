@@ -1,5 +1,11 @@
 @extends('admin.exports.print.header')
 @section('content')    
+<style>
+@page {
+	header: page-header;
+	footer: page-footer;
+}
+</style>  
     <div class="seciton-tabel">
         @if (isset($invoices))
             <h4 style="text-align: right">اصدار المعاملات بالمراكز مفضل للمتعامل أم بنظام المحمول</h4>
@@ -30,6 +36,13 @@
             </table>
         </div>
         @endif
+        <?php $mytime = Carbon\Carbon::now(); ?>
+            <htmlpagefooter name="page-footer">
+            <div class="col-md-12">
+          <span  style="display:inline-block"> رقم الصفحة  {PAGENO}</span>
+          <span   style="text-align: center!important;"> الوقت والتاريخ  {{$mytime}} </span>
+          </div>
+            </htmlpagefooter>
 @endsection
         
 

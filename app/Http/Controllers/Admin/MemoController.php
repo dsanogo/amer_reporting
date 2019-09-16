@@ -12,9 +12,12 @@ use App\Models\Office;
 use App\Models\MemoOffice;
 use App\Http\Requests\StoreMemo;
 use App\Http\Requests\UpdateMemo;
+use App\Models\MemoAttachment;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Input;
 use Validator;
 use DB;
+use Illuminate\Support\Str;
 
 class MemoController extends Controller
 {
@@ -36,10 +39,11 @@ class MemoController extends Controller
      */
     public function create()
     {
+        $memo = new Memo();
         $memoTypes = MemoType::all();
         $orgs = SupervisingOrg::all();
         $offices = Office::all();
-        return view('admin.memos.create', compact('memoTypes', 'orgs', 'offices'));
+        return view('admin.memos.create', compact('memo', 'memoTypes', 'orgs', 'offices'));
     }
 
     /**
@@ -51,18 +55,17 @@ class MemoController extends Controller
     public function postCreate(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'Origin' => 'required|integer',
             'Number' => 'required|unique:Memos|max:20',
             'Time' => 'required|date',
             'MemoTypeId' => 'required|integer',
-            'SuperVisingOrgId' => 'required|integer',
             'Brief' => 'nullable|string',
             'offices' => 'array',
+            'filenames.*' => 'mimes:jpeg,bmp,png,gif,svg,pdf'
         ]);
 
         if ($validator->fails()) return redirect()->back()->withErrors($validator)->withInput();
 
-        $input = $request->all();
+        $input = $request->except(['offices', 'filenames', '_token']);
         // The incoming request is valid...
 
         // Retrieve the validated input data...
@@ -70,27 +73,29 @@ class MemoController extends Controller
 
         /**Start Transaction */
         DB::transaction(function () use ($input, $request) {
+            $input['Origin'] = 2;
+            $input['SuperVisingOrgId'] = 1;
             $memo = (new Memo)->create($input);
 
             if (!empty($request->offices)) {
                 foreach ($request->offices as $office_id) {
-                    (new MemoOffice)->create(['MemoId' => $memo->Id, 'OfficeId' => $office_id]);
+                    if($office_id != 0) (new MemoOffice)->create(['MemoId' => $memo->Id, 'OfficeId' => $office_id]);
                 }
             }
 
-            if (Input::file('PhotoId')) {
-                $file = Input::file('PhotoId');
-                $path = $file->getRealPath();
-                $photo = file_get_contents($path);
-                $base64 = base64_encode($photo);
-                $file = (new File)->create(['File' => $base64]);
-                $memo->PhotoId = $file->Id;
-                $memo->save();
+            if ($request->hasfile('filenames')) {
+                foreach ($request->file('filenames') as $file) {
+                    $name = Carbon::now()->format('YmdHs') . Str::random(5) . $memo->Id;
+                    $file->move(public_path() . '/uploads/memos/', $name . '.' . $file->getClientOriginalExtension());
+                    // $path = $file->getRealPath();
+                    // $photo = file/64_encode($photo);
+                    $file = (new MemoAttachment)->create(['Name' => $name, 'Path' => $name . '.' . $file->getClientOriginalExtension(), 'MemoId'=> $memo->Id]);
+                }
             }
         });
         /**End Transaction */
 
-        return redirect('admin.memos.index')->with(['success' => 'تم ادراج التعميم بنجاح']);
+        return redirect()->route('admin.memos.index')->with(['success' => 'تم ادراج التعميم بنجاح']);
     }
 
     /**
@@ -104,10 +109,9 @@ class MemoController extends Controller
         $memo = Memo::with('memoType')->with('org')->findOrFail($id);
         // dd($memo->attachment);
         $memo_offices_ids = MemoOffice::where('MemoId', $id)->get();
-        $offices = Office::whereIn('Id', $memo_offices_ids->pluck('OfficeId'))->get();
-        return view('admin.memos.show')
-            ->with('memo', $memo)
-            ->with('offices', $offices);
+        $officesForMemos = Office::whereIn('Id', $memo_offices_ids->pluck('OfficeId'))->get();
+        $offices = Office::all();
+        return view('admin.memos.show', compact('memo', 'officesForMemos', 'offices'));
     }
 
     /**
@@ -116,19 +120,16 @@ class MemoController extends Controller
      * @param  Int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(int $id)
+    public function getEdit(int $id)
     {
         $memo = Memo::findOrFail($id);
-        $memo_types = MemoType::all();
+        $memoTypes = MemoType::all();
         $orgs = SupervisingOrg::all();
         $offices = Office::all();
-        $memo_offices_ids = MemoOffice::where('MemoId', $id)->pluck('OfficeId')->toArray();
-        return view('admin.memos.edit')
-            ->with('memo', $memo)
-            ->with('memo_types', $memo_types)
-            ->with('orgs', $orgs)
-            ->with('offices', $offices)
-            ->with('memo_offices_ids', $memo_offices_ids);
+        $memoOfficesIds = MemoOffice::where('MemoId', $id)->pluck('OfficeId')->toArray();
+        $memoAttachments = MemoAttachment::where('MemoId', $id)->get();
+        // dd($memoOfficesIds);
+        return view('admin.memos.edit', compact('memo', 'memoTypes', 'orgs', 'offices', 'memoOfficesIds', 'memoAttachments'));
     }
 
     /**
@@ -138,17 +139,28 @@ class MemoController extends Controller
      * @param  Int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateMemo $request, int $id)
+    public function postEdit(Request $request)
     {
-        // The incoming request is valid...
+        $validator = Validator::make($request->all(), [
+            'Number' => 'required|unique:Memos|max:20',
+            'Time' => 'required|date',
+            'MemoTypeId' => 'required|integer',
+            'Brief' => 'nullable|string',
+            'offices' => 'array',
+            'filenames.*' => 'mimes:jpeg,bmp,png,gif,svg,pdf'
+        ]);
 
-        // Retrieve the validated input data...
-        $validated = $request->validated();
+        if ($validator->fails()) return redirect()->back()->withErrors($validator)->withInput();
+
+        $input = $request->except(['Id', 'offices', 'filenames', '_token']);
 
         /**Start Transaction */
-        DB::transaction(function () use ($validated, $request, $id) {
-            $memo = Memo::findOrFail($id);
-            $memo->update($validated);
+        DB::transaction(function () use ($input, $request) {
+
+            $memo = Memo::where('Id', $request->Id)->first();
+            $input['Origin'] = $memo->Origin;
+            $input['SuperVisingOrgId'] = $memo->SuperVisingOrgId;
+            $memo->update($input);
 
 
             if (!empty($request->offices)) {
@@ -158,21 +170,19 @@ class MemoController extends Controller
                 }
             }
 
-            if (Input::file('PhotoId')) {
-                File::where('File', $memo->PhotoId)->delete();
-                $file = Input::file('PhotoId');
-                $path = $file->getRealPath();
-                $photo = file_get_contents($path);
-                $base64 = base64_encode($photo);
-                $file = (new File)->create(['File' => $base64]);
-                $memo->PhotoId = $file->Id;
-                $memo->save();
+            if ($request->hasfile('filenames')) {
+                foreach ($request->file('filenames') as $file) {
+                    $name = Carbon::now()->format('YmdHs') . Str::random(5) . $memo->Id;
+                    $file->move(public_path() . '/uploads/memos/', $name . '.' . $file->getClientOriginalExtension());
+                    // $path = $file->getRealPath();
+                    // $photo = file/64_encode($photo);
+                    $file = (new MemoAttachment)->create(['Name' => $name, 'Path' => $name . '.' . $file->getClientOriginalExtension(), 'MemoId'=> $memo->Id]);
+                }
             }
         });
         /**End Transaction */
 
-        toastr()->success(__('toastr.updated_successfully'));
-        return redirect()->route('memos.index', app()->getLocale());
+        return redirect()->route('admin.memos.index')->with(['success' => 'تم حفظ التعديلات']);
     }
 
     /**

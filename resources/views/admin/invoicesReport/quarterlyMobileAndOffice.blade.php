@@ -76,10 +76,12 @@ label{
                         <tbody>
                             @foreach ($invoices as $key => $office)
                             <tr>
+                            @if ( $office['nb_mobile_invoices'] > 0 &&  $office['nb_office_invoices'] > 0)  
                                 <td>{{ $office['office_name']}}</td>
                                 <td>{{ $office['nb_mobile_invoices']}}</td>
                                 <td>{{ $office['nb_office_invoices']}}</td>
                             </tr>
+                            @endif
                             @endforeach
                             
                         </tbody>

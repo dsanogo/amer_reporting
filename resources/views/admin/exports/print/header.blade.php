@@ -15,6 +15,13 @@
 }
 
 
+    footer{
+        display: none;
+    }
+    htmlpagefooter{
+        display: none;
+    }
+
     .bordered{
             border: 1px solid black !important;
             background: lightblue !important;
