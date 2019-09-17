@@ -62,6 +62,12 @@
       </div>
     </div>
   </div>
+
+  <script>
+    if(performance.navigation.type == 2){
+            location.reload(true);
+        }
+  </script>
 @endsection
   
 
