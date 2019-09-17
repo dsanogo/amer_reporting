@@ -151,6 +151,9 @@
     .input-group-btn:last-child>.btn{
         margin-right: -1px;
     }
+    .btn-danger{
+        margin-right: 10px !important;
+    }
 </style>
 
 @endsection

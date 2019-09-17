@@ -53,8 +53,8 @@
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">تقارير جدولية <span class="caret"></span></a>
                 <ul class="dropdown-menu dropdown-menusa fixaa text-right">
                   <li><a href="{{route('show.reportCategories')}}">المعاملات خلال فترة حسب نوع المعاملة</a></li>
-                  <li><a href="{{route('admin.getInvoicesByOffices')}}">المعاملات خلال فترة موزعة على المراكز</a></li>
-                  <li><a href="{{route('admin.getMobileAndOfficeInvoices')}}">استخدام نظام المحمول للحصول على الخدمة</a></li>
+                  <li><a href="{{route('admin.showInvovicesByDistrict')}}">المعاملات خلال فترة موزعة على المراكز</a></li>
+                  <li><a href="{{route('admin.showMobileAndOfficeInvoices')}}">استخدام نظام المحمول للحصول على الخدمة</a></li>
                   <li><a href="{{route('show.reportSurveys')}}">نتائج استطلاعات الرأى خلال فترة</a></li>
                  
                 </ul>
@@ -63,10 +63,10 @@
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">احصائيات وقياس الاداء<span class="caret"></span></a>
                 <ul class="dropdown-menu dropdown-menusa fixaa text-right">
-                    <li><a href="{{route('admin.offices.details')}}">احصائيات مقارنة انتاجية المراكز</a></li>
-                    <li><a href="{{route('admin.monthlyInvoices')}}">التطور الزمني لانتاجية المراكز</a></li>
-                    <li><a href="{{route('admin.offices.ProcessTimeDetails')}}">قياس اداء المراكز</a></li>
-                    <li><a href="{{route('admin.monthlyInvoicesProcessTime')}}">التطور الزمني لاداء الكاتب</a></li>
+                    <li><a href="{{route('admin.offices.details.show')}}">احصائيات مقارنة انتاجية المراكز</a></li>
+                    <li><a href="{{route('admin.monthlyInvoices.show')}}">التطور الزمني لانتاجية المراكز</a></li>
+                    <li><a href="{{route('admin.offices.ProcessTimeDetails.show')}}">قياس اداء المراكز</a></li>
+                    <li><a href="{{route('admin.monthlyInvoicesProcessTime.show')}}">التطور الزمني لاداء الكاتب</a></li>
                     
                 </ul>
             </li> 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\District;
 use App\Models\Invoice;
 
 
@@ -46,8 +47,9 @@ class InvoiceController extends Controller
             $invoiceDetailed = $data['invoices'];
             $offices = $data['offices'];
             $total = $data['total'];
+            $districts = District::all();
             
-            return view('admin.invoicesReport.offices')->withInvoices($invoiceDetailed)->withOffices($offices)->withTotal($total);
+            return view('admin.invoicesReport.offices')->withInvoices($invoiceDetailed)->withOffices($offices)->withTotal($total)->withDistricts($districts);
             // return response()->json(['status' => 'success', 'data' => $invoiceDetailed], 200);
         } catch (\Exception $ex) {
             return response()->json(['status' => 'error', 'data' => $ex->getMessage()], 200);
@@ -65,8 +67,10 @@ class InvoiceController extends Controller
             $invoiceDetailed = $data['invoices'];
             $offices = $data['offices'];
             $total = $data['total'];
+            $districts = District::all();
+            $district = $data['district'];
             
-            return view('admin.invoicesReport.mobileAndOffice')->withInvoices($invoiceDetailed)->withOffices($offices)->withTotal($total);
+            return view('admin.invoicesReport.mobileAndOffice')->withInvoices($invoiceDetailed)->withOffices($offices)->withTotal($total)->withDistricts($districts)->withDistrict($district);
             // return response()->json(['status' => 'success', 'data' => $invoiceDetailed], 200);
         } catch (\Exception $ex) {
             return response()->json(['status' => 'error', 'data' => $ex->getMessage()], 200);
@@ -135,8 +139,8 @@ class InvoiceController extends Controller
             $data = $this->invoiceModel->getInvoiceMonthlyProcessTime($request);
             $monthlyInvoices = $data['monthlyInvoices'];
             $offices = $data['offices'];
-
-            return view('admin.invoicesReport.invoicesPerMonthlyProcessTime')->withInvoices($monthlyInvoices)->withOffices($offices);
+            $districts = District::all();
+            return view('admin.invoicesReport.invoicesPerMonthlyProcessTime')->withInvoices($monthlyInvoices)->withOffices($offices)->withDistricts($districts);
         } catch (\Exception $ex) {
             return response()->json(['error' => $ex->getMessage()], 200);
         }
@@ -148,8 +152,9 @@ class InvoiceController extends Controller
             $data = $this->invoiceModel->getInvoiceMonthlyProcessTime($request);
             $monthlyInvoices = $data['monthlyInvoices'];
             $offices = $data['offices'];
+            $district = $data['district'];
 
-            return view('admin.exports.print.invoicesPerMonthlyProcessTime')->withInvoices($monthlyInvoices)->withOffices($offices);
+            return view('admin.exports.print.invoicesPerMonthlyProcessTime')->withInvoices($monthlyInvoices)->withOffices($offices)->withDistrict($district);
         } catch (\Exception $ex) {
             return response()->json(['error' => $ex->getMessage()], 200);
         }
@@ -226,8 +231,10 @@ class InvoiceController extends Controller
             $invoiceDetailed = $data['invoices'];
             $offices = $data['offices'];
             $total = $data['total'];
+            $districts = District::all();
+            $district = $data['district'];
             
-            return view('admin.exports.print.offices')->withInvoices($invoiceDetailed)->withOffices($offices)->withTotal($total);
+            return view('admin.exports.print.offices')->withInvoices($invoiceDetailed)->withOffices($offices)->withTotal($total)->withDistricts($districts)->withDistrict($district);
             // return response()->json(['status' => 'success', 'data' => $invoiceDetailed], 200);
         } catch (\Exception $ex) {
             return response()->json(['status' => 'error', 'data' => $ex->getMessage()], 200);
@@ -241,8 +248,10 @@ class InvoiceController extends Controller
             $invoiceDetailed = $data['invoices'];
             $offices = $data['offices'];
             $total = $data['total'];
+            $districts = District::all();
+            $district = $data['district'];
             
-            return view('admin.exports.print.mobileAndOffice')->withInvoices($invoiceDetailed)->withOffices($offices)->withTotal($total);
+            return view('admin.exports.print.mobileAndOffice')->withInvoices($invoiceDetailed)->withOffices($offices)->withTotal($total)->withDistricts($districts)->withDistrict($district);
         } catch (\Exception $ex) {
             return response()->json(['status' => 'error', 'data' => $ex->getMessage()], 200);
         }
@@ -259,5 +268,15 @@ class InvoiceController extends Controller
         } catch (\Exception $ex) {
             return response()->json(['error' => $ex->getMessage()], 200);
         }
+    }
+
+    public function printInvoiceQuarterlyProcessTime()
+    {
+        $data = $this->invoiceModel->getInvoiceQuarterlyProcessTime();
+        $months = $data['months'];
+        $invoices = $data['invoices'];
+        $year = now()->year;
+
+        return view('admin.exports.print.quarterlyProcessingTime')->withInvoices($invoices)->withMonths($months)->withYear($year);
     }
 }

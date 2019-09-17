@@ -30,7 +30,6 @@ class Office extends Model
     public function getOfficesDetails($request)
     {
         try {
-
             if(isset($request->daterange)){
                 $date = explode(' - ', $request->daterange);
                 $from = $date[0];
@@ -41,7 +40,9 @@ class Office extends Model
             }
 
             $invoiceDetailed = [];
-            $offices = $offices = Office::select('Id', 'Name')->get();
+
+            $district = District::select('Id', 'Name')->where('Id', $request->district_id)->first();
+            $offices = $offices = Office::select('Id', 'Name')->where('DistrictId', $district->Id)->get();
             
             foreach ($offices as $key => $office) {
                 $userIds = $office->getUserIds($office->Id);
@@ -93,6 +94,7 @@ class Office extends Model
                 'invoices' => $invoiceDetailed,
                 'total' => $total,
                 'topOffices' => $topFiveOffices,
+                'district' => $district
             ];
 
             return view('admin.offices.detailedOffices')->withInvoices($invoiceDetailed)->withTotal($total)->withtopOffices($topFiveOffices);
@@ -115,7 +117,8 @@ class Office extends Model
             }
 
             $invoiceDetailed = [];
-            $offices = $offices = Office::select('Id', 'Name')->get();
+            $district = District::select('Id', 'Name')->where('Id', $request->district_id)->first();
+            $offices = Office::select('Id', 'Name')->where('DistrictId', $district->Id)->get();
             
             foreach ($offices as $key => $office) {
                 $userIds = $office->getUserIds($office->Id);
@@ -125,6 +128,48 @@ class Office extends Model
                         $query->whereDate('Time','>=', $from)->whereDate('Time', '<=', $to);
                     }
                 })->pluck('proc_time')->toArray()[0];
+
+                $invoiceDetailed[$key]['office'] = $office->Name;
+                $invoiceDetailed[$key]['nb_employee'] = count($userIds);
+                $invoiceDetailed[$key]['proc_time'] = $officeAvgProcTime == null ? 0 : $officeAvgProcTime;
+            }
+
+            $invoices = array();
+            foreach ($invoiceDetailed as $key => $row)
+            {
+                $invoices[$key] = $row['proc_time'];
+            }
+            array_multisort($invoices, SORT_DESC, $invoiceDetailed);
+
+            $topFiveOffices = [];
+
+            foreach ($invoiceDetailed as $key => $office) {
+                if(count($topFiveOffices) < 5 ){
+                    array_push($topFiveOffices, $office);
+                }
+            }
+
+             return [
+                    'invoices' => $invoiceDetailed,
+                    'topOffices' => $topFiveOffices,
+                    'district' => $district
+             ];
+            
+        } catch (\Exception $ex) {
+            return response()->json(['error' => $ex->getMessage()], 200);
+        }
+    }
+
+    public function getOfficesWithAverage()
+    {
+        try {
+            $invoiceDetailed = [];
+            $offices = $offices = Office::select('Id', 'Name')->get();
+            
+            foreach ($offices as $key => $office) {
+                $userIds = $office->getUserIds($office->Id);
+                $officeAvgProcTime = Invoice::selectRaw('AVG(ProcessingTime) as proc_time')->whereIn('UserId', $userIds)
+                                    ->pluck('proc_time')->toArray()[0];
 
                 $invoiceDetailed[$key]['office'] = $office->Name;
                 $invoiceDetailed[$key]['nb_employee'] = count($userIds);

@@ -43,9 +43,9 @@
                         </div>
                     @endif
                     {{-- <a href="{{route('admin.invoices.exportLastThreeYears')}}" class="btn btn-primary btn-lg">Excel</a> --}}
-                    <a href="{{route('admin.invoices.pdfLastThreeYears')}}" class="btn btn-primary btn-lg" >PDF</a>
+                    <a href="{{route('admin.pdfquarterlyInvoicesProcessTime')}}" class="btn btn-primary btn-lg" >PDF</a>
                     <a class="btn btn-primary btn-lg sendmail" >Send to mail</a>
-                    <a href="{{route('admin.invoices.printLastThreeYears')}}" class="btn btn-primary btn-lg printPage">Print</a>
+                    <a href="{{route('admin.printquarterlyInvoicesProcessTime')}}" class="btn btn-primary btn-lg printPage">Print</a>
                     
                     <form class="form-inline emailForm" action="{{route('admin.invoices.pdfLastThreeYears')}}" style="display: none">
                         <div class="form-group center-block" style="width:270px;margin: 10px 0;">
@@ -66,17 +66,26 @@
                             <td class="bordered">{{$month['name']}}</td>
                         @endforeach
                     </tr>
+                    <?php 
+                        $count = 0;
+                    ?>
                     @foreach ($invoices as $key => $invoice)
-                    <tr style="background: {{isset($invoice['flag']) && $invoice['flag']=='red' ? 'red' : ''}}">
-                        
-                        <td>{{$invoices[$key][0]['office_name']}}</td>   
-                        <td>{{$invoices[$key][0]['procTime']}}</td>   
-                        <td>{{$invoices[$key][1]['procTime']}}</td>    
-                        <td>{{$invoices[$key][2]['procTime']}}</td> 
-                            
-                    </tr>
+                        @if (isset($invoice['flag']) && $invoice['flag'] == 'red')
+                            <tr style="background: {{isset($invoice['flag']) && $invoice['flag']=='red' ? 'red' : ''}}">
+                                <td>{{$invoices[$key][0]['office_name']}}</td>   
+                                <td>{{$invoices[$key][0]['procTime']}}</td>   
+                                <td>{{$invoices[$key][1]['procTime']}}</td>    
+                                <td>{{$invoices[$key][2]['procTime']}}</td> 
+                            </tr>
+                        <?php $count +=1;?>
+                    @endif
                     @endforeach
                 </table>
+                @if ($count == 0)
+                    <div class="col-md-12 alert alert-info">
+                    <p class="text-center">لا يوجد مراكز تسواء</p>
+                    </div>
+                @endif
             </div>
             
             @endif

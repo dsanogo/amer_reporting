@@ -113,9 +113,11 @@ class Invoice extends Model
                 $to = '';
             }
 
-            $officesDeails = [];
+            $district = District::select('Id', 'Name')->where('Id', $request->district_id)->first();
 
-            $offices = Office::select('Id', 'Name', 'Latitude', 'Longitude')->get();
+            $oficeDetails = [];
+
+            $offices = Office::select('Id', 'Name', 'Latitude', 'Longitude')->where('DistrictId', $district->Id)->get();
 
             foreach ($offices as $key => $office) {
                 $userIds = $office->getUserIds($office->Id);
@@ -141,34 +143,34 @@ class Invoice extends Model
                     
                 $serviceCount = InvoiceDetail::whereIn('InvoiceId', $officeInvoices)->count();
 
-                $officesDeails[$key]['office_name'] = $office->Name;
-                $officesDeails[$key]['total_fees'] = $totalFees == null ? 0 : $totalFees;
-                $officesDeails[$key]['n_invoices'] = count($officeInvoices);
-                $officesDeails[$key]['n_serviceCount'] = $serviceCount;
-                $officesDeails[$key]['n_employees'] = $officeEmployees;
-                $officesDeails[$key]['lat'] = $office->Latitude;
-                $officesDeails[$key]['long'] = $office->Longitude;
+                $oficeDetails[$key]['office_name'] = $office->Name;
+                $oficeDetails[$key]['total_fees'] = $totalFees == null ? 0 : $totalFees;
+                $oficeDetails[$key]['n_invoices'] = count($officeInvoices);
+                $oficeDetails[$key]['n_serviceCount'] = $serviceCount;
+                $oficeDetails[$key]['n_employees'] = $officeEmployees;
+                $oficeDetails[$key]['lat'] = $office->Latitude;
+                $oficeDetails[$key]['long'] = $office->Longitude;
             }
 
             $totalFees = array();
-            foreach ($officesDeails as $key => $row)
+            foreach ($oficeDetails as $key => $row)
             {
                 $totalFees[$key] = $row['total_fees'];
             }
-            array_multisort($totalFees, SORT_DESC, $officesDeails);
+            array_multisort($totalFees, SORT_DESC, $oficeDetails);
 
             $countOfTotalFees = 0;
-            foreach ($officesDeails as $office) {
+            foreach ($oficeDetails as $office) {
                 $countOfTotalFees += $office['total_fees'];
             }
 
             $countOfInvoices = 0;
-            foreach ($officesDeails as $office) {
+            foreach ($oficeDetails as $office) {
                 $countOfInvoices += $office['n_invoices'];
             }
 
             $countInvoiceServices = 0;
-            foreach ($officesDeails as $office) {
+            foreach ($oficeDetails as $office) {
                 $countInvoiceServices += $office['n_serviceCount'];
             }
 
@@ -177,9 +179,10 @@ class Invoice extends Model
                 'totalInvoices' => $countOfInvoices,
                 'totalInvoiceDatails' => $countInvoiceServices
             ];
+
             
             return [
-                'invoices' => $officesDeails,
+                'invoices' => $oficeDetails,
                 'offices' => $offices,
                 'total' => $total
             ];
@@ -202,7 +205,8 @@ class Invoice extends Model
             }
 
             $invoiceDetailed = [];
-            $offices = Office::select('Id', 'Name')->get();
+            $district = District::select('Id', 'Name')->where('Id', $request->district_id)->first();
+            $offices = Office::select('Id', 'Name')->where('DistrictId', $district->Id)->get();
            
             foreach ($offices as $key => $office) {
                 $userIds = $office->getUserIds($office->Id);
@@ -258,7 +262,8 @@ class Invoice extends Model
             return [
                 'invoices' => $invoiceDetailed,
                 'offices' => $offices,
-                'total' => $total
+                'total' => $total,
+                'district' => $district
             ];
         } catch (\Exception $ex) {
             return response()->json(['status' => 'error', 'data' => $ex->getMessage()], 200);
@@ -399,12 +404,12 @@ class Invoice extends Model
            }
 
            
-           $totalFees = array();
-           foreach ($monthlyInvoices as $key => $row)
-           {
-               $totalFees[$key] = $row['nb_invoices'];
-           }
-           array_multisort($totalFees, SORT_DESC, $monthlyInvoices);
+        //    $totalFees = array();
+        //    foreach ($monthlyInvoices as $key => $row)
+        //    {
+        //        $totalFees[$key] = $row['nb_invoices'];
+        //    }
+        //    array_multisort($totalFees, SORT_DESC, $monthlyInvoices);
 
            $totalInvoices = 0;
            foreach ($monthlyInvoices as $key => $month)
@@ -435,13 +440,18 @@ class Invoice extends Model
                 $to = '';
             }
             
-            if(isset($request->office_id)){
-                $mobileRequestId = $this->getMobileRequestIdsFromInvoices($request->office_id);
-            }else {
-                $mobileRequestId = '';
+           $districtUserIds = [];
+
+            $district = District::select('Id', 'Name')->where('Id', $request->district_id)->first();
+            $offices = Office::select('Id', 'Name')->where('DistrictId', $district->Id)->get();
+
+            foreach ($offices as $office) {
+                $userIds = $office->getUserIds($office->Id);
+                foreach ($userIds as $userId) {
+                    array_push($districtUserIds, $userId);    
+                }
             }
 
-            $offices = Office::select('Id', 'Name')->get();
             $monthlyInvoices = DB::table('Invoices')->select(
                 DB::raw('COUNT(Id) as total_invoices'),
                 DB::raw("MONTH(Time) as m"), 
@@ -449,11 +459,7 @@ class Invoice extends Model
                 DB::raw("SUM(ProcessingTime) as total_process_time"),
                 DB::raw('AVG(ProcessingTime) as process_time'), 
                 DB::raw('YEAR(Time) as year'))
-                ->where(function($query) use ($mobileRequestId) {
-                    if($mobileRequestId !== ''){
-                        $query->whereIn('MobileRequestId', $mobileRequestId);
-                    }
-                })
+                ->whereIn('UserId', $districtUserIds)
                 ->where(function($query) use ($from, $to) {
                     if($from !== '' && $to !== '') {
                         $query->whereDate('Time','>=', $from)->whereDate('Time', '<=', $to);
@@ -465,7 +471,8 @@ class Invoice extends Model
 
             return [
                 'monthlyInvoices' => $monthlyInvoices,
-                'offices' => $offices
+                'offices' => $offices,
+                'district' => $district
             ];
 
         } catch (\Exception $ex) {
@@ -687,5 +694,73 @@ class Invoice extends Model
             return response()->json(['result' => 'error', 'message' => $ex->getMessage()], 200);
         }
         
+    }
+
+    public function getOfficesReport()
+    {
+        try {
+            
+            $officesDetails = [];
+
+            $offices = Office::select('Id', 'Name', 'Latitude', 'Longitude')->get();
+
+            foreach ($offices as $key => $office) {
+                $userIds = $office->getUserIds($office->Id);
+                $officeEmployees = Employee::where('OfficeId', $office->Id)->count();
+                $totalFees = Invoice::selectRaw('SUM(TotalFees) as total_fees')->whereIn('UserId', $userIds)
+                    ->orderBy('total_fees')
+                    ->pluck('total_fees')
+                    ->toArray()[0];
+                
+                $officeInvoices = Invoice::selectRaw('Id, TotalFees')->whereIn('UserId', $userIds)
+                    ->pluck('Id')->toArray();
+
+                $serviceCount = InvoiceDetail::whereIn('InvoiceId', $officeInvoices)->count();
+
+                $officesDetails[$key]['office_name'] = $office->Name;
+                $officesDetails[$key]['total_fees'] = $totalFees == null ? 0 : $totalFees;
+                $officesDetails[$key]['n_invoices'] = count($officeInvoices);
+                $officesDetails[$key]['n_serviceCount'] = $serviceCount;
+                $officesDetails[$key]['n_employees'] = $officeEmployees;
+                $officesDetails[$key]['lat'] = $office->Latitude;
+                $officesDetails[$key]['long'] = $office->Longitude;
+            }
+
+            $totalFees = array();
+            foreach ($officesDetails as $key => $row)
+            {
+                $totalFees[$key] = $row['total_fees'];
+            }
+            array_multisort($totalFees, SORT_DESC, $officesDetails);
+
+            $countOfTotalFees = 0;
+            foreach ($officesDetails as $office) {
+                $countOfTotalFees += $office['total_fees'];
+            }
+
+            $countOfInvoices = 0;
+            foreach ($officesDetails as $office) {
+                $countOfInvoices += $office['n_invoices'];
+            }
+
+            $countInvoiceServices = 0;
+            foreach ($officesDetails as $office) {
+                $countInvoiceServices += $office['n_serviceCount'];
+            }
+
+            $total = (object)[
+                'totalFees' => $countOfTotalFees,
+                'totalInvoices' => $countOfInvoices,
+                'totalInvoiceDatails' => $countInvoiceServices
+            ];
+            
+            return [
+                'invoices' => $officesDetails,
+                'offices' => $offices,
+                'total' => $total
+            ];
+        } catch (\Exception $ex) {
+            return response()->json(['status' => 'error', 'data' => $ex->getMessage()], 200);
+        }
     }
 }

@@ -34,8 +34,8 @@
             <div class="col-md-12"><p class="text-center title-f1">التطور الزمني لانتاجية المراكز</p></div>
             <form action="{{route('admin.monthlyInvoices')}}" method="get">
                 <div class="col-md-12">
-                    <div class="col-md-8 col-sm-12 col-xs-12 tabel-input rtl pull-right">
-                    <div class="col-md-6">
+                    <div class="col-md-4 col-sm-12 col-xs-12 tabel-input rtl pull-right">
+                    {{-- <div class="col-md-6">
                             <div class="form-group">
                                 <label for="inputPassword" class="col-md-5 col-sm-4 control-label label-tabel">المنطقة</label>
                                
@@ -43,8 +43,8 @@
                                     <option value=""></option>
                                 </select>                            
                             </div>
-                        </div>
-                        <div class="col-md-6">
+                        </div> --}}
+                        <div class="col-md-12">
                             <div class="form-group">
                                 <label for="inputPassword"  class="col-md-5 col-sm-4 control-label label-tabel">فتره المعاملات</label>
                                 <input type="text" id="daterange" name="daterange" value="{{isset($_GET['daterange']) ? $_GET['daterange'] : ''}}" class="form-control" id="inputPassword" placeholder="التاريخ">
@@ -57,7 +57,7 @@
                     </div>
                 </div>
             </form>
-            @if (count($invoices) == 0)
+            @if (isset($invoices) && count($invoices) == 0)
                 <div class="col-md-12 rtl text-center alert alert-danger block-center" >
                     <h5>No Result found for this period</h5>
                 </div>
@@ -130,7 +130,7 @@
     </script>
 
 @endsection
-@if (count($invoices) > 0)
+@if (isset($invoices) && count($invoices) > 0)
 @section('script')
     <script>
         
