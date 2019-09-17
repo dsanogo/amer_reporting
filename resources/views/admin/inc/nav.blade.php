@@ -9,7 +9,7 @@
     <div class="col-md-4 col-sm-4 col-xs-8 left-sied">
         <div class="col-lg-5 col-md-7 col-sm-6 col-xs-6 dropdown p-l-30r text-left" > <a href="#" class="dropdown-toggle"
                 data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img class="person hidden-sm hidden-xs" src="{{asset('public/assets/img/person-placeholder.png')}}" alt=""><span
-                class="caret"></span>{{Session::get('user') !== null ? Session::get('user')->Name : 'Guest'}} </a>
+                class="caret"></span>{{Auth::user()->UserName}} </a>
             <ul class="dropdown-menu ">
                 <li>
                     
