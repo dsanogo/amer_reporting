@@ -12,6 +12,8 @@ class User extends Authenticatable
 
     protected $table = 'Users';
 
+    protected $primaryKey = 'Id';
+
     /**
      * The attributes that are mass assignable.
      *

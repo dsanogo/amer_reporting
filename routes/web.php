@@ -15,7 +15,7 @@ Route::get('/', 'HomeController@index');
 
 Auth::routes();
 
-Route::prefix('admin')->namespace('Admin')->group(function () {
+Route::prefix('admin')->namespace('Admin')->middleware('auth')->group(function () {
     Route::get('/', 'DashboardController@index')->name('admin.index');
 
     Route::get('invoices-by-category', 'DashboardController@showInvoicesByCategory')->name('show.reportCategories');

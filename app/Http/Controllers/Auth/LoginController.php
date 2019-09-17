@@ -69,7 +69,6 @@ class LoginController extends Controller
 
             if ($user && $user->UserRoleId == $UserRoleId) {
                 Auth::login($user, false);
-                Session::put('user', $user);
                 
                 return redirect()->to('/admin');
             } elseif ($user && $user->UserRolId !== $UserRoleId) return redirect()->back()->withInput($request->only('email', 'password'))->withErrors(['role' => 'You are not authorized to access the reports. Please check with your Administrator']);
@@ -80,9 +79,8 @@ class LoginController extends Controller
 
     public function logout()
     {
-        Session::forget('user');
         if(Auth::user()){
-            Auth::user()->logout();
+            Auth::logout();
         }
         
         return Redirect::to('login');
