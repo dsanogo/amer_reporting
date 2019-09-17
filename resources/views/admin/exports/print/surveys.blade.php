@@ -8,9 +8,10 @@
 </style>    
     <div class="seciton-tabel">
             @if (isset($surveys))
-            <h3 class="text-center">{{$subject->Description}} :عدد المصوتين {{$totalSurveys}}</h3>
+            <h3 class="text-center">{{$subject->Description}} :عدد المصوتين - {{$totalSurveys}}</h3>
+            <h4>نتائج استطلاعات الرأى خلال فترة</h4>
+            <h4>فتره المعاملات: {{$daterange}}</h4>
             <div class="col-md-12 rtl tabel" >
-                <h4>نتائج استطلاعات الرأى خلال فترة</h4>
                 <table class="table table-striped">
                     <thead class="waleed">
                         <tr>

@@ -126,8 +126,9 @@ class InvoiceController extends Controller
             $data = $this->invoiceModel->getInvoiceMonthly($request);
             $monthlyInvoices = $data['monthlyInvoices'];
             $totalInvoices = $data['totalInvoices'];
+            $districts = District::all();
 
-            return view('admin.invoicesReport.invoicesPerMonth')->withInvoices($monthlyInvoices)->withTotalInvoices($totalInvoices);
+            return view('admin.invoicesReport.invoicesPerMonth')->withInvoices($monthlyInvoices)->withTotalInvoices($totalInvoices)->withDistricts($districts);
         } catch (\Exception $ex) {
             return response()->json(['error' => $ex->getMessage()], 200);
         }
@@ -153,8 +154,9 @@ class InvoiceController extends Controller
             $monthlyInvoices = $data['monthlyInvoices'];
             $offices = $data['offices'];
             $district = $data['district'];
+            $daterange = $data['daterange'];
 
-            return view('admin.exports.print.invoicesPerMonthlyProcessTime')->withInvoices($monthlyInvoices)->withOffices($offices)->withDistrict($district);
+            return view('admin.exports.print.invoicesPerMonthlyProcessTime')->withInvoices($monthlyInvoices)->withOffices($offices)->withDistrict($district)->withDaterange($daterange);
         } catch (\Exception $ex) {
             return response()->json(['error' => $ex->getMessage()], 200);
         }
@@ -233,8 +235,9 @@ class InvoiceController extends Controller
             $total = $data['total'];
             $districts = District::all();
             $district = $data['district'];
-            
-            return view('admin.exports.print.offices')->withInvoices($invoiceDetailed)->withOffices($offices)->withTotal($total)->withDistricts($districts)->withDistrict($district);
+            $daterange = $data['daterange'];
+
+            return view('admin.exports.print.offices')->withInvoices($invoiceDetailed)->withOffices($offices)->withTotal($total)->withDistricts($districts)->withDistrict($district)->withDaterange($daterange);
             // return response()->json(['status' => 'success', 'data' => $invoiceDetailed], 200);
         } catch (\Exception $ex) {
             return response()->json(['status' => 'error', 'data' => $ex->getMessage()], 200);
@@ -250,8 +253,8 @@ class InvoiceController extends Controller
             $total = $data['total'];
             $districts = District::all();
             $district = $data['district'];
-            
-            return view('admin.exports.print.mobileAndOffice')->withInvoices($invoiceDetailed)->withOffices($offices)->withTotal($total)->withDistricts($districts)->withDistrict($district);
+            $daterange = $data['daterange'];
+            return view('admin.exports.print.mobileAndOffice')->withInvoices($invoiceDetailed)->withOffices($offices)->withTotal($total)->withDistricts($districts)->withDistrict($district)->withDaterange($daterange);
         } catch (\Exception $ex) {
             return response()->json(['status' => 'error', 'data' => $ex->getMessage()], 200);
         }
@@ -263,8 +266,9 @@ class InvoiceController extends Controller
             $data = $this->invoiceModel->getInvoiceMonthly($request);
             $monthlyInvoices = $data['monthlyInvoices'];
             $totalInvoices = $data['totalInvoices'];
-            
-            return view('admin.exports.print.invoicesPerMonth')->withInvoices($monthlyInvoices)->withTotalInvoices($totalInvoices);
+            $district = $data['district'];
+            $daterange = $data['daterange'];
+            return view('admin.exports.print.invoicesPerMonth')->withInvoices($monthlyInvoices)->withTotalInvoices($totalInvoices)->withDistrict($district)->withDaterange($daterange);
         } catch (\Exception $ex) {
             return response()->json(['error' => $ex->getMessage()], 200);
         }

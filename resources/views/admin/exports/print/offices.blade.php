@@ -16,6 +16,8 @@
         @if (isset($invoices))
             <div class="col-md-12 rtl tabel" >
                 <h4>المعاملات خلال فترة موزعة على المراكز</h4>
+                <h4>المنطقة: {{$district->Name}}</h4>
+                <h4>فتره المعاملات: {{$daterange}}</h4>
                 <table class="table table-striped">
                     <thead class="waleed">
                         <tr>

@@ -92,7 +92,8 @@ class DashboardController extends Controller
 
     public function showInvoiceMonthly()
     {
-        return view('admin.invoicesReport.invoicesPerMonth');
+        $districts = $this->allDistricts();
+        return view('admin.invoicesReport.invoicesPerMonth')->withDistricts($districts);
     }
 
     public function showOfficesDetailsWithAverage()

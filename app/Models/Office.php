@@ -94,7 +94,8 @@ class Office extends Model
                 'invoices' => $invoiceDetailed,
                 'total' => $total,
                 'topOffices' => $topFiveOffices,
-                'district' => $district
+                'district' => $district,
+                'daterange' => $request->daterange
             ];
 
             return view('admin.offices.detailedOffices')->withInvoices($invoiceDetailed)->withTotal($total)->withtopOffices($topFiveOffices);
@@ -152,7 +153,8 @@ class Office extends Model
              return [
                     'invoices' => $invoiceDetailed,
                     'topOffices' => $topFiveOffices,
-                    'district' => $district
+                    'district' => $district,
+                    'daterange' => $request->daterange
              ];
             
         } catch (\Exception $ex) {

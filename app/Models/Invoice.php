@@ -184,7 +184,9 @@ class Invoice extends Model
             return [
                 'invoices' => $oficeDetails,
                 'offices' => $offices,
-                'total' => $total
+                'total' => $total,
+                'district' => $district,
+                'daterange' => $request->daterange
             ];
         } catch (\Exception $ex) {
             return response()->json(['status' => 'error', 'data' => $ex->getMessage()], 200);
@@ -263,7 +265,8 @@ class Invoice extends Model
                 'invoices' => $invoiceDetailed,
                 'offices' => $offices,
                 'total' => $total,
-                'district' => $district
+                'district' => $district,
+                'daterange' => $request->daterange
             ];
         } catch (\Exception $ex) {
             return response()->json(['status' => 'error', 'data' => $ex->getMessage()], 200);
@@ -377,6 +380,15 @@ class Invoice extends Model
             }
 
             $monthlyInvoices = [];
+            $district = District::select('Id', 'Name')->where('Id', $request->district_id)->first();
+            $districtOffices = Office::select('Id', 'Name')->where('DistrictId', $district->Id)->get();
+            $districtUserIds = [];
+            foreach ($districtOffices as $office) {
+                $userIds = $office->getUserIds($office->Id);
+                foreach ($userIds as $userId) {
+                    array_push($districtUserIds, $userId);    
+                }
+            }
 
            // Get all the months
            $months = [];
@@ -389,18 +401,27 @@ class Invoice extends Model
            }
            
            foreach ($months as $key => $month) {
-
-               $monthInvoicesIds = Invoice::select('Id')->WhereRaw('MONTH(Time) = ' . $month['id'])
+                $monthInvoicesIds = [];
+                $monthInvoices = Invoice::selectRaw('Id')->WhereRaw('MONTH(Time) = ' . $month['id'])
+                                    ->whereIn('UserId', $districtUserIds)
                                     ->where(function($query) use ($from, $to) {
                                         if($from !== '' && $to !== '') {
                                             $query->whereDate('Time','>=', $from)->whereDate('Time', '<=', $to);
                                         }
                                     })
-                                    ->pluck('Id')->toArray();
-                $monthInvoiceCount = InvoiceDetail::whereIn('InvoiceId', $monthInvoicesIds)->count();
+                                    ->get()->toArray();
 
-                $monthlyInvoices[$key]['month'] = $month['name'];
-                $monthlyInvoices[$key]['nb_invoices'] = $monthInvoiceCount == null ? 0 : $monthInvoiceCount;
+                foreach ($monthInvoices as $invoice) {
+                    array_push($monthInvoicesIds, $invoice['Id']);
+                }
+
+                if(count($monthInvoicesIds) > 0){
+                    $monthInvoiceCount = InvoiceDetail::whereIn('InvoiceId', $monthInvoicesIds)->count();
+
+                    $monthlyInvoices[$key]['month'] = $month['name'];
+                    $monthlyInvoices[$key]['nb_invoices'] = $monthInvoiceCount == null ? 0 : $monthInvoiceCount;
+                }
+                
            }
 
            
@@ -419,7 +440,9 @@ class Invoice extends Model
 
             return [
                 'monthlyInvoices' => $monthlyInvoices,   
-                'totalInvoices' => $totalInvoices
+                'totalInvoices' => $totalInvoices,
+                'district' => $district,
+                'daterange' => $request->daterange
             ];
 
         } catch (\Exception $ex) {
@@ -472,7 +495,8 @@ class Invoice extends Model
             return [
                 'monthlyInvoices' => $monthlyInvoices,
                 'offices' => $offices,
-                'district' => $district
+                'district' => $district,
+                'daterange' => $request->daterange
             ];
 
         } catch (\Exception $ex) {

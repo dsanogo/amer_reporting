@@ -12,12 +12,12 @@
 
             <table class="table table-responsive table-striped" >
                     <tr>
-                        <td rowspan="2" style="padding-top: 30px;background-color: #383838 !important;color:#ffffff !important" class="bordered">المراكز</td>
-                        <td colspan="{{count($months)}}" class="bordered" style=" background-color: #383838 !important;color:#ffffff !important">متوسط زمن المعاملة</td>
+                        <td rowspan="2" style="padding: 30px;background-color: #383838 !important;color:#ffffff !important" class="bordered">المراكز</td>
+                        <td colspan="{{count($months)}}" class="bordered" style=" background-color: #383838 !important;color:#ffffff !important;padding: 10px !important">متوسط زمن المعاملة</td>
                     </tr>
                     <tr>
                         @foreach ($months as $month)
-                            <td class="bordered" style=" background-color: #383838 !important;color:#ffffff !important">{{$month['name']}}</td>
+                            <td class="bordered" style=" background-color: #383838 !important;color:#ffffff !important; padding: 10px !important" >{{$month['name']}}</td>
                         @endforeach
                     </tr>
                     <?php 

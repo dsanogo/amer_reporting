@@ -38,8 +38,9 @@ class SurveyController extends Controller
             $surveys = $report['surveys'];
             $subject = $report['subject'];
             $totalSurveys = $report['totalSurveys'];      
+            $daterange = $report['daterange'];
 
-            return view('admin.exports.print.surveys')->withSurveys($surveys)->withSubject($subject)->withTotalSurveys($totalSurveys);
+            return view('admin.exports.print.surveys')->withSurveys($surveys)->withSubject($subject)->withTotalSurveys($totalSurveys)->withDaterange($daterange);
 
         } catch (\Exception $ex) {
             return response()->json(['status' => 'error', 'message' => $ex->getMessage()], 200);

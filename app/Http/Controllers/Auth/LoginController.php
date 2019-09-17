@@ -71,9 +71,9 @@ class LoginController extends Controller
                 Auth::login($user, false);
                 
                 return redirect()->to('/admin');
-            } elseif ($user && $user->UserRolId !== $UserRoleId) return redirect()->back()->withInput($request->only('email', 'password'))->withErrors(['role' => 'You are not authorized to access the reports. Please check with your Administrator']);
+            } elseif ($user && $user->UserRolId !== $UserRoleId) return redirect()->back()->withInput($request->only('username', 'password'))->withErrors(['role' => 'You are not authorized to access the reports. Please check with your Administrator']);
 
-            return redirect()->back()->withInput($request->only('email', 'password'))->withErrors(['username' => 'Username or password incorrect']);
+            return redirect()->back()->withInput($request->only('username', 'password'))->withErrors(['username' => 'Username or password incorrect']);
         }
     }
 

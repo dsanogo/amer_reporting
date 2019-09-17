@@ -226,8 +226,9 @@ class ExportController extends Controller
             
             $dataToSend = [
                         'invoices' => $data['invoices'], 
-                        'districts' => District::all(),
-                        'total' => $data['total']
+                        'district' => $data['district'],
+                        'total' => $data['total'],
+                        'daterange' => $data['daterange']
                         ];
             $config = ['instanceConfigurator' => function($mpdf) {
                 $mpdf->SetWatermarkText('DRAFT');
@@ -257,7 +258,9 @@ class ExportController extends Controller
             $dataToSend = [
                 'invoices' => $data['invoices'],
                 'offices' =>  $data['offices'], 
-                'total' => $data['total']
+                'total' => $data['total'],
+                'district' => $data['district'],
+                'daterange' => $data['daterange']
                 ];
             $config = ['instanceConfigurator' => function($mpdf) {
                 $mpdf->SetWatermarkText('DRAFT');
@@ -290,7 +293,8 @@ class ExportController extends Controller
             $dataToSend = [
                 'surveys' => $surveys,
                 'subject' => $report['subject'],
-                'totalSurveys' => $report['totalSurveys']
+                'totalSurveys' => $report['totalSurveys'],
+                'daterange' => $report['daterange']
                 ];
             $config = ['instanceConfigurator' => function($mpdf) {
                 $mpdf->SetWatermarkText('DRAFT');
@@ -321,7 +325,9 @@ class ExportController extends Controller
             $dataToSend = [
                 'invoices' => $report['invoices'],
                 'total' => $report['total'],
-                'topOffices' => $report['topOffices']
+                'topOffices' => $report['topOffices'],
+                'district' => $report['district'],
+                'daterange' => $report['daterange']
                 ];
             $config = ['instanceConfigurator' => function($mpdf) {
                 $mpdf->SetWatermarkText('DRAFT');
@@ -351,7 +357,9 @@ class ExportController extends Controller
             
             $dataToSend = [
                 'invoices' => $data['monthlyInvoices'],
-                'totalInvoices' => $data['totalInvoices']
+                'totalInvoices' => $data['totalInvoices'],
+                'district' => $data['district'],
+                'daterange' => $data['daterange']
                 ];
             $config = ['instanceConfigurator' => function($mpdf) {
                 $mpdf->SetWatermarkText('DRAFT');
@@ -381,7 +389,9 @@ class ExportController extends Controller
 
             $dataToSend = [
                 'invoices' => $report['invoices'],
-                'topOffices' => $report['topOffices']
+                'topOffices' => $report['topOffices'],
+                'district' => $report['district'],
+                'daterange' => $report['daterange']
                 ];
             $config = ['instanceConfigurator' => function($mpdf) {
                 $mpdf->SetWatermarkText('DRAFT');
@@ -411,7 +421,9 @@ class ExportController extends Controller
 
             $dataToSend = [
                 'invoices' => $data['monthlyInvoices'],
-                'offices' => $data['offices']
+                'offices' => $data['offices'],
+                'district' => $data['district'],
+                'daterange' => $data['daterange']
                 ];
             $config = ['instanceConfigurator' => function($mpdf) {
                 $mpdf->SetWatermarkText('DRAFT');

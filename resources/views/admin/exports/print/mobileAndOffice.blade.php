@@ -10,6 +10,8 @@
         @if (isset($invoices))
             <div class="col-md-12 rtl tabel" >
                 <h4>استخدام نظام المحمول للحصول على الخدمة</h4>
+                <h4>المنطقة: {{$district->Name}}</h4>
+                <h4>فتره المعاملات: {{$daterange}}</h4>
                 <table class="table table-striped">
                     <thead class="waleed">
                         <tr>

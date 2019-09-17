@@ -62,8 +62,9 @@ class OfficeController extends Controller
             $invoiceDetailed = $report['invoices'];
             $topOffices = $report['topOffices'];
             $district = $report['district'];
+            $daterange = $report['daterange'];
             
-            return view('admin.exports.print.detailedOfficesWithAvgProcTime')->withInvoices($invoiceDetailed)->withtopOffices($topOffices)->withDistrict($district);
+            return view('admin.exports.print.detailedOfficesWithAvgProcTime')->withInvoices($invoiceDetailed)->withtopOffices($topOffices)->withDistrict($district)->withDaterange($daterange);
         } catch (\Exception $ex) {
             return response()->json(['error' => $ex->getMessage()], 200);
         }
@@ -77,9 +78,10 @@ class OfficeController extends Controller
             $invoiceDetailed = $report['invoices'];
             $total = $report['total'];
             $topOffices = $report['topOffices'];
-            $districts = District::all();
+            $district = $report['district'];
+            $daterange = $report['daterange'];
 
-            return view('admin.exports.print.detailedOffices')->withInvoices($invoiceDetailed)->withTotal($total)->withtopOffices($topOffices)->withDistricts($districts);
+            return view('admin.exports.print.detailedOffices')->withInvoices($invoiceDetailed)->withTotal($total)->withtopOffices($topOffices)->withDistrict($district)->withDaterange($daterange);
         } catch (\Exception $ex) {
             return response()->json(['error' => $ex->getMessage()], 200);
         }

@@ -62,7 +62,8 @@ class SurveySubject extends Model
                 'surveys' => $subjectSurveys,
                 'allSubjects' => SurveySubject::all(),
                 'subject' => SurveySubject::findOrFail($survey_id),
-                'totalSurveys' => $totalSurveys
+                'totalSurveys' => $totalSurveys,
+                'daterange' => $request->daterange
             ];            
             
         } catch (\Exception $ex) {
